@@ -3,11 +3,8 @@
 import styles from "./page.module.css";
 import ProfileCard from "./ProfileCard";
 import SectionCard from "./SectionCard";
-import DoubleSlit from "./DoubleSlit";
 import LanguageSwitcher from "./components/LanguageSwitcher";
-import SecureDownload from "../components/SecureDownload";
 import { useLanguage } from './contexts/LanguageContext';
-import { useState, useEffect } from 'react';
 
 const profile = {
   name: "Eren Ege Çelik",
@@ -19,18 +16,6 @@ const profile = {
 
 export default function Home() {
   const { t } = useLanguage();
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 700);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const interests = [
     t('interest.collatz'),
@@ -73,7 +58,6 @@ export default function Home() {
   return (
     <div className={styles.pageModern}>
       <LanguageSwitcher />
-      {!isMobile && <DoubleSlit />}
       <ProfileCard profile={profile} />
       <SectionCard title={t('about')}>
         <p>{t('about.text')}</p>
@@ -96,9 +80,6 @@ export default function Home() {
       </SectionCard>
       <SectionCard title={t('languages')}>
         <ul>{languages.map((l) => <li key={l}>{l}</li>)}</ul>
-      </SectionCard>
-      <SectionCard title={t('downloads')}>
-        <SecureDownload />
       </SectionCard>
     </div>
   );
