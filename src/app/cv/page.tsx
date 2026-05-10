@@ -60,7 +60,6 @@ export default function CVPage() {
                       <div className={styles.infoGrid}>
               <div><strong>{t('cv.name')}:</strong> Eren Ege Çelik</div>
               <div><strong>{t('cv.email')}:</strong> <a href="mailto:erenegecelik62@gmail.com">erenegecelik62@gmail.com</a></div>
-              <div><strong>{t('cv.phone')}:</strong> <a href="tel:+905519804144">+90 551 980 41 44</a></div>
               <div><strong>GitHub:</strong> <a href="https://github.com/ErenEClk" target="_blank" rel="noopener noreferrer">github.com/ErenEClk</a></div>
             </div>
         </div>
