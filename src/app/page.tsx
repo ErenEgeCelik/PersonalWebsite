@@ -5,11 +5,11 @@ import styles from "./page.module.css";
 
 const research = [
   {
-    date: "2026-06-15",
-    title: "Reversible SAT circuits and SHA-256 logic",
-    desc: "Independent analysis of reversible-logic SAT solvers and their implications for cryptographic primitives.",
-    action: "draft",
-    href: "/whitepapers",
+    date: "2026-06-17",
+    title: "Microstructure & efficiency of Polymarket's 5-min crypto binary markets",
+    desc: "An ~84-hour empirical study: the MM is a calibrated Brownian-probit pricer; every candidate edge fails out-of-sample. The verifier-first protocol is the contribution.",
+    action: "read",
+    href: "/whitepapers/polymarket-5min-microstructure",
   },
   {
     date: "2026-05-20",
@@ -87,7 +87,7 @@ export default function Home() {
         </h1>
         <p className={styles.lede}>{t("hero.lede")}</p>
         <div className={styles.ctas}>
-          <Link href="/whitepapers" className={`${styles.btn} ${styles.btnPrimary}`}>
+          <Link href="/whitepapers/polymarket-5min-microstructure" className={`${styles.btn} ${styles.btnPrimary}`}>
             {t("hero.cta.primary")} <span className={styles.arrow}>→</span>
           </Link>
           <Link href="/research" className={`${styles.btn} ${styles.btnGhost}`}>
