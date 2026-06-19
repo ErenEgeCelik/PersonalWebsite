@@ -21,6 +21,52 @@ const translations = {
     'certificates': 'Sertifikalar',
     'languages': 'Konuşulan Diller',
     'projects.coming.soon': 'Projeler bölümü yakında güncellenecek...',
+
+    // Nav
+    'nav.home': 'Ana Sayfa',
+    'nav.research': 'Araştırma',
+    'nav.whitepapers': 'Whitepaper',
+    'nav.trades': 'Tradeler',
+    'nav.cv': 'CV',
+
+    // Hero
+    'hero.eyebrow': 'Aktif olarak araştırıyor · METU Fizik',
+    'hero.headline.1': 'Eren Ege Çelik',
+    'hero.headline.2': 'fizikçi, ',
+    'hero.headline.3': 'hesaplamalı sistemler',
+    'hero.headline.4': ' kuruyor.',
+    'hero.lede': 'METU Fizik 2. sınıf öğrencisi. Araştırmalarım bilgi teorisi, tersinir hesaplama ve hesaplama karmaşıklığı kesişiminde — Collatz, P vs NP, SHA-256 devre tasarımı. Şu sıralar Polymarket üzerinde gölge piyasa-yapıcılığı çalıştırıyorum.',
+    'hero.cta.primary': 'Son whitepaper\'ı oku',
+    'hero.cta.secondary': 'Araştırmaları gör',
+    'hero.meta.location': 'Konum',
+    'hero.meta.location.value': 'Ankara, TR',
+    'hero.meta.updated': 'Son güncelleme',
+    'hero.meta.active': 'Aktif çalışmalar',
+    'hero.meta.active.value': '3 yazı · 1 bot',
+    'hero.meta.contact': 'İletişim',
+
+    // Sections
+    'section.recent.research': 'Güncel Araştırma',
+    'section.live.pnl': 'Canlı · paper PnL (son 24sa)',
+    'section.projects': 'Projeler',
+    'section.all': 'Tümü',
+    'section.full.log': 'Tam log',
+
+    // Trade ticker (mock)
+    'trades.empty': 'Canlı feed bağlantısı yakında kurulacak. Şimdilik son tradeler gösteriliyor.',
+    'trades.paper.pnl': 'paper PnL',
+
+    // Status badges
+    'status.active': 'Aktif',
+    'status.live': 'Canlı',
+    'status.draft': 'Taslak',
+    'status.planned': 'Planlandı',
+    'status.whitepaper': 'Whitepaper',
+
+    // Coming soon
+    'coming.soon': 'Yakında',
+    'whitepapers.coming': 'Whitepaper koleksiyonu burada toplanacak — tersinir SAT devreleri, piyasa mikroyapısı, Collatz analizi.',
+    'trades.coming': 'Polymarket gölge piyasa-yapıcı botunun canlı PnL\'i ve son tradeleri burada görünecek.',
     
     // Projeler
     'project.1.title': 'GridNode: Akıllı Dağıtık Hesaplama',
@@ -151,6 +197,52 @@ const translations = {
     'certificates': 'Certificates',
     'languages': 'Languages',
     'projects.coming.soon': 'Projects section will be updated soon...',
+
+    // Nav
+    'nav.home': 'Home',
+    'nav.research': 'Research',
+    'nav.whitepapers': 'Whitepapers',
+    'nav.trades': 'Trades',
+    'nav.cv': 'CV',
+
+    // Hero
+    'hero.eyebrow': 'Actively researching · METU Physics',
+    'hero.headline.1': 'Eren Ege Çelik',
+    'hero.headline.2': 'physicist building ',
+    'hero.headline.3': 'computational systems',
+    'hero.headline.4': '.',
+    'hero.lede': 'Second-year Physics at METU. Research at the intersection of information theory, reversible computing, and computational complexity — Collatz, P vs NP, SHA-256 circuit design. Currently running shadow market-making on Polymarket.',
+    'hero.cta.primary': 'Read latest whitepaper',
+    'hero.cta.secondary': 'View research',
+    'hero.meta.location': 'Based in',
+    'hero.meta.location.value': 'Ankara, TR',
+    'hero.meta.updated': 'Last update',
+    'hero.meta.active': 'Active threads',
+    'hero.meta.active.value': '3 papers · 1 bot',
+    'hero.meta.contact': 'Contact',
+
+    // Sections
+    'section.recent.research': 'Recent research',
+    'section.live.pnl': 'Live · paper PnL (last 24h)',
+    'section.projects': 'Projects',
+    'section.all': 'All',
+    'section.full.log': 'Full log',
+
+    // Trade ticker (mock)
+    'trades.empty': 'Live feed wiring coming soon. Showing recent trades for now.',
+    'trades.paper.pnl': 'paper PnL',
+
+    // Status badges
+    'status.active': 'Active',
+    'status.live': 'Live',
+    'status.draft': 'Draft',
+    'status.planned': 'Planned',
+    'status.whitepaper': 'Whitepaper',
+
+    // Coming soon
+    'coming.soon': 'Coming soon',
+    'whitepapers.coming': 'Whitepaper collection will gather here — reversible SAT circuits, market microstructure, Collatz analysis.',
+    'trades.coming': 'Live PnL and recent trades from the Polymarket shadow market-making bot will appear here.',
     
     // Projects
     'project.1.title': 'GridNode: Intelligent Distributed Computing',

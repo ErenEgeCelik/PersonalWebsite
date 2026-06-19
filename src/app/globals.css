@@ -1,23 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  --background: #0a1931;
-  --foreground: #ededed;
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
-}
+  --bg-base: #0d0d0f;
+  --bg-elevated: #18181b;
+  --bg-overlay: #1f1f23;
+  --border-subtle: #27272a;
+  --border-strong: #3f3f46;
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --accent-warm: #f97316;
+  --accent-cool: #06b6d4;
+  --accent-success: #10b981;
+  --accent-danger: #ef4444;
 
-html,
-body {
-  background: var(--background);
-  color: var(--foreground);
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+
+  --content-max: 920px;
+  --content-narrow: 760px;
+
+  font-family: var(--font-sans);
+  color-scheme: dark;
 }
 
 * {
   box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -25,9 +44,7 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+::selection {
+  background: var(--accent-warm);
+  color: var(--bg-base);
 }
