@@ -1,82 +1,58 @@
-# Personal Website - Eren Ege Çelik
+# erenege.com
 
-🌟 **Modern, bilingual personal website with interactive physics animations**
+Personal website — research hub for Eren Ege Çelik.
 
-## 🚀 Features
+Static Next.js site with bilingual UI (TR/EN), modern dark theme, and
+content-driven sections for whitepapers, blog posts, and live trade
+data from a Polymarket market-making bot.
 
-- **Bilingual Support** (Turkish/English) with real-time language switching
-- **Interactive Physics Animations**: 3-body problem simulation and double-slit experiment
-- **Modern UI Design** with glassmorphism effects and smooth animations
-- **Comprehensive CV Section** with downloadable documents
-- **Responsive Design** optimized for all devices
-- **Projects Showcase** including current research and development work
+## Sections
 
-## 🛠️ Tech Stack
+- **Home** — hero, recent research, live PnL preview, projects
+- **Research** — ongoing threads, planned publications, interests
+- **Whitepapers** — markdown-driven, statically prerendered
+- **Blog** — shorter notes, same content pipeline
+- **Trades** — live(-ish) feed of paper PnL from the bot
+- **CV** — education, experience, skills, certificates, languages
 
-- **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript
-- **Styling**: CSS Modules with modern animations
-- **Physics**: Three.js for 3D animations
-- **Deployment**: Vercel
+## Stack
 
-## 🔬 Physics Animations
+- Next.js 15 (App Router) + TypeScript
+- CSS Modules + custom design tokens
+- `gray-matter` + `react-markdown` + `remark-gfm` for content
+- Static site generation throughout (no backend)
+- Hosted on Vercel, auto-deploy from `main`
 
-### 3-Body Problem Simulation
-Real-time gravitational simulation with three celestial bodies, complete with orbital trails and realistic physics calculations.
+## Adding content
 
-### Double-Slit Experiment
-Interactive quantum physics demonstration that responds to user scroll, showing wave-particle duality and interference patterns.
+**A new whitepaper:**
+```
+content/whitepapers/your-slug.md
+```
+With frontmatter (see `polymarket-5min-microstructure.md` for the
+template). Push to `main` → Vercel rebuilds → live.
 
-## 📋 Sections
+**A new blog post:**
+```
+content/blog/your-slug.md
+```
+Same pattern, simpler frontmatter.
 
-- **Profile Card**: Personal introduction with animated typing effect
-- **About**: Detailed academic and professional background
-- **Interests**: Research areas including quantum computing and theoretical physics
-- **Projects**: Current R&D work and independent research
-- **Certificates**: Academic achievements and certifications
-- **Languages**: Multilingual capabilities
-- **CV**: Comprehensive curriculum vitae with downloadable documents
+**Updating trade data:**
+The bot pushes to `public/data/trades.json` on a schedule. See
+`docs/trades-pipeline.md` for the contract and producer options.
 
-## 🌐 Getting Started
+## Local development
 
 ```bash
-# Install dependencies
 npm install
-
-# Run development server
-npm run dev
-
-# Build for production
-npm run build
+npm run dev      # http://localhost:3000
+npm run build    # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the website.
-
-## 📁 Project Structure
-
-```
-src/
-├── app/
-│   ├── components/          # Reusable components
-│   ├── contexts/           # Language context for i18n
-│   ├── cv/                 # CV page
-│   ├── globals.css         # Global styles
-│   └── page.tsx           # Main page
-└── public/
-    ├── documents/          # Certificates and documents
-    └── profile.JPG        # Profile photo
-```
-
-## 🎯 About the Developer
-
-**Eren Ege Çelik** - First-year Physics student at İzmir Institute of Technology (İZTECH), passionate about quantum computing, theoretical physics, and software development. Currently contributing to research projects and exploring foundational problems in mathematics and computer science.
-
-## 📞 Contact
+## Contact
 
 - **Email**: erenegecelik62@gmail.com
-- **Phone**: +90 551 980 41 44
-- **GitHub**: [ErenEClk](https://github.com/ErenEClk)
+- **GitHub**: [ErenEgeCelik](https://github.com/ErenEgeCelik)
 
----
-
-Built with ❤️ using Next.js and deployed on Vercel
+Built with Next.js, deployed on Vercel.
