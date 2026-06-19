@@ -2,6 +2,10 @@
 import Link from "next/link";
 import { useLanguage } from "./contexts/LanguageContext";
 import styles from "./page.module.css";
+import tradesData from "../../public/data/trades.json";
+import { formatTs, formatPnl, formatPaperPnl, type TradesData } from "@/lib/trades";
+
+const trades = tradesData as TradesData;
 
 const research = [
   {
@@ -62,11 +66,7 @@ const projects = [
   },
 ];
 
-const sampleTrades = [
-  { ts: "12:08:42", side: "buy", ticker: "BTC-UP", detail: "q=0.61 · $0.48 → $0.52", pnl: "+ $8.40", pnlSign: "pos" },
-  { ts: "12:03:11", side: "sell", ticker: "ETH-DN", detail: "q=0.43 · $0.51 → $0.49", pnl: "+ $4.20", pnlSign: "pos" },
-  { ts: "11:58:55", side: "buy", ticker: "BTC-DN", detail: "q=0.55 · $0.47 → $0.46", pnl: "− $2.10", pnlSign: "neg" },
-];
+const recentTrades = trades.recent.slice(0, 4);
 
 export default function Home() {
   const { t } = useLanguage();
@@ -153,22 +153,30 @@ export default function Home() {
               <span className={styles.panelTitle}>polymarket-mm</span>
             </div>
             <span className={styles.panelSub}>
-              {t("trades.paper.pnl")}: <span className={styles.pnlPos}>+ $124.83</span>
+              {t("trades.paper.pnl")}:{" "}
+              <span className={trades.summary.paperPnl24h >= 0 ? styles.pnlPos : styles.pnlNeg}>
+                {formatPaperPnl(trades.summary.paperPnl24h)}
+              </span>
             </span>
           </div>
-          {sampleTrades.map((tr) => (
-            <div key={tr.ts} className={styles.tradeRow}>
-              <span className={styles.ts}>{tr.ts}</span>
-              <span className={`${styles.side} ${tr.side === "buy" ? styles.sideBuy : styles.sideSell}`}>
-                {tr.side.toUpperCase()}
-              </span>
-              <span className={styles.ticker}>{tr.ticker}</span>
-              <span className={styles.tradeDetail}>{tr.detail}</span>
-              <span className={`${styles.pnl} ${tr.pnlSign === "pos" ? styles.pnlPos : styles.pnlNeg}`}>
-                {tr.pnl}
-              </span>
-            </div>
-          ))}
+          {recentTrades.map((tr) => {
+            const pnl = formatPnl(tr.pnl);
+            return (
+              <div key={tr.ts} className={styles.tradeRow}>
+                <span className={styles.ts}>{formatTs(tr.ts)}</span>
+                <span className={`${styles.side} ${tr.side === "buy" ? styles.sideBuy : styles.sideSell}`}>
+                  {tr.side.toUpperCase()}
+                </span>
+                <span className={styles.ticker}>{tr.ticker}</span>
+                <span className={styles.tradeDetail}>
+                  q={tr.quote.toFixed(2)} · ${tr.entry.toFixed(2)} → ${tr.exit.toFixed(2)}
+                </span>
+                <span className={`${styles.pnl} ${pnl.sign === "pos" ? styles.pnlPos : pnl.sign === "neg" ? styles.pnlNeg : ""}`}>
+                  {pnl.text}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </section>
 

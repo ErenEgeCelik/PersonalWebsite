@@ -1,51 +1,102 @@
-"use client";
-import { useLanguage } from "../contexts/LanguageContext";
 import styles from "../page.module.css";
 import tradeStyles from "./trades.module.css";
-
-const sampleTrades = [
-  { ts: "12:08:42", side: "buy", ticker: "BTC-UP", detail: "q=0.61 · $0.48 → $0.52", pnl: "+ $8.40", pnlSign: "pos" },
-  { ts: "12:03:11", side: "sell", ticker: "ETH-DN", detail: "q=0.43 · $0.51 → $0.49", pnl: "+ $4.20", pnlSign: "pos" },
-  { ts: "11:58:55", side: "buy", ticker: "BTC-DN", detail: "q=0.55 · $0.47 → $0.46", pnl: "− $2.10", pnlSign: "neg" },
-  { ts: "11:53:02", side: "sell", ticker: "ETH-UP", detail: "q=0.49 · $0.50 → $0.50", pnl: "± $0.00", pnlSign: "flat" },
-  { ts: "11:48:30", side: "buy", ticker: "BTC-UP", detail: "q=0.58 · $0.49 → $0.51", pnl: "+ $3.10", pnlSign: "pos" },
-];
+import { formatTs, formatPnl, formatPaperPnl } from "@/lib/trades";
+import { getTrades } from "@/lib/trades.server";
 
 export default function TradesPage() {
-  const { t } = useLanguage();
+  const data = getTrades();
+
+  if (!data) {
+    return (
+      <main className={styles.main}>
+        <p style={{ color: "var(--text-muted)" }}>No trade data available.</p>
+      </main>
+    );
+  }
+
+  const updated = new Date(data.updatedAt);
+  const updatedFmt = updated.toISOString().replace("T", " ").slice(0, 19) + " UTC";
+
   return (
     <main className={styles.main}>
       <section className={styles.section}>
         <div className={styles.sectionHead}>
           <h2 className={styles.sectionTitle}>Trades</h2>
-          <span className={styles.more}>{t("coming.soon")}</span>
+          <span className={tradeStyles.updatedAt}>
+            updated <span className={tradeStyles.mono}>{updatedFmt}</span>
+          </span>
         </div>
 
-        <p className={tradeStyles.note}>{t("trades.coming")}</p>
+        <div className={tradeStyles.statsGrid}>
+          <div className={tradeStyles.stat}>
+            <div className={tradeStyles.statLabel}>Status</div>
+            <div className={`${tradeStyles.statValue} ${tradeStyles.mono}`}>
+              <span className={tradeStyles.statDot} data-status={data.summary.status} />
+              {data.summary.status}
+            </div>
+          </div>
+          <div className={tradeStyles.stat}>
+            <div className={tradeStyles.statLabel}>Paper PnL (24h)</div>
+            <div className={`${tradeStyles.statValue} ${tradeStyles.mono} ${data.summary.paperPnl24h >= 0 ? tradeStyles.pos : tradeStyles.neg}`}>
+              {formatPaperPnl(data.summary.paperPnl24h)}
+            </div>
+          </div>
+          <div className={tradeStyles.stat}>
+            <div className={tradeStyles.statLabel}>Paper PnL (all-time)</div>
+            <div className={`${tradeStyles.statValue} ${tradeStyles.mono} ${data.summary.paperPnlAllTime >= 0 ? tradeStyles.pos : tradeStyles.neg}`}>
+              {formatPaperPnl(data.summary.paperPnlAllTime)}
+            </div>
+          </div>
+          <div className={tradeStyles.stat}>
+            <div className={tradeStyles.statLabel}>Win rate</div>
+            <div className={`${tradeStyles.statValue} ${tradeStyles.mono}`}>
+              {(data.summary.winRate * 100).toFixed(1)}%
+            </div>
+          </div>
+          <div className={tradeStyles.stat}>
+            <div className={tradeStyles.statLabel}>Trades (24h)</div>
+            <div className={`${tradeStyles.statValue} ${tradeStyles.mono}`}>{data.summary.tradesCount24h}</div>
+          </div>
+          <div className={tradeStyles.stat}>
+            <div className={tradeStyles.statLabel}>Trades (all-time)</div>
+            <div className={`${tradeStyles.statValue} ${tradeStyles.mono}`}>
+              {data.summary.tradesCountAllTime.toLocaleString()}
+            </div>
+          </div>
+        </div>
+
+        {data.note && (
+          <p className={tradeStyles.note}>{data.note}</p>
+        )}
 
         <div className={styles.panel}>
           <div className={styles.panelHead}>
             <div className={styles.panelHeadLeft}>
               <span className={styles.panelPulse} />
-              <span className={styles.panelTitle}>polymarket-mm · sample feed</span>
+              <span className={styles.panelTitle}>polymarket-mm · recent</span>
             </div>
             <span className={styles.panelSub}>
-              {t("trades.paper.pnl")} (24h): <span className={styles.pnlPos}>+ $124.83</span>
+              source: <span className={tradeStyles.mono}>{data.source}</span>
             </span>
           </div>
-          {sampleTrades.map((tr) => (
-            <div key={tr.ts} className={styles.tradeRow}>
-              <span className={styles.ts}>{tr.ts}</span>
-              <span className={`${styles.side} ${tr.side === "buy" ? styles.sideBuy : styles.sideSell}`}>
-                {tr.side.toUpperCase()}
-              </span>
-              <span className={styles.ticker}>{tr.ticker}</span>
-              <span className={styles.tradeDetail}>{tr.detail}</span>
-              <span className={`${styles.pnl} ${tr.pnlSign === "pos" ? styles.pnlPos : tr.pnlSign === "neg" ? styles.pnlNeg : ""}`}>
-                {tr.pnl}
-              </span>
-            </div>
-          ))}
+          {data.recent.map((tr) => {
+            const pnl = formatPnl(tr.pnl);
+            return (
+              <div key={tr.ts} className={styles.tradeRow}>
+                <span className={styles.ts}>{formatTs(tr.ts)}</span>
+                <span className={`${styles.side} ${tr.side === "buy" ? styles.sideBuy : styles.sideSell}`}>
+                  {tr.side.toUpperCase()}
+                </span>
+                <span className={styles.ticker}>{tr.ticker}</span>
+                <span className={styles.tradeDetail}>
+                  q={tr.quote.toFixed(2)} · ${tr.entry.toFixed(2)} → ${tr.exit.toFixed(2)}
+                </span>
+                <span className={`${styles.pnl} ${pnl.sign === "pos" ? styles.pnlPos : pnl.sign === "neg" ? styles.pnlNeg : ""}`}>
+                  {pnl.text}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </section>
     </main>
