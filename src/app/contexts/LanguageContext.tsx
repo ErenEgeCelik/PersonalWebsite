@@ -26,6 +26,7 @@ const translations = {
     'nav.home': 'Ana Sayfa',
     'nav.research': 'Araştırma',
     'nav.whitepapers': 'Whitepaper',
+    'nav.blog': 'Blog',
     'nav.trades': 'Tradeler',
     'nav.cv': 'CV',
 
@@ -202,6 +203,7 @@ const translations = {
     'nav.home': 'Home',
     'nav.research': 'Research',
     'nav.whitepapers': 'Whitepapers',
+    'nav.blog': 'Blog',
     'nav.trades': 'Trades',
     'nav.cv': 'CV',
 
