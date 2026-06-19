@@ -7,7 +7,7 @@
   justify-content: space-between;
   padding: 16px 32px;
   border-bottom: 1px solid var(--border-subtle);
-  background: rgba(22, 26, 34, 0.78);
+  background: rgba(10, 13, 20, 0.82);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
