@@ -1,18 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  --bg-base: #18181c;
-  --bg-elevated: #21212a;
-  --bg-overlay: #2a2a35;
-  --border-subtle: #2e2e38;
-  --border-strong: #43434f;
-  --text-primary: #ececef;
-  --text-secondary: #b4b4be;
-  --text-muted: #82828c;
-  --accent-warm: #f59e0b;
-  --accent-cool: #38bdf8;
-  --accent-success: #34d399;
-  --accent-danger: #f87171;
+  /* Inception palette — cold slate base, warm gold accent */
+  --bg-base: #161a22;
+  --bg-elevated: #1f2530;
+  --bg-overlay: #283041;
+  --border-subtle: #2c3340;
+  --border-strong: #3e4756;
+  --text-primary: #e8e4d8;
+  --text-secondary: #aab2bc;
+  --text-muted: #6c7686;
+  --accent-warm: #d9a248;
+  --accent-cool: #4ea4b8;
+  --accent-success: #6ba88a;
+  --accent-danger: #c46b54;
 
   --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;

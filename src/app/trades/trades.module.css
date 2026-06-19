@@ -68,5 +68,5 @@
 .statDot[data-status="shadow"] { background: var(--accent-cool); }
 .statDot[data-status="paused"] { background: var(--accent-danger); }
 
-.pos { color: #34d399; }
-.neg { color: #f87171; }
+.pos { color: #8bc1a3; }
+.neg { color: #d68574; }
