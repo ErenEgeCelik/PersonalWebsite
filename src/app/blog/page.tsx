@@ -2,6 +2,7 @@ import Link from "next/link";
 import styles from "../page.module.css";
 import subStyles from "../cv/cv.module.css";
 import { getAllPosts } from "@/lib/blog";
+import { tagHref } from "@/lib/content";
 
 export default function BlogIndex() {
   const posts = getAllPosts();
@@ -28,7 +29,7 @@ export default function BlogIndex() {
                 <p className={subStyles.rowDetail}>{p.summary}</p>
                 <div className={subStyles.docs}>
                   {p.tags.map((tag) => (
-                    <span key={tag} className={styles.tag}>{tag}</span>
+                    <Link key={tag} href={tagHref(tag)} className={styles.tag}>{tag}</Link>
                   ))}
                   {p.readingTime && <span className={styles.tag}>{p.readingTime}</span>}
                 </div>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import styles from "../page.module.css";
 import subStyles from "../cv/cv.module.css";
 import { getAllWhitepapers } from "@/lib/whitepapers";
+import { tagHref } from "@/lib/content";
 
 export default function WhitepapersIndex() {
   const papers = getAllWhitepapers();
@@ -29,7 +30,7 @@ export default function WhitepapersIndex() {
                 <p className={subStyles.rowDetail}>{p.summary}</p>
                 <div className={subStyles.docs}>
                   {p.tags.map((tag) => (
-                    <span key={tag} className={styles.tag}>{tag}</span>
+                    <Link key={tag} href={tagHref(tag)} className={styles.tag}>{tag}</Link>
                   ))}
                 </div>
               </div>

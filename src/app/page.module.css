@@ -400,6 +400,7 @@
 }
 
 .tag {
+  display: inline-block;
   font: 500 9px/1 var(--font-mono);
   color: var(--text-muted);
   text-transform: uppercase;
@@ -408,6 +409,12 @@
   background: var(--bg-elevated);
   border: 1px solid var(--border-subtle);
   border-radius: 2px;
+  transition: color .15s, border-color .15s;
+}
+
+a.tag:hover {
+  color: var(--accent-warm);
+  border-color: var(--border-strong);
 }
 
 .cardStat {

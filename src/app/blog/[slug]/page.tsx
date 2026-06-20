@@ -6,6 +6,7 @@ import styles from "../../page.module.css";
 import subStyles from "../../cv/cv.module.css";
 import paperStyles from "../../whitepapers/[slug]/paper.module.css";
 import { getAllPosts, getPost } from "@/lib/blog";
+import { tagHref } from "@/lib/content";
 
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
@@ -34,7 +35,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         {post.summary && <p className={paperStyles.summary}>{post.summary}</p>}
         <div className={paperStyles.tags}>
           {post.tags.map((tag) => (
-            <span key={tag} className={styles.tag}>{tag}</span>
+            <Link key={tag} href={tagHref(tag)} className={styles.tag}>{tag}</Link>
           ))}
         </div>
       </header>
