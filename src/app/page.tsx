@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { useLanguage } from "./contexts/LanguageContext";
 import styles from "./page.module.css";
 import tradesData from "../../public/data/trades.json";
@@ -75,31 +74,17 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
-        <div className={styles.heroTop}>
-          <div className={styles.heroText}>
-            <div className={styles.eyebrow}>
-              <span className={styles.pulse} />
-              {t("hero.eyebrow")}
-            </div>
-            <h1 className={styles.headline}>
-              {t("hero.headline.1")}
-              <br />
-              {t("hero.headline.2")}
-              <span className={styles.accent}>{t("hero.headline.3")}</span>
-              {t("hero.headline.4")}
-            </h1>
-          </div>
-          <div className={styles.heroPhotoWrap}>
-            <Image
-              src="/me.jpeg"
-              alt="Eren Ege Çelik"
-              width={120}
-              height={150}
-              priority
-              className={styles.heroPhoto}
-            />
-          </div>
+        <div className={styles.eyebrow}>
+          <span className={styles.pulse} />
+          {t("hero.eyebrow")}
         </div>
+        <h1 className={styles.headline}>
+          {t("hero.headline.1")}
+          <br />
+          {t("hero.headline.2")}
+          <span className={styles.accent}>{t("hero.headline.3")}</span>
+          {t("hero.headline.4")}
+        </h1>
         <p className={styles.lede}>{t("hero.lede")}</p>
         <div className={styles.ctas}>
           <Link href="/whitepapers/polymarket-5min-microstructure" className={`${styles.btn} ${styles.btnPrimary}`}>
