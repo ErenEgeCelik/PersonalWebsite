@@ -2,6 +2,7 @@ import "server-only";
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { computeReadingTime } from "./content";
 
 export type PostMeta = {
   slug: string;
@@ -9,7 +10,8 @@ export type PostMeta = {
   date: string;
   summary: string;
   tags: string[];
-  readingTime?: string;
+  readingTime: string;
+  draft: boolean;
 };
 
 export type Post = PostMeta & {
@@ -28,16 +30,21 @@ function fileToPost(filename: string): Post {
     date: data.date as string,
     summary: (data.summary as string) || "",
     tags: (data.tags as string[]) || [],
-    readingTime: data.readingTime as string | undefined,
+    readingTime: (data.readingTime as string) || computeReadingTime(content),
+    draft: Boolean(data.draft),
     content,
   };
 }
 
-export function getAllPosts(): PostMeta[] {
+function listFiles(): string[] {
   if (!fs.existsSync(CONTENT_DIR)) return [];
-  const files = fs.readdirSync(CONTENT_DIR).filter((f) => /\.mdx?$/.test(f));
-  return files
+  return fs.readdirSync(CONTENT_DIR).filter((f) => /\.mdx?$/.test(f));
+}
+
+export function getAllPosts(): PostMeta[] {
+  return listFiles()
     .map(fileToPost)
+    .filter((p) => !p.draft)
     .map((p) => {
       const { content, ...meta } = p;
       void content;
@@ -47,11 +54,9 @@ export function getAllPosts(): PostMeta[] {
 }
 
 export function getPost(slug: string): Post | null {
-  if (!fs.existsSync(CONTENT_DIR)) return null;
-  const files = fs.readdirSync(CONTENT_DIR).filter((f) => /\.mdx?$/.test(f));
-  for (const f of files) {
+  for (const f of listFiles()) {
     const p = fileToPost(f);
-    if (p.slug === slug) return p;
+    if (p.slug === slug && !p.draft) return p;
   }
   return null;
 }

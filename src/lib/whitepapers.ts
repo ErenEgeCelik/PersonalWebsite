@@ -1,6 +1,8 @@
+import "server-only";
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { computeReadingTime } from "./content";
 
 export type WhitepaperMeta = {
   slug: string;
@@ -10,7 +12,8 @@ export type WhitepaperMeta = {
   status: string;
   tags: string[];
   summary: string;
-  readingTime?: string;
+  readingTime: string;
+  draft: boolean;
 };
 
 export type Whitepaper = WhitepaperMeta & {
@@ -31,16 +34,21 @@ function fileToWhitepaper(filename: string): Whitepaper {
     status: (data.status as string) || "Draft",
     tags: (data.tags as string[]) || [],
     summary: (data.summary as string) || "",
-    readingTime: data.readingTime as string | undefined,
+    readingTime: (data.readingTime as string) || computeReadingTime(content),
+    draft: Boolean(data.draft),
     content,
   };
 }
 
-export function getAllWhitepapers(): WhitepaperMeta[] {
+function listFiles(): string[] {
   if (!fs.existsSync(CONTENT_DIR)) return [];
-  const files = fs.readdirSync(CONTENT_DIR).filter((f) => /\.mdx?$/.test(f));
-  const papers = files.map(fileToWhitepaper);
-  return papers
+  return fs.readdirSync(CONTENT_DIR).filter((f) => /\.mdx?$/.test(f));
+}
+
+export function getAllWhitepapers(): WhitepaperMeta[] {
+  return listFiles()
+    .map(fileToWhitepaper)
+    .filter((p) => !p.draft)
     .map((p) => {
       const { content, ...meta } = p;
       void content;
@@ -50,11 +58,9 @@ export function getAllWhitepapers(): WhitepaperMeta[] {
 }
 
 export function getWhitepaper(slug: string): Whitepaper | null {
-  if (!fs.existsSync(CONTENT_DIR)) return null;
-  const files = fs.readdirSync(CONTENT_DIR).filter((f) => /\.mdx?$/.test(f));
-  for (const f of files) {
+  for (const f of listFiles()) {
     const p = fileToWhitepaper(f);
-    if (p.slug === slug) return p;
+    if (p.slug === slug && !p.draft) return p;
   }
   return null;
 }
