@@ -123,18 +123,35 @@ export default function Home() {
             {t("section.all")} →
           </Link>
         </div>
-        <div className={styles.entries}>
-          {research.map((r) => (
-            <article key={r.title} className={styles.entry}>
-              <span className={styles.entryDate}>{r.date}</span>
-              <div className={styles.entryBody}>
-                <Link href={r.href} className={styles.entryTitle}>{r.title}</Link>
-                <p className={styles.entryDesc}>{r.desc}</p>
+        {research[0] && (
+          <Link href={research[0].href} className={styles.featured} style={{ marginBottom: 16 }}>
+            <div className={styles.featuredEyebrow}>
+              <span className={styles.kind}>Latest</span>
+              <span className={styles.sep}>·</span>
+              <span>{research[0].date}</span>
+            </div>
+            <h3 className={styles.featuredTitle} style={{ fontSize: 24 }}>{research[0].title}</h3>
+            <p className={styles.featuredSummary} style={{ marginBottom: 16 }}>{research[0].desc}</p>
+            <div className={styles.featuredFoot}>
+              <span style={{ font: "500 11px/1 var(--font-mono)", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.12em" }}>
+                Whitepaper · {research[0].action}
+              </span>
+              <span className={styles.featuredAction}>Read full →</span>
+            </div>
+          </Link>
+        )}
+        <div className={styles.cardGrid}>
+          {research.slice(1).map((r) => (
+            <Link key={r.title} href={r.href} className={styles.contentCard}>
+              <div className={styles.cardEyebrow}>
+                <span>{r.date}</span>
               </div>
-              <Link href={r.href} className={styles.entryAction}>
-                {r.action} →
-              </Link>
-            </article>
+              <h3 className={styles.cardTitle}>{r.title}</h3>
+              <p className={styles.cardSummary}>{r.desc}</p>
+              <div className={styles.cardFoot}>
+                <span className={styles.tag}>{r.action}</span>
+              </div>
+            </Link>
           ))}
         </div>
       </section>

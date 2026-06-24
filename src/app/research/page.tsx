@@ -1,12 +1,14 @@
-"use client";
 import styles from "../page.module.css";
 import subStyles from "../cv/cv.module.css";
+import { tagHref } from "@/lib/content";
+import Link from "next/link";
 
 const ongoing = [
   {
     title: "Reversible SAT circuits and SHA-256 logic",
     period: "2026 — present",
-    desc: "Independent exploration of reversible-logic SAT solvers and their implications for cryptographic primitives. Drafting a whitepaper.",
+    summary:
+      "Independent exploration of reversible-logic SAT solvers and their implications for cryptographic primitives. Drafting a whitepaper.",
     bullets: [
       "Reversible SAT circuit design and implementation",
       "Information-theoretic approaches to complexity",
@@ -17,7 +19,8 @@ const ongoing = [
   {
     title: "Polymarket BTC/ETH 5-min market microstructure",
     period: "2026 — present",
-    desc: "Shadow market-making model on Polymarket binary markets. Live PnL logging, inventory-aware quoting, dispatch via Claude Code agents.",
+    summary:
+      "Shadow market-making model on Polymarket binary markets. Live PnL logging, inventory-aware quoting, dispatch via Claude Code agents.",
     bullets: [
       "VPS-deployed live shadow loop",
       "Daily scheduled research turn (GitHub Actions + Claude Code)",
@@ -28,23 +31,17 @@ const ongoing = [
   {
     title: "Collatz under reversible encoding",
     period: "2024 — present",
-    desc: "Investigating Collatz trajectories represented as reversible circuits. Pattern detection in convergence-depth distributions.",
-    bullets: [
-      "Computational verification of sequences",
-      "Pattern and statistical analysis",
-      "Algorithmic explorations",
-    ],
+    summary:
+      "Investigating Collatz trajectories represented as reversible circuits. Pattern detection in convergence-depth distributions.",
+    bullets: [],
     tags: ["Theory", "Number theory"],
   },
   {
     title: "Micro Fundus Camera R&D",
     period: "2024 — present",
-    desc: "Miniaturized retinal imaging device combining optics, physics, and AI. Scope being defined with collaborators.",
-    bullets: [
-      "Optical system design",
-      "Physics-based light propagation modeling",
-      "AI integration for image processing",
-    ],
+    summary:
+      "Miniaturized retinal imaging device combining optics, physics, and AI. Scope being defined with collaborators.",
+    bullets: [],
     tags: ["Optics", "Medical AI"],
   },
 ];
@@ -62,10 +59,12 @@ const interests = [
 ];
 
 export default function ResearchPage() {
+  const [featured, ...rest] = ongoing;
+
   return (
     <main className={styles.main}>
       <header className={subStyles.header}>
-        <div className={subStyles.eyebrow}>Research & publications</div>
+        <div className={subStyles.eyebrow}>Research &amp; publications</div>
         <h1 className={subStyles.title}>What I&apos;m working on</h1>
         <p className={subStyles.subtitle}>
           Ongoing threads, planned drafts, and the topics I think about most.{" "}
@@ -75,29 +74,50 @@ export default function ResearchPage() {
         </p>
       </header>
 
+      <section className={styles.section} style={{ marginBottom: 24 }}>
+        <div className={styles.featured} style={{ cursor: "default" }}>
+          <div className={styles.featuredEyebrow}>
+            <span className={styles.kind}>Primary thread</span>
+            <span className={styles.sep}>·</span>
+            <span>{featured.period}</span>
+          </div>
+          <h2 className={styles.featuredTitle}>{featured.title}</h2>
+          <p className={styles.featuredSummary}>{featured.summary}</p>
+          {featured.bullets.length > 0 && (
+            <ul className={subStyles.bullets} style={{ marginBottom: 18, maxWidth: 720 }}>
+              {featured.bullets.map((b) => (
+                <li key={b}>{b}</li>
+              ))}
+            </ul>
+          )}
+          <div className={styles.featuredFoot}>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              {featured.tags.map((t) => (
+                <Link key={t} href={tagHref(t)} className={styles.tag}>{t}</Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.section}>
         <div className={styles.sectionHead}>
-          <h2 className={styles.sectionTitle}>Ongoing</h2>
+          <h2 className={styles.sectionTitle}>Other threads</h2>
         </div>
-        <div className={subStyles.list}>
-          {ongoing.map((o) => (
-            <article key={o.title} className={subStyles.row}>
-              <span className={subStyles.rowDate}>{o.period}</span>
-              <div className={subStyles.rowBody}>
-                <div className={subStyles.rowTitle}>{o.title}</div>
-                <div className={subStyles.rowDetail}>{o.desc}</div>
-                <ul className={subStyles.bullets}>
-                  {o.bullets.map((b) => (
-                    <li key={b}>{b}</li>
-                  ))}
-                </ul>
-                <div className={subStyles.docs}>
-                  {o.tags.map((t) => (
-                    <span key={t} className={styles.tag}>{t}</span>
-                  ))}
-                </div>
+        <div className={styles.cardGrid}>
+          {rest.map((r) => (
+            <div key={r.title} className={styles.contentCard} style={{ cursor: "default" }}>
+              <div className={styles.cardEyebrow}>
+                <span>{r.period}</span>
               </div>
-            </article>
+              <h3 className={styles.cardTitle}>{r.title}</h3>
+              <p className={styles.cardSummary}>{r.summary}</p>
+              <div className={styles.cardFoot}>
+                {r.tags.map((t) => (
+                  <Link key={t} href={tagHref(t)} className={styles.tag}>{t}</Link>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </section>
@@ -121,9 +141,11 @@ export default function ResearchPage() {
         <div className={styles.sectionHead}>
           <h2 className={styles.sectionTitle}>Interests</h2>
         </div>
-        <div className={styles.tags}>
+        <div className={styles.tags} style={{ gap: 8 }}>
           {interests.map((i) => (
-            <span key={i} className={styles.tag}>{i}</span>
+            <Link key={i} href={tagHref(i)} className={styles.tag} style={{ fontSize: 12, padding: "6px 10px" }}>
+              {i}
+            </Link>
           ))}
         </div>
       </section>
