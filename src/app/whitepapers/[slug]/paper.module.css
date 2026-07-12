@@ -90,7 +90,7 @@
 .body a {
   color: var(--accent-warm);
   text-decoration: underline;
-  text-decoration-color: rgba(255, 152, 23, 0.4);
+  text-decoration-color: rgba(165, 63, 34, 0.4);
   text-underline-offset: 3px;
   transition: text-decoration-color .15s;
 }

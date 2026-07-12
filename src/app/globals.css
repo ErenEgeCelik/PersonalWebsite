@@ -1,19 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  /* Inception palette — high-contrast poster atmosphere, near-black + saturated amber/cyan */
-  --bg-base: #0a0d14;
-  --bg-elevated: #131822;
-  --bg-overlay: #1a2030;
-  --border-subtle: #1d2230;
-  --border-strong: #2d3445;
-  --text-primary: #f5efe1;
-  --text-secondary: #9aa3b0;
-  --text-muted: #5e6776;
-  --accent-warm: #ff9817;
-  --accent-cool: #1cb5d6;
-  --accent-success: #4ade80;
-  --accent-danger: #ef4444;
+  /* Warm paper palette — cream page, ink text, terracotta accent */
+  --bg-base: #fbf8ee;
+  --bg-elevated: #f5efdf;
+  --bg-overlay: #ebe4cf;
+  --border-subtle: #e5dcc4;
+  --border-strong: #c9bd9d;
+  --text-primary: #2b1e10;
+  --text-secondary: #6c5e4a;
+  --text-muted: #928471;
+  --accent-warm: #a53f22;
+  --accent-cool: #35525f;
+  --accent-success: #4c6b3a;
+  --accent-danger: #a53f22;
 
   --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
@@ -22,7 +22,7 @@
   --content-narrow: 760px;
 
   font-family: var(--font-sans);
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * {
