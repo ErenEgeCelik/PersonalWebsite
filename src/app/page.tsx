@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useLanguage } from "./contexts/LanguageContext";
 import styles from "./page.module.css";
 import tradesData from "../../public/data/trades.json";
-import { formatTs, formatPnl, formatPaperPnl, type TradesData } from "@/lib/trades";
+import { formatPaperPnl, type TradesData } from "@/lib/trades";
 
 const trades = tradesData as TradesData;
 
@@ -66,7 +66,6 @@ const projects = [
   },
 ];
 
-const recentTrades = trades.recent.slice(0, 4);
 
 export default function Home() {
   const { t } = useLanguage();
@@ -74,153 +73,71 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
-        <div className={styles.eyebrow}>
-          <span className={styles.pulse} />
-          {t("hero.eyebrow")}
-        </div>
-        <h1 className={styles.headline}>
-          {t("hero.headline.1")}
-          <br />
-          {t("hero.headline.2")}
-          <span className={styles.accent}>{t("hero.headline.3")}</span>
-          {t("hero.headline.4")}
-        </h1>
-        <p className={styles.lede}>{t("hero.lede")}</p>
-        <div className={styles.ctas}>
-          <Link href="/whitepapers/polymarket-5min-microstructure" className={`${styles.btn} ${styles.btnPrimary}`}>
-            {t("hero.cta.primary")} <span className={styles.arrow}>→</span>
-          </Link>
-          <Link href="/research" className={`${styles.btn} ${styles.btnGhost}`}>
-            {t("hero.cta.secondary")}
-          </Link>
-        </div>
-        <div className={styles.metaRow}>
-          <div className={styles.metaItem}>
-            <span className={styles.metaLabel}>{t("hero.meta.location")}</span>
-            <span className={styles.metaValue}>{t("hero.meta.location.value")}</span>
-          </div>
-          <div className={styles.metaItem}>
-            <span className={styles.metaLabel}>{t("hero.meta.updated")}</span>
-            <span className={`${styles.metaValue} ${styles.mono}`}>2026-06-19</span>
-          </div>
-          <div className={styles.metaItem}>
-            <span className={styles.metaLabel}>{t("hero.meta.active")}</span>
-            <span className={`${styles.metaValue} ${styles.mono}`}>{t("hero.meta.active.value")}</span>
-          </div>
-          <div className={styles.metaItem}>
-            <span className={styles.metaLabel}>{t("hero.meta.contact")}</span>
-            <a href="mailto:erenegecelik62@gmail.com" className={`${styles.metaValue} ${styles.mono} ${styles.metaLink}`}>
-              erenegecelik62@gmail.com
-            </a>
-          </div>
+        <h1 className={styles.headline}>Eren Ege Çelik</h1>
+        <p className={styles.lede}>
+          Physics undergrad at METU (Ankara). I build a shadow market-making bot on Polymarket&apos;s 5-minute BTC/ETH markets, and write about what I find. Interests: reversible computing, Collatz, information theory.
+        </p>
+        <div className={styles.heroLinks}>
+          <a href="https://github.com/ErenEgeCelik" target="_blank" rel="noopener noreferrer" className={styles.heroLink}>
+            github.com/ErenEgeCelik
+          </a>
+          <span className={styles.heroLinkSep}>·</span>
+          <a href="mailto:erenegecelik62@gmail.com" className={styles.heroLink}>
+            erenegecelik62@gmail.com
+          </a>
         </div>
       </section>
 
       <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <h2 className={styles.sectionTitle}>{t("section.recent.research")}</h2>
-          <Link href="/research" className={styles.more}>
-            {t("section.all")} →
-          </Link>
-        </div>
-        {research[0] && (
-          <Link href={research[0].href} className={styles.featured} style={{ marginBottom: 16 }}>
-            <div className={styles.featuredEyebrow}>
-              <span className={styles.kind}>Latest</span>
-              <span className={styles.sep}>·</span>
-              <span>{research[0].date}</span>
-            </div>
-            <h3 className={styles.featuredTitle} style={{ fontSize: 24 }}>{research[0].title}</h3>
-            <p className={styles.featuredSummary} style={{ marginBottom: 16 }}>{research[0].desc}</p>
-            <div className={styles.featuredFoot}>
-              <span style={{ font: "500 11px/1 var(--font-mono)", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.12em" }}>
-                Whitepaper · {research[0].action}
-              </span>
-              <span className={styles.featuredAction}>Read full →</span>
-            </div>
-          </Link>
-        )}
-        <div className={styles.cardGrid}>
-          {research.slice(1).map((r) => (
-            <Link key={r.title} href={r.href} className={styles.contentCard}>
-              <div className={styles.cardEyebrow}>
-                <span>{r.date}</span>
+        <h2 className={styles.sectionTitle}>Recent</h2>
+        <div className={styles.plainList}>
+          {research.map((r) => (
+            <Link key={r.title} href={r.href} className={styles.plainRow}>
+              <div className={styles.plainRowMain}>
+                <span className={styles.plainRowTitle}>{r.title}</span>
+                <span className={styles.plainRowDesc}>{r.desc}</span>
               </div>
-              <h3 className={styles.cardTitle}>{r.title}</h3>
-              <p className={styles.cardSummary}>{r.desc}</p>
-              <div className={styles.cardFoot}>
-                <span className={styles.tag}>{r.action}</span>
-              </div>
+              <span className={styles.plainRowDate}>{r.date}</span>
             </Link>
           ))}
         </div>
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <h2 className={styles.sectionTitle}>{t("section.live.pnl")}</h2>
-          <Link href="/trades" className={styles.more}>
-            {t("section.full.log")} →
-          </Link>
-        </div>
-        <div className={styles.panel}>
-          <div className={styles.panelHead}>
-            <div className={styles.panelHeadLeft}>
-              <span className={styles.panelPulse} />
-              <span className={styles.panelTitle}>polymarket-mm</span>
-            </div>
-            <span className={styles.panelSub}>
-              {t("trades.paper.pnl")}:{" "}
-              <span className={trades.summary.paperPnl24h >= 0 ? styles.pnlPos : styles.pnlNeg}>
-                {formatPaperPnl(trades.summary.paperPnl24h)}
-              </span>
-            </span>
-          </div>
-          {recentTrades.map((tr) => {
-            const pnl = formatPnl(tr.pnl);
-            return (
-              <div key={tr.ts} className={styles.tradeRow}>
-                <span className={styles.ts}>{formatTs(tr.ts)}</span>
-                <span className={`${styles.side} ${tr.side === "buy" ? styles.sideBuy : styles.sideSell}`}>
-                  {tr.side.toUpperCase()}
-                </span>
-                <span className={styles.ticker}>{tr.ticker}</span>
-                <span className={styles.tradeDetail}>
-                  q={tr.quote.toFixed(2)} · ${tr.entry.toFixed(2)} → ${tr.exit.toFixed(2)}
-                </span>
-                <span className={`${styles.pnl} ${pnl.sign === "pos" ? styles.pnlPos : pnl.sign === "neg" ? styles.pnlNeg : ""}`}>
-                  {pnl.text}
-                </span>
-              </div>
-            );
-          })}
+        <div className={styles.sectionMore}>
+          <Link href="/research" className={styles.moreLink}>See all →</Link>
         </div>
       </section>
 
       <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <h2 className={styles.sectionTitle}>{t("section.projects")}</h2>
-        </div>
-        <div className={styles.grid}>
+        <h2 className={styles.sectionTitle}>Building</h2>
+        <div className={styles.plainList}>
           {projects.map((p) => (
-            <article key={p.title} className={styles.card}>
-              <div className={styles.cardHead}>
-                <h3 className={styles.cardTitle}>{p.title}</h3>
-                <span className={`${styles.badge} ${styles[`badge_${p.badge}`]}`}>
-                  {t(p.badgeKey)}
+            <div key={p.title} className={styles.plainRow}>
+              <div className={styles.plainRowMain}>
+                <span className={styles.plainRowTitle}>
+                  {p.title}
+                  <span className={styles.plainRowBadge}>{t(p.badgeKey).toLowerCase()}</span>
                 </span>
+                <span className={styles.plainRowDesc}>{p.desc}</span>
               </div>
-              <p className={styles.cardDesc}>{p.desc}</p>
-              <div className={styles.cardMeta}>
-                <div className={styles.tags}>
-                  {p.tags.map((tag) => (
-                    <span key={tag} className={styles.tag}>{tag}</span>
-                  ))}
-                </div>
-                <span className={styles.cardStat}>{p.stat}</span>
-              </div>
-            </article>
+              <span className={styles.plainRowDate}>{p.stat}</span>
+            </div>
           ))}
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Live</h2>
+        <p className={styles.liveLine}>
+          <span className={styles.livePulse} />
+          <span>
+            Polymarket shadow bot · paper PnL last 24h{" "}
+            <span className={trades.summary.paperPnl24h >= 0 ? styles.pnlPos : styles.pnlNeg}>
+              {formatPaperPnl(trades.summary.paperPnl24h)}
+            </span>{" "}
+            over {trades.summary.tradesCount24h} trades
+          </span>
+        </p>
+        <div className={styles.sectionMore}>
+          <Link href="/trades" className={styles.moreLink}>See feed →</Link>
         </div>
       </section>
     </main>
