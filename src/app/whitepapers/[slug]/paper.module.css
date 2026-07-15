@@ -1,3 +1,115 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 48px;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 64px 32px 96px;
+  align-items: start;
+}
+
+.content {
+  min-width: 0;
+  max-width: 760px;
+  justify-self: end;
+  width: 100%;
+}
+
+.sidebar {
+  position: sticky;
+  top: 100px;
+  align-self: start;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+  padding-top: 4px;
+}
+
+.toc {
+  border-left: 1px solid var(--border-subtle);
+  padding: 4px 0 4px 16px;
+}
+
+.tocLabel {
+  font: 500 11px/1 var(--font-mono);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 14px;
+}
+
+.tocList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tocItem a {
+  display: block;
+  font: 400 13px/1.4 var(--font-sans);
+  color: var(--text-muted);
+  transition: color .15s;
+  padding: 2px 0;
+}
+
+.tocItem a:hover {
+  color: var(--text-primary);
+}
+
+.tocItemSub a {
+  padding-left: 14px;
+  font-size: 12px;
+}
+
+.tocItemActive a {
+  color: var(--accent-warm);
+  font-weight: 500;
+}
+
+.crumbSpacer {
+  flex: 1;
+}
+
+.printBtn {
+  font: 500 11px/1 var(--font-mono);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  padding: 6px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+
+.printBtn:hover {
+  color: var(--accent-warm);
+  border-color: var(--accent-warm);
+}
+
+/* PRINT — for browser save-as-PDF */
+@media print {
+  .layout {
+    display: block;
+    max-width: 100%;
+    padding: 0;
+  }
+  .content {
+    max-width: 100%;
+  }
+  .sidebar, .crumbs, .printBtn {
+    display: none !important;
+  }
+  .title { font-size: 24pt; }
+  .subtitle { font-size: 12pt; }
+  .body { font-size: 11pt; }
+  .body pre { page-break-inside: avoid; }
+  .body h2, .body h3 { page-break-after: avoid; }
+}
+
 .crumbs {
   display: flex;
   flex-wrap: wrap;
@@ -22,14 +134,15 @@
 .crumbDate, .crumbStatus { color: var(--text-muted); }
 
 .title {
-  font: 600 38px/1.15 var(--font-sans);
-  letter-spacing: -0.02em;
+  font: 400 40px/1.15 var(--font-serif);
+  letter-spacing: -0.015em;
   margin: 0 0 12px;
   max-width: 760px;
+  color: var(--text-primary);
 }
 
 .subtitle {
-  font: 400 18px/1.45 var(--font-sans);
+  font: 400 20px/1.4 var(--font-serif);
   color: var(--text-secondary);
   margin: 0 0 20px;
   font-style: italic;

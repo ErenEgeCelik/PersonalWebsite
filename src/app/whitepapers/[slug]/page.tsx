@@ -2,14 +2,39 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeSlug from "rehype-slug";
+import GithubSlugger from "github-slugger";
 import styles from "../../page.module.css";
 import subStyles from "../../cv/cv.module.css";
 import paperStyles from "./paper.module.css";
 import { getAllWhitepapers, getWhitepaper } from "@/lib/whitepapers";
 import { tagHref } from "@/lib/content";
+import TableOfContents, { type Heading } from "./TableOfContents";
+import PrintButton from "./PrintButton";
 
 export function generateStaticParams() {
   return getAllWhitepapers().map((p) => ({ slug: p.slug }));
+}
+
+function extractHeadings(content: string): Heading[] {
+  const slugger = new GithubSlugger();
+  const headings: Heading[] = [];
+  const inCodeBlock = { current: false };
+  for (const line of content.split("\n")) {
+    if (line.trim().startsWith("```")) {
+      inCodeBlock.current = !inCodeBlock.current;
+      continue;
+    }
+    if (inCodeBlock.current) continue;
+    const m = line.match(/^(#{2,3})\s+(.+)$/);
+    if (m) {
+      const level = m[1].length;
+      const text = m[2].trim().replace(/[*_`]/g, "");
+      const slug = slugger.slug(text);
+      headings.push({ level, text, slug });
+    }
+  }
+  return headings;
 }
 
 export default async function WhitepaperPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -17,35 +42,47 @@ export default async function WhitepaperPage({ params }: { params: Promise<{ slu
   const paper = getWhitepaper(slug);
   if (!paper) notFound();
 
-  return (
-    <main className={styles.main}>
-      <header className={subStyles.header}>
-        <div className={paperStyles.crumbs}>
-          <Link href="/whitepapers" className={paperStyles.crumb}>← Whitepapers</Link>
-          <span className={paperStyles.crumbSep}>·</span>
-          <span className={paperStyles.crumbDate}>{paper.date}</span>
-          <span className={paperStyles.crumbSep}>·</span>
-          <span className={paperStyles.crumbStatus}>{paper.status}</span>
-          {paper.readingTime && (
-            <>
-              <span className={paperStyles.crumbSep}>·</span>
-              <span className={paperStyles.crumbDate}>{paper.readingTime}</span>
-            </>
-          )}
-        </div>
-        <h1 className={paperStyles.title}>{paper.title}</h1>
-        {paper.subtitle && <p className={paperStyles.subtitle}>{paper.subtitle}</p>}
-        {paper.summary && <p className={paperStyles.summary}>{paper.summary}</p>}
-        <div className={paperStyles.tags}>
-          {paper.tags.map((tag) => (
-            <Link key={tag} href={tagHref(tag)} className={styles.tag}>{tag}</Link>
-          ))}
-        </div>
-      </header>
+  const headings = extractHeadings(paper.content);
 
-      <article className={paperStyles.body}>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{paper.content}</ReactMarkdown>
-      </article>
+  return (
+    <main className={paperStyles.layout}>
+      <div className={paperStyles.content}>
+        <header className={subStyles.header}>
+          <div className={paperStyles.crumbs}>
+            <Link href="/whitepapers" className={paperStyles.crumb}>← Whitepapers</Link>
+            <span className={paperStyles.crumbSep}>·</span>
+            <span className={paperStyles.crumbDate}>{paper.date}</span>
+            <span className={paperStyles.crumbSep}>·</span>
+            <span className={paperStyles.crumbStatus}>{paper.status}</span>
+            {paper.readingTime && (
+              <>
+                <span className={paperStyles.crumbSep}>·</span>
+                <span className={paperStyles.crumbDate}>{paper.readingTime}</span>
+              </>
+            )}
+            <span className={paperStyles.crumbSpacer} />
+            <PrintButton />
+          </div>
+          <h1 className={paperStyles.title}>{paper.title}</h1>
+          {paper.subtitle && <p className={paperStyles.subtitle}>{paper.subtitle}</p>}
+          {paper.summary && <p className={paperStyles.summary}>{paper.summary}</p>}
+          <div className={paperStyles.tags}>
+            {paper.tags.map((tag) => (
+              <Link key={tag} href={tagHref(tag)} className={styles.tag}>{tag}</Link>
+            ))}
+          </div>
+        </header>
+
+        <article className={paperStyles.body}>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSlug]}>
+            {paper.content}
+          </ReactMarkdown>
+        </article>
+      </div>
+
+      <aside className={paperStyles.sidebar}>
+        <TableOfContents headings={headings} />
+      </aside>
     </main>
   );
 }

@@ -73,17 +73,18 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
-        <div className={styles.heroName}>Eren Ege Çelik</div>
         <p className={styles.lede}>
           Physics undergrad at METU (Ankara). I build a shadow market-making bot on Polymarket&apos;s 5-minute BTC/ETH markets, and write about what I find. Interests: reversible computing, Collatz, information theory.
         </p>
         <div className={styles.heroLinks}>
           <a href="https://github.com/ErenEgeCelik" target="_blank" rel="noopener noreferrer" className={styles.heroLink}>
-            github.com/ErenEgeCelik
+            GitHub
           </a>
-          <span className={styles.heroLinkSep}>·</span>
           <a href="mailto:erenegecelik62@gmail.com" className={styles.heroLink}>
-            erenegecelik62@gmail.com
+            Email
+          </a>
+          <a href="/cv" className={styles.heroLink}>
+            CV
           </a>
         </div>
       </section>
