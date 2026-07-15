@@ -15,7 +15,7 @@
   transition: color .15s;
 }
 
-.crumb:hover { color: #8f1717; }
+.crumb:hover { color: #efc088; }
 
 .crumbSep { color: var(--border-strong); }
 
@@ -90,7 +90,7 @@
 .body a {
   color: var(--accent-warm);
   text-decoration: underline;
-  text-decoration-color: rgba(160, 31, 31, 0.35);
+  text-decoration-color: rgba(212, 165, 116, 0.4);
   text-underline-offset: 3px;
   transition: text-decoration-color .15s;
 }

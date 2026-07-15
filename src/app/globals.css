@@ -1,29 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  /* Light-gray palette with crimson accent, nav.al-inspired */
-  --bg-base: #e8e4dc;
-  --bg-elevated: #ded9cf;
-  --bg-overlay: #d0c9bc;
-  --border-subtle: #c9c1b1;
-  --border-strong: #a99f8a;
-  --text-primary: #1a1512;
-  --text-secondary: #4a4038;
-  --text-muted: #78695a;
-  --accent-warm: #a01f1f;
-  --accent-cool: #35525f;
-  --accent-success: #4c6b3a;
-  --accent-danger: #a01f1f;
+  /* Deep navy with off-white text, soft-gold accent */
+  --bg-base: #0d1b2c;
+  --bg-elevated: #152840;
+  --bg-overlay: #1e3652;
+  --border-subtle: #223a58;
+  --border-strong: #3a557a;
+  --text-primary: #f2ecdc;
+  --text-secondary: #c0b8a5;
+  --text-muted: #8a8272;
+  --accent-warm: #d4a574;
+  --accent-cool: #86b0cc;
+  --accent-success: #a3c48a;
+  --accent-danger: #d69078;
 
   --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
-  --font-serif: 'Instrument Serif', Georgia, 'Iowan Old Style', serif;
+  --font-serif: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
   --font-mono: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
 
   --content-max: 920px;
   --content-narrow: 760px;
 
   font-family: var(--font-sans);
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 * {

@@ -22,7 +22,7 @@
   font: 400 14px/1.5 var(--font-mono);
   color: var(--accent-warm);
   text-decoration: underline;
-  text-decoration-color: rgba(160, 31, 31, 0.35);
+  text-decoration-color: rgba(212, 165, 116, 0.35);
   text-underline-offset: 4px;
   transition: text-decoration-color .15s;
 }
@@ -56,9 +56,9 @@
 }
 
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(76, 107, 58, .5); }
-  70% { box-shadow: 0 0 0 8px rgba(76, 107, 58, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(76, 107, 58, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(163, 196, 138, .5); }
+  70% { box-shadow: 0 0 0 8px rgba(163, 196, 138, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(163, 196, 138, 0); }
 }
 
 .headline {
@@ -110,7 +110,7 @@
 }
 
 .btnPrimary:hover {
-  background: #3a2f26;
+  background: #d8d3c4;
 }
 
 .btnGhost {
@@ -253,7 +253,7 @@ a.plainRow:hover .plainRowTitle {
   font: 400 14px/1 var(--font-sans);
   color: var(--accent-warm);
   text-decoration: underline;
-  text-decoration-color: rgba(160, 31, 31, 0.35);
+  text-decoration-color: rgba(212, 165, 116, 0.35);
   text-underline-offset: 4px;
   transition: text-decoration-color .15s;
 }
@@ -292,7 +292,7 @@ a.plainRow:hover .plainRowTitle {
 }
 
 .more:hover {
-  color: #8f1717;
+  color: #efc088;
 }
 
 /* RESEARCH ENTRIES */
@@ -350,7 +350,7 @@ a.plainRow:hover .plainRowTitle {
 }
 
 .entryAction:hover {
-  color: #8f1717;
+  color: #efc088;
 }
 
 /* TRADE PANEL */
@@ -419,13 +419,13 @@ a.plainRow:hover .plainRowTitle {
 }
 
 .sideBuy {
-  background: rgba(76, 107, 58, .12);
-  color: #385228;
+  background: rgba(163, 196, 138, .14);
+  color: #b8d69f;
 }
 
 .sideSell {
-  background: rgba(160, 31, 31, .1);
-  color: #8f1717;
+  background: rgba(214, 144, 120, .14);
+  color: #e4a894;
 }
 
 .ticker {
@@ -442,11 +442,11 @@ a.plainRow:hover .plainRowTitle {
 }
 
 .pnlPos {
-  color: #385228;
+  color: #b8d69f;
 }
 
 .pnlNeg {
-  color: #8f1717;
+  color: #e4a894;
 }
 
 /* PROJECT GRID */
@@ -492,17 +492,17 @@ a.plainRow:hover .plainRowTitle {
 }
 
 .badge_active, .badge_live {
-  background: rgba(76, 107, 58, .12);
-  color: #385228;
+  background: rgba(163, 196, 138, .14);
+  color: #b8d69f;
 }
 
 .badge_draft {
-  background: rgba(160, 31, 31, .1);
-  color: #8f1717;
+  background: rgba(212, 165, 116, .14);
+  color: #efc088;
 }
 
 .badge_planned {
-  background: rgba(120, 105, 90, .18);
+  background: rgba(138, 130, 114, .2);
   color: var(--text-secondary);
 }
 
