@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "new:post": "node scripts/new-post.mjs blog",
+    "new:paper": "node scripts/new-post.mjs whitepaper"
   },
   "dependencies": {
     "github-slugger": "^2.0.0",
