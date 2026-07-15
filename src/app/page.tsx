@@ -73,7 +73,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
-        <h1 className={styles.headline}>Eren Ege Çelik</h1>
+        <div className={styles.heroName}>Eren Ege Çelik</div>
         <p className={styles.lede}>
           Physics undergrad at METU (Ankara). I build a shadow market-making bot on Polymarket&apos;s 5-minute BTC/ETH markets, and write about what I find. Interests: reversible computing, Collatz, information theory.
         </p>

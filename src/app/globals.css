@@ -1,19 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  /* Warm paper palette — cream page, ink text, terracotta accent */
-  --bg-base: #fbf8ee;
-  --bg-elevated: #f5efdf;
-  --bg-overlay: #ebe4cf;
-  --border-subtle: #e5dcc4;
-  --border-strong: #c9bd9d;
-  --text-primary: #2b1e10;
-  --text-secondary: #6c5e4a;
-  --text-muted: #928471;
-  --accent-warm: #a53f22;
-  --accent-cool: #35525f;
-  --accent-success: #4c6b3a;
-  --accent-danger: #a53f22;
+  /* Warm dark palette — coffee-black bg, cream text, muted amber accent */
+  --bg-base: #17130e;
+  --bg-elevated: #211b13;
+  --bg-overlay: #2b2317;
+  --border-subtle: #2e271e;
+  --border-strong: #453b2c;
+  --text-primary: #e8dec9;
+  --text-secondary: #a89c8a;
+  --text-muted: #6d6355;
+  --accent-warm: #d68a3c;
+  --accent-cool: #6ba39f;
+  --accent-success: #7ca66b;
+  --accent-danger: #c4785f;
 
   --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
@@ -22,7 +22,7 @@
   --content-narrow: 760px;
 
   font-family: var(--font-sans);
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 * {

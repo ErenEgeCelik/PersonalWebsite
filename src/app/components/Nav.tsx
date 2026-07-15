@@ -21,7 +21,7 @@ export default function Nav() {
     <nav className={styles.nav}>
       <Link href="/" className={styles.brand}>
         <span className={styles.dot} />
-        erenege.com
+        erenegecelik
       </Link>
       <div className={styles.links}>
         {links.map(({ href, key }) => {
