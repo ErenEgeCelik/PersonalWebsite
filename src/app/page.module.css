@@ -22,7 +22,7 @@
   font: 400 14px/1.5 var(--font-mono);
   color: var(--accent-warm);
   text-decoration: underline;
-  text-decoration-color: rgba(214, 138, 60, 0.35);
+  text-decoration-color: rgba(160, 31, 31, 0.35);
   text-underline-offset: 4px;
   transition: text-decoration-color .15s;
 }
@@ -56,9 +56,9 @@
 }
 
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(124, 166, 107, .5); }
-  70% { box-shadow: 0 0 0 8px rgba(124, 166, 107, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(124, 166, 107, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(76, 107, 58, .5); }
+  70% { box-shadow: 0 0 0 8px rgba(76, 107, 58, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(76, 107, 58, 0); }
 }
 
 .headline {
@@ -68,10 +68,10 @@
 }
 
 .heroName {
-  font: 500 15px/1.4 var(--font-mono);
+  font: 400 40px/1.05 var(--font-serif);
   color: var(--text-primary);
-  margin-bottom: 14px;
-  letter-spacing: 0;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
 }
 
 .accent {
@@ -110,7 +110,7 @@
 }
 
 .btnPrimary:hover {
-  background: #d8cec0;
+  background: #3a2f26;
 }
 
 .btnGhost {
@@ -179,10 +179,10 @@
 }
 
 .sectionTitle {
-  font: 500 20px/1.3 var(--font-sans);
-  letter-spacing: -0.01em;
+  font: 400 26px/1.2 var(--font-serif);
+  letter-spacing: -0.005em;
   color: var(--text-primary);
-  margin: 0 0 24px;
+  margin: 0 0 20px;
 }
 
 /* PLAIN LIST — no borders, just typography and whitespace */
@@ -218,7 +218,7 @@ a.plainRow:hover .plainRowTitle {
 }
 
 .plainRowTitle {
-  font: 500 16px/1.4 var(--font-sans);
+  font: 500 17px/1.4 var(--font-sans);
   color: var(--text-primary);
   transition: color .15s;
   display: flex;
@@ -253,7 +253,7 @@ a.plainRow:hover .plainRowTitle {
   font: 400 14px/1 var(--font-sans);
   color: var(--accent-warm);
   text-decoration: underline;
-  text-decoration-color: rgba(214, 138, 60, 0.35);
+  text-decoration-color: rgba(160, 31, 31, 0.35);
   text-underline-offset: 4px;
   transition: text-decoration-color .15s;
 }
@@ -292,7 +292,7 @@ a.plainRow:hover .plainRowTitle {
 }
 
 .more:hover {
-  color: #ffb85c;
+  color: #8f1717;
 }
 
 /* RESEARCH ENTRIES */
@@ -350,7 +350,7 @@ a.plainRow:hover .plainRowTitle {
 }
 
 .entryAction:hover {
-  color: #ffb85c;
+  color: #8f1717;
 }
 
 /* TRADE PANEL */
@@ -419,13 +419,13 @@ a.plainRow:hover .plainRowTitle {
 }
 
 .sideBuy {
-  background: rgba(124, 166, 107, .14);
-  color: #a3d090;
+  background: rgba(76, 107, 58, .12);
+  color: #385228;
 }
 
 .sideSell {
-  background: rgba(196, 120, 95, .14);
-  color: #e09680;
+  background: rgba(160, 31, 31, .1);
+  color: #8f1717;
 }
 
 .ticker {
@@ -442,11 +442,11 @@ a.plainRow:hover .plainRowTitle {
 }
 
 .pnlPos {
-  color: #a3d090;
+  color: #385228;
 }
 
 .pnlNeg {
-  color: #e09680;
+  color: #8f1717;
 }
 
 /* PROJECT GRID */
@@ -492,17 +492,17 @@ a.plainRow:hover .plainRowTitle {
 }
 
 .badge_active, .badge_live {
-  background: rgba(124, 166, 107, .14);
-  color: #a3d090;
+  background: rgba(76, 107, 58, .12);
+  color: #385228;
 }
 
 .badge_draft {
-  background: rgba(214, 138, 60, .14);
-  color: #ffb85c;
+  background: rgba(160, 31, 31, .1);
+  color: #8f1717;
 }
 
 .badge_planned {
-  background: rgba(109, 99, 85, .22);
+  background: rgba(120, 105, 90, .18);
   color: var(--text-secondary);
 }
 
