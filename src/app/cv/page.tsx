@@ -1,119 +1,113 @@
 "use client";
 import styles from "../page.module.css";
 import subStyles from "./cv.module.css";
-import { useLanguage } from "../contexts/LanguageContext";
 
 const education = [
   {
-    institution: "Middle East Technical University (METU)",
-    period: "2025 — present",
-    field: "Physics (BSc) · 2nd year",
-    detail: "Current GPA 3.63 / 4.00 · transferred from İZTECH",
-    docs: [{ label: "transcript", href: "/transkriptim.JPG" }],
+    institution: "Middle East Technical University (ODTÜ)",
+    location: "Ankara, Turkey",
+    period: "2024 — 2028 (expected)",
+    detail: "BSc, Physics",
   },
   {
-    institution: "İzmir Institute of Technology (İZTECH)",
-    period: "2024 — 2025",
-    field: "Physics (BSc) · 1st year",
-    detail: "Final GPA 3.56 / 4.00 · transferred to METU",
-    docs: [],
+    institution: "İzmir Institute of Technology (İYTE)",
+    location: "İzmir, Turkey",
+    period: "transferred",
+    detail: "Physics · GPA 3.6 / 4.0",
   },
-  {
-    institution: "Kadir Has University — summer school",
-    period: "2023",
-    field: "University-level physics",
-    detail: "Augmented Electricity & Magnetism · Augmented Mechanics",
-    docs: [
-      { label: "E&M certificate", href: "/documents/kadir-has-certificate-1.pdf" },
-      { label: "Mechanics certificate", href: "/documents/kadir-has-certificate-2.pdf" },
-    ],
-  },
-  {
-    institution: "Advanced Placement (AP) Program",
-    period: "high school",
-    field: "College Board AP — multiple subjects",
-    detail: "University-credit courses during high school",
-    docs: [
-      { label: "score report", href: "/documents/ap-score-report.pdf" },
-      { label: "awards", href: "/documents/ap-awards.pdf" },
-    ],
-  },
+];
+
+const honors = [
+  "İzmir Mathematics Olympiad Team — regional team, grades 8–9",
+  "Physics Olympiad Team, İzmir Atatürk High School (among Turkey's top 5)",
+  "Admitted to İzmir Atatürk High School via nationally competitive exam (top ~0.2%)",
 ];
 
 const experience = [
   {
-    role: "Intern — semiconductor technologies",
-    company: "Germany",
-    period: "2023 (12th grade break)",
-    summary: "Hands-on experience in chip production processes, semiconductor research, applied physics integration.",
+    role: "Independent Quantitative Researcher & Trader",
+    context: "Prediction Markets · Self-directed, live trading on Polymarket",
+    location: "Remote",
+    period: "2026 — present",
     bullets: [
-      "Chip production process exposure",
-      "Semiconductor R&D observation",
-      "Applied physics in industrial setting",
-      "International work environment",
+      "Grew a single $30 deposit to ~$1,200 in net P&L over three months of live trading, no additional capital.",
+      "Reverse-engineered the dominant market maker on Polymarket's BTC 5-minute contracts — identified its price-feed composition via exclusive falsification testing, achieved ~6-tick out-of-sample replication of its quotes. Documented in a working paper.",
+      "Derived a Brownian-probit fair-value model and a binary-CARA inventory-skew rule from first principles; validated against logged data (within-slot R² ≈ 0.92).",
+      "Built and iterated weather-derivative strategies as MMs adapted — static bucket → reactive trigger → probabilistic forecast engine blending a personal weather station, public forecasts, and live METAR data via Bayesian updating.",
+      "Designed a World Cup cross-market latency-arbitrage strategy linking match markets to dependent group-advancement markets through Bayesian updating and Poisson goal modeling.",
+      "Built low-latency multi-venue data infrastructure: direct WebSocket feeds (Binance, Coinbase, Kraken, Bitstamp), Chainlink oracle relay, Polymarket CLOB, deployed on AWS Ireland.",
     ],
-    docs: [{ label: "internship certificate", href: "/documents/internship-certificate.pdf" }],
+  },
+  {
+    role: "Volunteer Research Intern",
+    context: "Prof. Ali Bozbey's Group, TOBB ETÜ · Superconducting / quantum-computing hardware",
+    location: "Ankara, Turkey",
+    period: "Summer 2025",
+    bullets: [
+      "Joined the group (which built Turkey's first superconducting quantum-computing hardware) on a volunteer basis after connecting with the team at ICSM; contributed to lab work over two weeks.",
+    ],
+  },
+  {
+    role: "Engineering Intern",
+    context: "Ingenieurbüro Bickele & Bühler GmbH · Electronics manufacturing & software",
+    location: "Stuttgart, Germany",
+    period: "Nov 2023",
+    bullets: [
+      "Worked across SMD pick-and-place, AOI, laser and soldering operations, incoming-goods QC, and device assembly; wrote software in C# and Arduino.",
+    ],
   },
 ];
 
-const certificates = [
-  { title: "TOEFL iBT", issuer: "ETS", year: "2024" },
-  { title: "AP Awards", issuer: "College Board", year: "high school" },
+const research = [
+  {
+    title: "Reverse-Engineering a Prediction Market Maker",
+    detail: "Feed identification, volatility dynamics, and out-of-sample replication evidence from Polymarket BTC contracts.",
+    href: "/whitepapers/polymarket-5min-microstructure",
+  },
+  {
+    title: "Binary Market Making",
+    detail: "Inventory-skew derivation under CARA utility, adverse-selection analysis, and empirical verdicts under realistic execution.",
+    href: null,
+  },
 ];
 
-const skills = [
-  { group: "Languages", items: ["C", "Python", "C#", "TypeScript"] },
-  { group: "Domains", items: ["Theoretical Physics", "Quantum Computing", "Algorithm Analysis", "Reversible Computing"] },
-  { group: "Tools", items: ["Git", "Linux", "Next.js", "Three.js"] },
+const activities = [
+  "Organizing Staff — International Conference on Superconductivity and Magnetism (ICSM) & ICSQMT, 2025 & 2026",
 ];
 
-const langs = [
-  { name: "Turkish", level: "native" },
-  { name: "English", level: "advanced · TOEFL iBT" },
-  { name: "German", level: "beginner" },
-];
+const skills = {
+  Quantitative: "probability & statistics, Bayesian inference, stochastic modeling, time-series analysis, market microstructure, derivatives pricing",
+  Technical: "Python (pandas, NumPy), C#, low-latency WebSocket data systems, CLOB / REST APIs, Polygon / USDC / DeFi tooling, multi-agent coding workflows",
+};
 
 export default function CVPage() {
-  const { t } = useLanguage();
-
   return (
     <main className={styles.main}>
       <header className={subStyles.header}>
-        <div className={subStyles.eyebrow}>Curriculum vitae</div>
         <h1 className={subStyles.title}>Eren Ege Çelik</h1>
         <p className={subStyles.subtitle}>
-          Physics · METU · Ankara, TR ·{" "}
-          <a href="mailto:erenegecelik62@gmail.com" className={subStyles.link}>
-            erenegecelik62@gmail.com
-          </a>{" "}
-          ·{" "}
-          <a href="https://github.com/ErenEgeCelik" target="_blank" rel="noopener noreferrer" className={subStyles.link}>
-            github.com/ErenEgeCelik
-          </a>
+          İzmir, Turkey · {" "}
+          <a href="mailto:erenege3500@gmail.com" className={subStyles.link}>erenege3500@gmail.com</a> · {" "}
+          <a href="https://github.com/ErenEgeCelik" target="_blank" rel="noopener noreferrer" className={subStyles.link}>github.com/ErenEgeCelik</a>
         </p>
+        <div className={subStyles.downloadRow}>
+          <a href="/Eren_Ege_Celik_Resume.pdf" target="_blank" rel="noopener noreferrer" className={subStyles.downloadLink}>
+            Download PDF →
+          </a>
+        </div>
       </header>
 
       <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <h2 className={styles.sectionTitle}>Education</h2>
-        </div>
+        <h2 className={styles.sectionTitle}>Education</h2>
         <div className={subStyles.list}>
           {education.map((e) => (
             <article key={e.institution} className={subStyles.row}>
               <span className={subStyles.rowDate}>{e.period}</span>
               <div className={subStyles.rowBody}>
-                <div className={subStyles.rowTitle}>{e.institution}</div>
-                <div className={subStyles.rowMeta}>{e.field}</div>
+                <div className={subStyles.rowTitle}>
+                  {e.institution} <span className={subStyles.rowCo}>· {e.location}</span>
+                </div>
                 <div className={subStyles.rowDetail}>{e.detail}</div>
-                {e.docs.length > 0 && (
-                  <div className={subStyles.docs}>
-                    {e.docs.map((d) => (
-                      <a key={d.href} href={d.href} target="_blank" rel="noopener noreferrer" className={subStyles.doc}>
-                        {d.label} ↗
-                      </a>
-                    ))}
-                  </div>
-                )}
               </div>
             </article>
           ))}
@@ -121,32 +115,30 @@ export default function CVPage() {
       </section>
 
       <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <h2 className={styles.sectionTitle}>Experience</h2>
-        </div>
+        <h2 className={styles.sectionTitle}>Honors &amp; Selection</h2>
+        <ul className={subStyles.bullets}>
+          {honors.map((h) => (
+            <li key={h}>{h}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Experience</h2>
         <div className={subStyles.list}>
           {experience.map((e) => (
             <article key={e.role} className={subStyles.row}>
               <span className={subStyles.rowDate}>{e.period}</span>
               <div className={subStyles.rowBody}>
                 <div className={subStyles.rowTitle}>
-                  {e.role} <span className={subStyles.rowCo}>· {e.company}</span>
+                  {e.role} <span className={subStyles.rowCo}>· {e.location}</span>
                 </div>
-                <div className={subStyles.rowDetail}>{e.summary}</div>
+                <div className={subStyles.rowMeta}>{e.context}</div>
                 <ul className={subStyles.bullets}>
                   {e.bullets.map((b) => (
                     <li key={b}>{b}</li>
                   ))}
                 </ul>
-                {e.docs.length > 0 && (
-                  <div className={subStyles.docs}>
-                    {e.docs.map((d) => (
-                      <a key={d.href} href={d.href} target="_blank" rel="noopener noreferrer" className={subStyles.doc}>
-                        {d.label} ↗
-                      </a>
-                    ))}
-                  </div>
-                )}
               </div>
             </article>
           ))}
@@ -154,58 +146,46 @@ export default function CVPage() {
       </section>
 
       <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <h2 className={styles.sectionTitle}>Skills</h2>
-        </div>
-        <div className={subStyles.skillsGrid}>
-          {skills.map((s) => (
-            <div key={s.group} className={subStyles.skillBlock}>
-              <div className={subStyles.skillLabel}>{s.group}</div>
-              <div className={subStyles.skillTags}>
-                {s.items.map((i) => (
-                  <span key={i} className={styles.tag}>{i}</span>
-                ))}
+        <h2 className={styles.sectionTitle}>Research &amp; Writing</h2>
+        <div className={subStyles.list}>
+          {research.map((r) => (
+            <article key={r.title} className={subStyles.row}>
+              <span className={subStyles.rowDate}>paper</span>
+              <div className={subStyles.rowBody}>
+                <div className={subStyles.rowTitle}>
+                  {r.href ? (
+                    <a href={r.href} className={subStyles.link}>{r.title}</a>
+                  ) : (
+                    <>{r.title} <span className={subStyles.rowCo}>· in preparation</span></>
+                  )}
+                </div>
+                <div className={subStyles.rowDetail}>{r.detail}</div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </section>
 
       <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <h2 className={styles.sectionTitle}>Certificates</h2>
-        </div>
-        <div className={subStyles.certList}>
-          {certificates.map((c) => (
-            <div key={c.title} className={subStyles.certRow}>
-              <span className={subStyles.certTitle}>{c.title}</span>
-              <span className={subStyles.certIssuer}>{c.issuer}</span>
-              <span className={subStyles.certYear}>{c.year}</span>
+        <h2 className={styles.sectionTitle}>Skills</h2>
+        <dl className={subStyles.skillsDl}>
+          {Object.entries(skills).map(([group, items]) => (
+            <div key={group} className={subStyles.skillsRow}>
+              <dt className={subStyles.skillsDt}>{group}</dt>
+              <dd className={subStyles.skillsDd}>{items}</dd>
             </div>
           ))}
-        </div>
+        </dl>
       </section>
 
       <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <h2 className={styles.sectionTitle}>Languages</h2>
-        </div>
-        <div className={subStyles.certList}>
-          {langs.map((l) => (
-            <div key={l.name} className={subStyles.certRow}>
-              <span className={subStyles.certTitle}>{l.name}</span>
-              <span className={subStyles.certIssuer}>{l.level}</span>
-              <span />
-            </div>
+        <h2 className={styles.sectionTitle}>Activities</h2>
+        <ul className={subStyles.bullets}>
+          {activities.map((a) => (
+            <li key={a}>{a}</li>
           ))}
-        </div>
+        </ul>
       </section>
-
-      <div className={subStyles.downloadWrap}>
-        <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className={`${styles.btn} ${styles.btnPrimary}`}>
-          {t("download.full.cv")} <span className={styles.arrow}>↓</span>
-        </a>
-      </div>
     </main>
   );
 }

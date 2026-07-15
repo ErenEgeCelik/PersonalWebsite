@@ -74,13 +74,13 @@ export default function Home() {
     <main className={styles.main}>
       <section className={styles.hero}>
         <p className={styles.lede}>
-          Physics undergrad at METU (Ankara). I build a shadow market-making bot on Polymarket&apos;s 5-minute BTC/ETH markets, and write about what I find. Interests: reversible computing, Collatz, information theory.
+          Physics undergrad at METU (İzmir/Ankara). Independent quantitative researcher — I reverse-engineer market makers, derive fair-value models from first principles, and trade prediction markets live. Grew $30 → ~$1,200 on Polymarket over three months.
         </p>
         <div className={styles.heroLinks}>
           <a href="https://github.com/ErenEgeCelik" target="_blank" rel="noopener noreferrer" className={styles.heroLink}>
             GitHub
           </a>
-          <a href="mailto:erenegecelik62@gmail.com" className={styles.heroLink}>
+          <a href="mailto:erenege3500@gmail.com" className={styles.heroLink}>
             Email
           </a>
           <a href="/cv" className={styles.heroLink}>

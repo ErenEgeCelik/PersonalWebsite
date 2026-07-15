@@ -56,9 +56,9 @@ The dominant MM was reverse-engineered from 380 BTC slots (the "MM model card").
 
 ### 4.1 Functional form
 
-```
-fair_UP(t) = Φ( (F(t) − F₀) / (σ · √τ) ),   τ = 300 − t_off
-```
+$$
+\text{fair}_{\text{UP}}(t) \;=\; \Phi\!\left(\frac{F(t) - F_0}{\sigma\,\sqrt{\tau}}\right), \qquad \tau = 300 - t_{\text{off}}
+$$
 
 - **Feed `F = mean(Coinbase, Binance)`**, latency ≈ 300 ms. Alternative inputs (Chainlink relay; median of cb/bs/kr) were **falsified** by exclusive event tests (e.g. cases where the synthetic median had moved but the Chainlink relay had not, yet the mid moved → input is not the relay; cases where only Coinbase moved while Bitstamp/Kraken lagged ≥800 ms, yet the mid moved → input is not the median).
 - **Anchor `F₀`** = feed-self at slot start. Using the Chainlink anchor instead induces a constant α·σ ≈ −$54 B–CL offset.
@@ -67,9 +67,27 @@ fair_UP(t) = Φ( (F(t) − F₀) / (σ · √τ) ),   τ = 300 − t_off
 
 ### 4.2 Volatility
 
-σ is **dynamic**, not constant: a constant-σ model breaks across the May→June regime. The card's estimate is `σ ≈ 3.41 + 0.40·realized₁₅`; our deployed live approximation is `σ ≈ 2.10 + 0.052·range₂` (2-minute range outperforms stdev). 
+σ is **dynamic**, not constant: a constant-σ model breaks across the May→June regime. The card's estimate is
 
-**The σ mechanism of our "timidity."** Backing σ out of the MM mid (`σ_imp = (F−F₀)/(√τ · Φ⁻¹(mid))`, 36k points) gives median **σ_imp = 5.21** $/√s versus our deployed **σ = 6.06** (ratio 0.82) — i.e. *our* σ is too large, pushing our fair toward 0.50 (too timid). The MM's implied σ tracks **realized variance RV (4.28), not jump-robust bipower BV (2.93)** — `σ_imp ≈ 1.1·RV`. The MM therefore prices in jumps plus a ~20% premium; our range-proxy over-estimates relative to it. Matching σ to ~1.1·RV would align our fair to the MM, but (see §6) this yields **no edge** — it merely reproduces an already-calibrated quote.
+$$
+\sigma \;\approx\; 3.41 \;+\; 0.40 \cdot \text{realized}_{15}
+$$
+
+and our deployed live approximation is
+
+$$
+\sigma \;\approx\; 2.10 \;+\; 0.052 \cdot \text{range}_{2}
+$$
+
+(2-minute range outperforms stdev).
+
+**The σ mechanism of our "timidity."** Backing σ out of the MM mid,
+
+$$
+\sigma_{\text{imp}} \;=\; \frac{F - F_0}{\sqrt{\tau}\;\cdot\;\Phi^{-1}(\text{mid})}
+$$
+
+(36k points) gives median **σ_imp = 5.21** \$/√s versus our deployed **σ = 6.06** (ratio 0.82) — i.e. *our* σ is too large, pushing our fair toward 0.50 (too timid). The MM's implied σ tracks **realized variance RV (4.28), not jump-robust bipower BV (2.93)** — `σ_imp ≈ 1.1·RV`. The MM therefore prices in jumps plus a ~20% premium; our range-proxy over-estimates relative to it. Matching σ to ~1.1·RV would align our fair to the MM, but (see §6) this yields **no edge** — it merely reproduces an already-calibrated quote.
 
 ### 4.3 Calibration to resolution
 

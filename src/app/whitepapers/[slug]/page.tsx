@@ -2,7 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
 import rehypeSlug from "rehype-slug";
+import rehypeKatex from "rehype-katex";
 import GithubSlugger from "github-slugger";
 import styles from "../../page.module.css";
 import subStyles from "../../cv/cv.module.css";
@@ -74,7 +76,10 @@ export default async function WhitepaperPage({ params }: { params: Promise<{ slu
         </header>
 
         <article className={paperStyles.body}>
-          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSlug]}>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm, [remarkMath, { singleDollarTextMath: false }]]}
+            rehypePlugins={[rehypeSlug, rehypeKatex]}
+          >
             {paper.content}
           </ReactMarkdown>
         </article>
