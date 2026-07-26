@@ -3,8 +3,9 @@
 # Keep it to one sentence; it wraps to two or three lines.
 statement: "Quantitative research on prediction markets."
 
-# Small mono line above the chart. Set to "" to hide it.
-chartLabel: "The model this site is mostly about"
+# Small mono line above the equity chart. Set to "" to hide it.
+# The chart itself only appears once content/equity.json has real points.
+chartLabel: "Live trading, three months"
 ---
 
 Physics undergrad at METU, in İzmir and Ankara. I reverse-engineer the pricing

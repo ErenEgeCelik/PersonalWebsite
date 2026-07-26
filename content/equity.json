@@ -1,0 +1,7 @@
+{
+  "_comment": "Real account-value checkpoints for the home page chart. The chart does not render while `points` is empty — it will never draw an invented curve. Values are account value in USD on that date. Weekly or even bi-weekly checkpoints are enough; the curve is smoothed between them. See docs/equity-chart.md.",
+  "label": "Polymarket account value",
+  "note": "single $30 deposit, no additional capital",
+  "currency": "USD",
+  "points": []
+}

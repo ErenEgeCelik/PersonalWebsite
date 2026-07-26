@@ -2,11 +2,12 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import styles from "./page.module.css";
 import EmailLink from "./components/EmailLink";
-import FairValueChart from "./components/FairValueChart";
+import EquityChart from "./components/EquityChart";
 import { getAllPosts } from "@/lib/blog";
 import { getAllWhitepapers } from "@/lib/whitepapers";
 import { getProjects } from "@/lib/projects";
 import { getHomeCopy } from "@/lib/home";
+import { getEquitySeries } from "@/lib/equity";
 import { SITE_GITHUB } from "@/lib/site";
 
 type Entry = {
@@ -49,6 +50,7 @@ const statusClass: Record<string, string> = {
 
 export default function Home() {
   const copy = getHomeCopy();
+  const equity = getEquitySeries();
   const writing = allWriting();
   // Lead with the substantial paper rather than whatever is merely newest.
   const featured =
@@ -83,10 +85,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.chartBand}>
-        {copy.chartLabel && <p className={styles.sectionLabel}>{copy.chartLabel}</p>}
-        <FairValueChart />
-      </section>
+      {equity && (
+        <section className={styles.chartBand}>
+          {copy.chartLabel && <p className={styles.sectionLabel}>{copy.chartLabel}</p>}
+          <EquityChart series={equity} />
+        </section>
+      )}
 
       <hr className={styles.rule} />
 
