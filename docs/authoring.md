@@ -32,9 +32,27 @@ npm run dev
 
 ```
 content/
+  home.md        # the home page opening line + paragraph
   blog/          # short notes, opinions, method fragments
   whitepapers/   # working papers, empirical studies
 ```
+
+### Editing the home page copy
+
+`content/home.md` holds the two pieces of text at the top of the site:
+
+```yaml
+---
+statement: "Quantitative research on prediction markets."  # big serif line
+chartLabel: "The model this site is mostly about"          # "" hides it
+---
+
+The supporting paragraph, in markdown. **Bold** and [links](/cv) work.
+```
+
+Nothing else on the home page is hand-written — the writing list, the
+featured paper and the Building section all come from `content/` and
+`src/lib/projects.ts`.
 
 Each entry is a single `.md` file. Filename doubles as the URL slug
 (so `verifier-first-protocol.md` → `/blog/verifier-first-protocol`).

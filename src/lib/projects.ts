@@ -14,9 +14,12 @@ export type Project = {
   note?: string;
 };
 
+const GH = "https://github.com/ErenEgeCelik";
+
 /**
- * Portfolio entries. Only link to things that actually exist publicly —
- * the working repos are private, so the papers are the public artefacts.
+ * Portfolio entries. The working code stays private; each project has a
+ * public companion repo holding the write-up and a small self-contained
+ * reference implementation. See docs/github-repos.md for what goes in them.
  */
 export const projects: Project[] = [
   {
@@ -28,7 +31,7 @@ export const projects: Project[] = [
     desc: "Shadow market-making on Polymarket's BTC/ETH 5-minute binary markets. Brownian-probit fair value, inventory-aware skew under CARA utility, and low-latency multi-venue feeds (Binance, Coinbase, Kraken, Bitstamp, Chainlink relay) deployed on AWS Ireland.",
     links: [
       { label: "Read the paper", href: "/whitepapers/polymarket-5min-microstructure" },
-      { label: "Plain-language reference", href: "/whitepapers/btc-5min-reference" },
+      { label: "GitHub", href: `${GH}/polymarket-microstructure`, external: true },
     ],
   },
   {
@@ -37,7 +40,8 @@ export const projects: Project[] = [
     since: 2026.1,
     status: "draft",
     statusLabel: "in preparation",
-    desc: "Inventory-skew derivation under CARA utility, adverse-selection analysis, and empirical verdicts under realistic execution costs. Companion paper to the microstructure study.",
+    desc: "Inventory-skew derivation under CARA utility, adverse-selection analysis, and empirical verdicts under realistic execution costs. The binding constraint turned out to be queue-priority inaccessibility, not model quality.",
+    links: [{ label: "GitHub", href: `${GH}/binary-market-making`, external: true }],
     note: "paper in preparation",
   },
   {
@@ -47,7 +51,8 @@ export const projects: Project[] = [
     status: "idle",
     statusLabel: "draft",
     desc: "Reversible-logic SAT circuits and what they imply for cryptographic primitives — an information-theoretic angle on computational complexity.",
-    note: "draft · not yet published",
+    links: [{ label: "GitHub", href: `${GH}/reversible-sat`, external: true }],
+    note: "early draft",
   },
 ];
 

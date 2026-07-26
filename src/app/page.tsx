@@ -1,9 +1,12 @@
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 import styles from "./page.module.css";
 import EmailLink from "./components/EmailLink";
+import FairValueChart from "./components/FairValueChart";
 import { getAllPosts } from "@/lib/blog";
 import { getAllWhitepapers } from "@/lib/whitepapers";
 import { getProjects } from "@/lib/projects";
+import { getHomeCopy } from "@/lib/home";
 import { SITE_GITHUB } from "@/lib/site";
 
 type Entry = {
@@ -45,6 +48,7 @@ const statusClass: Record<string, string> = {
 };
 
 export default function Home() {
+  const copy = getHomeCopy();
   const writing = allWriting();
   // Lead with the substantial paper rather than whatever is merely newest.
   const featured =
@@ -55,15 +59,12 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
-        <h1 className={styles.heroStatement}>
-          I reverse-engineer market makers and publish what survives verification.
-        </h1>
-        <p className={styles.heroSupport}>
-          Physics undergrad at METU, İzmir and Ankara. I derive fair-value models from first
-          principles, test them against recorded order books, and write up the results — including
-          the ones that fail. Grew a single <strong>$30 deposit to roughly $1,200</strong> on
-          Polymarket over three months of live trading.
-        </p>
+        <h1 className={styles.heroStatement}>{copy.statement}</h1>
+        {copy.body && (
+          <div className={styles.heroSupport}>
+            <ReactMarkdown>{copy.body}</ReactMarkdown>
+          </div>
+        )}
         <div className={styles.heroContact}>
           <EmailLink />
           <span className={styles.contactSep}>·</span>
@@ -80,6 +81,11 @@ export default function Home() {
             CV
           </Link>
         </div>
+      </section>
+
+      <section className={styles.chartBand}>
+        {copy.chartLabel && <p className={styles.sectionLabel}>{copy.chartLabel}</p>}
+        <FairValueChart />
       </section>
 
       <hr className={styles.rule} />
@@ -144,11 +150,23 @@ export default function Home() {
                 </div>
                 <p className={styles.projectDesc}>{p.desc}</p>
                 <div className={styles.projectLinks}>
-                  {p.links?.map((l) => (
-                    <Link key={l.href} href={l.href} className={styles.projectLink}>
-                      {l.label} →
-                    </Link>
-                  ))}
+                  {p.links?.map((l) =>
+                    l.external ? (
+                      <a
+                        key={l.href}
+                        href={l.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.projectLink}
+                      >
+                        {l.label} ↗
+                      </a>
+                    ) : (
+                      <Link key={l.href} href={l.href} className={styles.projectLink}>
+                        {l.label} →
+                      </Link>
+                    ),
+                  )}
                   {p.note && <span className={styles.projectNote}>{p.note}</span>}
                 </div>
               </div>
