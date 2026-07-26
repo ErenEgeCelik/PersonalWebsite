@@ -3,6 +3,13 @@ import styles from "../page.module.css";
 import subStyles from "../cv/cv.module.css";
 import { getAllWhitepapers } from "@/lib/whitepapers";
 
+export const metadata = {
+  title: "Whitepapers",
+  description:
+    "Empirical studies and theoretical drafts on prediction-market microstructure and market making. Most are negative-result research; the methodology is the point.",
+  alternates: { canonical: "/whitepapers" },
+};
+
 export default function WhitepapersIndex() {
   const papers = getAllWhitepapers();
 

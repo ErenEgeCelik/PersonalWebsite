@@ -1,7 +1,14 @@
 import styles from "../page.module.css";
 import subStyles from "../cv/cv.module.css";
 import { tagHref } from "@/lib/content";
+import { SITE_EMAIL } from "@/lib/site";
 import Link from "next/link";
+
+export const metadata = {
+  title: "Research",
+  description: "Ongoing research threads, planned drafts, and open collaboration topics.",
+  alternates: { canonical: "/research" },
+};
 
 const ongoing = [
   {
@@ -68,7 +75,7 @@ export default function ResearchPage() {
         <h1 className={subStyles.title}>What I&apos;m working on</h1>
         <p className={subStyles.subtitle}>
           Ongoing threads, planned drafts, and the topics I think about most.{" "}
-          <a href="mailto:erenegecelik62@gmail.com" className={subStyles.link}>
+          <a href={`mailto:${SITE_EMAIL}`} className={subStyles.link}>
             Open to collaboration.
           </a>
         </p>

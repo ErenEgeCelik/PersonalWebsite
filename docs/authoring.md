@@ -1,4 +1,11 @@
-# Writing on erenege.com
+# Writing on this site
+
+> **Site URL / domain.** Everything that needs an absolute URL — page
+> metadata, `sitemap.xml`, `robots.txt`, the RSS feed — reads from
+> `SITE_URL` in `src/lib/site.ts`. When a custom domain is attached in
+> Vercel, change that one constant (or set `NEXT_PUBLIC_SITE_URL` in the
+> project's environment variables) and everything follows.
+
 
 How to add and edit content — blog posts and whitepapers.
 

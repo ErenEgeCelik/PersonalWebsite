@@ -3,6 +3,13 @@ import styles from "../page.module.css";
 import subStyles from "../cv/cv.module.css";
 import { getAllPosts } from "@/lib/blog";
 
+export const metadata = {
+  title: "Blog",
+  description:
+    "Short notes, methodology fragments, and lessons from research-in-progress.",
+  alternates: { canonical: "/blog" },
+};
+
 export default function BlogIndex() {
   const posts = getAllPosts();
 

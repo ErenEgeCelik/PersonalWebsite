@@ -14,6 +14,25 @@ import { tagHref } from "@/lib/content";
 import TableOfContents, { type Heading } from "./TableOfContents";
 import PrintButton from "./PrintButton";
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const paper = getWhitepaper(slug);
+  if (!paper) return { title: "Not found" };
+  const description = paper.summary || paper.subtitle;
+  return {
+    title: paper.title,
+    description,
+    alternates: { canonical: `/whitepapers/${paper.slug}` },
+    openGraph: {
+      title: paper.title,
+      description,
+      type: "article",
+      publishedTime: paper.date,
+      url: `/whitepapers/${paper.slug}`,
+    },
+  };
+}
+
 export function generateStaticParams() {
   return getAllWhitepapers().map((p) => ({ slug: p.slug }));
 }

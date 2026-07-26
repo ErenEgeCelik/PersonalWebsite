@@ -9,7 +9,6 @@ const links = [
   { href: "/research", key: "nav.research" },
   { href: "/whitepapers", key: "nav.whitepapers" },
   { href: "/blog", key: "nav.blog" },
-  { href: "/trades", key: "nav.trades" },
   { href: "/cv", key: "nav.cv" },
 ];
 

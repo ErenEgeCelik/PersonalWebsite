@@ -13,6 +13,24 @@ import { tagHref } from "@/lib/content";
 import TableOfContents, { type Heading } from "../../whitepapers/[slug]/TableOfContents";
 import PrintButton from "../../whitepapers/[slug]/PrintButton";
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = getPost(slug);
+  if (!post) return { title: "Not found" };
+  return {
+    title: post.title,
+    description: post.summary,
+    alternates: { canonical: `/blog/${post.slug}` },
+    openGraph: {
+      title: post.title,
+      description: post.summary,
+      type: "article",
+      publishedTime: post.date,
+      url: `/blog/${post.slug}`,
+    },
+  };
+}
+
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
 }

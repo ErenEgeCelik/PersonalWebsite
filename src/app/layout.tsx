@@ -4,23 +4,33 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Eren Ege Çelik",
-  description:
-    "Physics student at METU. Research at the intersection of information theory, reversible computing, and computational complexity.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_TITLE,
+    template: `%s · ${SITE_TITLE}`,
+  },
+  description: SITE_DESCRIPTION,
+  alternates: {
+    canonical: "/",
+    types: {
+      "application/rss+xml": [{ url: "/feed.xml", title: SITE_TITLE }],
+    },
+  },
   openGraph: {
-    title: "Eren Ege Çelik",
-    description:
-      "Physics student at METU. Research at the intersection of information theory, reversible computing, and computational complexity.",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     type: "website",
     locale: "en_US",
+    url: SITE_URL,
+    siteName: SITE_TITLE,
   },
   twitter: {
     card: "summary",
-    title: "Eren Ege Çelik",
-    description:
-      "Physics student at METU. Research at the intersection of information theory, reversible computing, and computational complexity.",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
 };
 
@@ -30,14 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr">
-      <head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9255607935991101"
-          crossOrigin="anonymous"
-        />
-      </head>
+    <html lang="en">
       <body>
         <GoogleAnalytics measurementId="G-0T9H646SWH" />
         <LanguageProvider>

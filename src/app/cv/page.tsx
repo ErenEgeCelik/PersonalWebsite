@@ -1,6 +1,12 @@
-"use client";
 import styles from "../page.module.css";
 import subStyles from "./cv.module.css";
+
+export const metadata = {
+  title: "CV",
+  description:
+    "Education, honors, experience and research of Eren Ege Çelik — physics undergrad at METU and independent quantitative researcher.",
+  alternates: { canonical: "/cv" },
+};
 
 const education = [
   {

@@ -1,10 +1,7 @@
 import { getAllPosts } from "@/lib/blog";
 import { getAllWhitepapers } from "@/lib/whitepapers";
 
-const SITE_URL = "https://erenege.com";
-const SITE_TITLE = "Eren Ege Çelik";
-const SITE_DESCRIPTION =
-  "Whitepapers and notes on information theory, reversible computing, computational complexity, and market microstructure.";
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 
 function escapeXml(s: string): string {
   return s

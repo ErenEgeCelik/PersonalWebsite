@@ -1,74 +1,57 @@
-"use client";
 import Link from "next/link";
-import { useLanguage } from "./contexts/LanguageContext";
 import styles from "./page.module.css";
-import tradesData from "../../public/data/trades.json";
-import { formatPaperPnl, type TradesData } from "@/lib/trades";
-
-const trades = tradesData as TradesData;
-
-const research = [
-  {
-    date: "2026-06-17",
-    title: "Microstructure & efficiency of Polymarket's 5-min crypto binary markets",
-    desc: "An ~84-hour empirical study: the MM is a calibrated Brownian-probit pricer; every candidate edge fails out-of-sample. The verifier-first protocol is the contribution.",
-    action: "read",
-    href: "/whitepapers/polymarket-5min-microstructure",
-  },
-  {
-    date: "2026-05-20",
-    title: "Polymarket MM — shadow model v2",
-    desc: "Inventory-aware spread widening on BTC/ETH 5-min binary markets.",
-    action: "log",
-    href: "/trades",
-  },
-  {
-    date: "2026-04-02",
-    title: "Collatz under reversible encoding",
-    desc: "Trajectories as reversible circuits — convergence depth patterns.",
-    action: "note",
-    href: "/research",
-  },
-];
+import { getAllPosts } from "@/lib/blog";
+import { getAllWhitepapers } from "@/lib/whitepapers";
+import { SITE_EMAIL, SITE_GITHUB } from "@/lib/site";
 
 const projects = [
   {
-    title: "GridNode",
-    badge: "active",
-    badgeKey: "status.active",
-    desc: "Distributed orchestrator splitting scientific workloads across heterogeneous nodes.",
-    tags: ["C", "Python"],
-    stat: "v0.4 · 1.2k LOC",
-  },
-  {
     title: "Crypto-bot",
     badge: "live",
-    badgeKey: "status.live",
     desc: "Shadow market-making on Polymarket. VPS-deployed, scheduled Claude-Code research loop.",
-    tags: ["Python", "Polymarket"],
     stat: "running on VPS-IE",
+  },
+  {
+    title: "GridNode",
+    badge: "active",
+    desc: "Distributed orchestrator splitting scientific workloads across heterogeneous nodes.",
+    stat: "v0.4 · 1.2k LOC",
   },
   {
     title: "Reversible SAT",
     badge: "draft",
-    badgeKey: "status.whitepaper",
     desc: "Reversible-logic SAT solvers and cryptographic implications.",
-    tags: ["Theory", "Crypto"],
     stat: "draft · 18 pages",
   },
   {
     title: "Micro Fundus Camera",
     badge: "planned",
-    badgeKey: "status.planned",
     desc: "Miniaturized retinal imaging combining optics and AI.",
-    tags: ["Optics"],
     stat: "scoping",
   },
 ];
 
+/** Newest writing across both collections — updates itself when content is added. */
+function recentWriting(limit = 5) {
+  const papers = getAllWhitepapers().map((p) => ({
+    date: p.date,
+    title: p.title,
+    desc: p.summary,
+    href: `/whitepapers/${p.slug}`,
+  }));
+  const posts = getAllPosts().map((p) => ({
+    date: p.date,
+    title: p.title,
+    desc: p.summary,
+    href: `/blog/${p.slug}`,
+  }));
+  return [...papers, ...posts]
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
+    .slice(0, limit);
+}
 
 export default function Home() {
-  const { t } = useLanguage();
+  const recent = recentWriting();
 
   return (
     <main className={styles.main}>
@@ -77,33 +60,33 @@ export default function Home() {
           Physics undergrad at METU (İzmir/Ankara). Independent quantitative researcher — I reverse-engineer market makers, derive fair-value models from first principles, and trade prediction markets live. Grew $30 → ~$1,200 on Polymarket over three months.
         </p>
         <div className={styles.heroLinks}>
-          <a href="https://github.com/ErenEgeCelik" target="_blank" rel="noopener noreferrer" className={styles.heroLink}>
+          <a href={SITE_GITHUB} target="_blank" rel="noopener noreferrer" className={styles.heroLink}>
             GitHub
           </a>
-          <a href="mailto:erenege3500@gmail.com" className={styles.heroLink}>
+          <a href={`mailto:${SITE_EMAIL}`} className={styles.heroLink}>
             Email
           </a>
-          <a href="/cv" className={styles.heroLink}>
+          <Link href="/cv" className={styles.heroLink}>
             CV
-          </a>
+          </Link>
         </div>
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Recent</h2>
+        <h2 className={styles.sectionTitle}>Writing</h2>
         <div className={styles.plainList}>
-          {research.map((r) => (
-            <Link key={r.title} href={r.href} className={styles.plainRow}>
+          {recent.map((r) => (
+            <Link key={r.href} href={r.href} className={styles.plainRow}>
               <div className={styles.plainRowMain}>
                 <span className={styles.plainRowTitle}>{r.title}</span>
-                <span className={styles.plainRowDesc}>{r.desc}</span>
+                {r.desc && <span className={styles.plainRowDesc}>{r.desc}</span>}
               </div>
               <span className={styles.plainRowDate}>{r.date}</span>
             </Link>
           ))}
         </div>
         <div className={styles.sectionMore}>
-          <Link href="/research" className={styles.moreLink}>See all →</Link>
+          <Link href="/whitepapers" className={styles.moreLink}>All whitepapers →</Link>
         </div>
       </section>
 
@@ -115,30 +98,13 @@ export default function Home() {
               <div className={styles.plainRowMain}>
                 <span className={styles.plainRowTitle}>
                   {p.title}
-                  <span className={styles.plainRowBadge}>{t(p.badgeKey).toLowerCase()}</span>
+                  <span className={styles.plainRowBadge}>{p.badge}</span>
                 </span>
                 <span className={styles.plainRowDesc}>{p.desc}</span>
               </div>
               <span className={styles.plainRowDate}>{p.stat}</span>
             </div>
           ))}
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Live</h2>
-        <p className={styles.liveLine}>
-          <span className={styles.livePulse} />
-          <span>
-            Polymarket shadow bot · paper PnL last 24h{" "}
-            <span className={trades.summary.paperPnl24h >= 0 ? styles.pnlPos : styles.pnlNeg}>
-              {formatPaperPnl(trades.summary.paperPnl24h)}
-            </span>{" "}
-            over {trades.summary.tradesCount24h} trades
-          </span>
-        </p>
-        <div className={styles.sectionMore}>
-          <Link href="/trades" className={styles.moreLink}>See feed →</Link>
         </div>
       </section>
     </main>
