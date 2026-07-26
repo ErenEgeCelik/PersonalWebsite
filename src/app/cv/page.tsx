@@ -1,5 +1,6 @@
 import styles from "../page.module.css";
 import subStyles from "./cv.module.css";
+import { SITE_EMAIL, SITE_GITHUB } from "@/lib/site";
 
 export const metadata = {
   title: "CV",
@@ -13,13 +14,13 @@ const education = [
     institution: "Middle East Technical University (ODTÜ)",
     location: "Ankara, Turkey",
     period: "2024 — 2028 (expected)",
-    detail: "BSc, Physics",
+    detail: "BSc Physics · Penultimate year 2026–27, on track to graduate June 2028",
   },
   {
     institution: "İzmir Institute of Technology (İYTE)",
     location: "İzmir, Turkey",
     period: "transferred",
-    detail: "Physics · GPA 3.6 / 4.0",
+    detail: "Physics (transferred to ODTÜ) · GPA 3.6 / 4.0",
   },
 ];
 
@@ -39,6 +40,7 @@ const experience = [
       "Grew a single $30 deposit to ~$1,200 in net P&L over three months of live trading, no additional capital.",
       "Reverse-engineered the dominant market maker on Polymarket's BTC 5-minute contracts — identified its price-feed composition via exclusive falsification testing, achieved ~6-tick out-of-sample replication of its quotes. Documented in a working paper.",
       "Derived a Brownian-probit fair-value model and a binary-CARA inventory-skew rule from first principles; validated against logged data (within-slot R² ≈ 0.92).",
+      "Formalized the strategy as a Markov Decision Process to stress-test its structural limits, isolating queue-priority inaccessibility (not model quality) as the binding constraint on profitability — an honest negative result documented for rigor.",
       "Built and iterated weather-derivative strategies as MMs adapted — static bucket → reactive trigger → probabilistic forecast engine blending a personal weather station, public forecasts, and live METAR data via Bayesian updating.",
       "Designed a World Cup cross-market latency-arbitrage strategy linking match markets to dependent group-advancement markets through Bayesian updating and Poisson goal modeling.",
       "Built low-latency multi-venue data infrastructure: direct WebSocket feeds (Binance, Coinbase, Kraken, Bitstamp), Chainlink oracle relay, Polymarket CLOB, deployed on AWS Ireland.",
@@ -90,11 +92,14 @@ export default function CVPage() {
   return (
     <main className={styles.main}>
       <header className={subStyles.header}>
+        <p className={subStyles.eyebrow}>Curriculum vitae</p>
         <h1 className={subStyles.title}>Eren Ege Çelik</h1>
         <p className={subStyles.subtitle}>
-          İzmir, Turkey · {" "}
-          <a href="mailto:erenege3500@gmail.com" className={subStyles.link}>erenege3500@gmail.com</a> · {" "}
-          <a href="https://github.com/ErenEgeCelik" target="_blank" rel="noopener noreferrer" className={subStyles.link}>github.com/ErenEgeCelik</a>
+          İzmir, Turkey ·{" "}
+          <a href={`mailto:${SITE_EMAIL}`} className={subStyles.link}>{SITE_EMAIL}</a> ·{" "}
+          <a href={SITE_GITHUB} target="_blank" rel="noopener noreferrer" className={subStyles.link}>
+            github.com/ErenEgeCelik
+          </a>
         </p>
         <div className={subStyles.downloadRow}>
           <a href="/Eren_Ege_Celik_Resume.pdf" target="_blank" rel="noopener noreferrer" className={subStyles.downloadLink}>

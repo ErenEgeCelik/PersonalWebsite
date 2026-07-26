@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { LanguageProvider } from "./contexts/LanguageContext";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
@@ -43,11 +42,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <GoogleAnalytics measurementId="G-0T9H646SWH" />
-        <LanguageProvider>
-          <Nav />
-          {children}
-          <Footer />
-        </LanguageProvider>
+        <Nav />
+        {children}
+        <Footer />
       </body>
     </html>
   );

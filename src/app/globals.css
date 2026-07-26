@@ -2,26 +2,36 @@
 @import url('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css');
 
 :root {
-  /* Deep navy with off-white text, soft-gold accent */
-  --bg-base: #0d1b2c;
-  --bg-elevated: #152840;
-  --bg-overlay: #1e3652;
-  --border-subtle: #223a58;
-  --border-strong: #3a557a;
-  --text-primary: #f2ecdc;
-  --text-secondary: #c0b8a5;
-  --text-muted: #8a8272;
-  --accent-warm: #d4a574;
+  /* Deep navy ink, layered. Warm cream text, gold accent. */
+  --bg-base: #0a121d;
+  --bg-elevated: #0e1826;
+  --bg-raised: #132133;
+  --bg-overlay: #18293e;
+
+  /* Borders are alpha over the base so every surface stays coherent */
+  --border-subtle: rgba(233, 227, 213, 0.09);
+  --border-strong: rgba(233, 227, 213, 0.18);
+
+  --text-primary: #e9e3d5;
+  --text-secondary: #a7a494;
+  --text-muted: #6d7684;
+
+  --accent-warm: #dfae6e;
+  --accent-warm-bright: #f0c489;
+  --accent-warm-dim: rgba(223, 174, 110, 0.4);
+  --accent-warm-wash: rgba(223, 174, 110, 0.08);
   --accent-cool: #86b0cc;
-  --accent-success: #a3c48a;
+  --accent-success: #9ec48a;
   --accent-danger: #d69078;
 
   --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
   --font-serif: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
   --font-mono: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
 
-  --content-max: 920px;
-  --content-narrow: 760px;
+  --content-max: 800px;
+  --content-narrow: 720px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   font-family: var(--font-sans);
   color-scheme: dark;
@@ -29,6 +39,18 @@
 
 * {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
 }
 
 html, body {
@@ -40,6 +62,24 @@ html, body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Soft warm halo behind the top of the page — depth without noise */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(900px 460px at 50% -160px, rgba(223, 174, 110, 0.07), transparent 70%),
+    radial-gradient(700px 400px at 85% 8%, rgba(134, 176, 204, 0.045), transparent 70%);
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 a {
@@ -47,7 +87,20 @@ a {
   text-decoration: none;
 }
 
+:focus-visible {
+  outline: 2px solid var(--accent-warm);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 ::selection {
-  background: var(--accent-warm);
-  color: var(--bg-base);
+  background: rgba(223, 174, 110, 0.28);
+  color: var(--text-primary);
+}
+
+/* Hairline rule that fades out — used as a section separator */
+.rule {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg, var(--border-strong), rgba(233, 227, 213, 0.02) 70%, transparent);
 }

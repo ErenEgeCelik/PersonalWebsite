@@ -19,7 +19,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/`, lastModified: newest, priority: 1 },
     { url: `${SITE_URL}/whitepapers`, lastModified: newest, priority: 0.9 },
     { url: `${SITE_URL}/blog`, lastModified: newest, priority: 0.9 },
-    { url: `${SITE_URL}/research`, priority: 0.7 },
     { url: `${SITE_URL}/cv`, priority: 0.7 },
   ];
 

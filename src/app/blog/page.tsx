@@ -5,8 +5,7 @@ import { getAllPosts } from "@/lib/blog";
 
 export const metadata = {
   title: "Blog",
-  description:
-    "Short notes, methodology fragments, and lessons from research-in-progress.",
+  description: "Short notes, methodology fragments, and lessons from research-in-progress.",
   alternates: { canonical: "/blog" },
 };
 
@@ -16,14 +15,16 @@ export default function BlogIndex() {
   return (
     <main className={styles.main}>
       <header className={subStyles.header}>
-        <h1 className={subStyles.title}>Blog</h1>
+        <p className={subStyles.eyebrow}>Blog</p>
+        <h1 className={subStyles.title}>Notes in the margin</h1>
         <p className={subStyles.subtitle}>
-          Short notes, methodology fragments, and lessons from research-in-progress.
+          Shorter than a paper and more opinionated: method fragments, things that went wrong, and
+          the reasoning behind decisions that the papers only state as conclusions.
         </p>
       </header>
 
       {posts.length === 0 ? (
-        <p style={{ color: "var(--text-muted)", fontStyle: "italic" }}>No posts yet.</p>
+        <p className={subStyles.rowDetail}>No posts yet.</p>
       ) : (
         <div className={styles.plainList}>
           {posts.map((p) => (
@@ -32,14 +33,20 @@ export default function BlogIndex() {
                 <span className={styles.plainRowTitle}>{p.title}</span>
                 {p.summary && <span className={styles.plainRowDesc}>{p.summary}</span>}
                 {p.tags.length > 0 && (
-                  <div style={{ display: "flex", gap: 6, marginTop: 4, flexWrap: "wrap" }}>
+                  <div className={styles.tags}>
                     {p.tags.map((tag) => (
-                      <span key={tag} className={styles.tag}>{tag}</span>
+                      <span key={tag} className={styles.tag}>
+                        {tag}
+                      </span>
                     ))}
                   </div>
                 )}
               </div>
-              <span className={styles.plainRowDate}>{p.date}</span>
+              <span className={styles.plainRowDate}>
+                {p.date}
+                <br />
+                {p.readingTime}
+              </span>
             </Link>
           ))}
         </div>

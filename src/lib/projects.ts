@@ -1,0 +1,56 @@
+export type ProjectStatus = "live" | "draft" | "idle";
+
+export type Project = {
+  title: string;
+  /** Display period, e.g. "2026 — present" */
+  period: string;
+  /** Sort key — newest first */
+  since: number;
+  status: ProjectStatus;
+  statusLabel: string;
+  desc: string;
+  links?: { label: string; href: string; external?: boolean }[];
+  /** Shown instead of a link when there's nothing public to point at yet */
+  note?: string;
+};
+
+/**
+ * Portfolio entries. Only link to things that actually exist publicly —
+ * the working repos are private, so the papers are the public artefacts.
+ */
+export const projects: Project[] = [
+  {
+    title: "Crypto-bot",
+    period: "2026 — present",
+    since: 2026.2,
+    status: "live",
+    statusLabel: "live",
+    desc: "Shadow market-making on Polymarket's BTC/ETH 5-minute binary markets. Brownian-probit fair value, inventory-aware skew under CARA utility, and low-latency multi-venue feeds (Binance, Coinbase, Kraken, Bitstamp, Chainlink relay) deployed on AWS Ireland.",
+    links: [
+      { label: "Read the paper", href: "/whitepapers/polymarket-5min-microstructure" },
+      { label: "Plain-language reference", href: "/whitepapers/btc-5min-reference" },
+    ],
+  },
+  {
+    title: "Binary Market Making",
+    period: "2026",
+    since: 2026.1,
+    status: "draft",
+    statusLabel: "in preparation",
+    desc: "Inventory-skew derivation under CARA utility, adverse-selection analysis, and empirical verdicts under realistic execution costs. Companion paper to the microstructure study.",
+    note: "paper in preparation",
+  },
+  {
+    title: "Reversible SAT",
+    period: "2024 — present",
+    since: 2024,
+    status: "idle",
+    statusLabel: "draft",
+    desc: "Reversible-logic SAT circuits and what they imply for cryptographic primitives — an information-theoretic angle on computational complexity.",
+    note: "draft · not yet published",
+  },
+];
+
+export function getProjects(): Project[] {
+  return [...projects].sort((a, b) => b.since - a.since);
+}

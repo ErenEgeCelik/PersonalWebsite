@@ -16,14 +16,17 @@ export default function WhitepapersIndex() {
   return (
     <main className={styles.main}>
       <header className={subStyles.header}>
-        <h1 className={subStyles.title}>Whitepapers</h1>
+        <p className={subStyles.eyebrow}>Whitepapers</p>
+        <h1 className={subStyles.title}>Studies and working drafts</h1>
         <p className={subStyles.subtitle}>
-          Empirical studies and theoretical drafts. Most are negative-result research; the methodology is the point.
+          Empirical work on prediction-market microstructure and market making. Most of it is
+          negative-result research — the methodology is the point, and the failures are reported as
+          carefully as anything that worked.
         </p>
       </header>
 
       {papers.length === 0 ? (
-        <p style={{ color: "var(--text-muted)", fontStyle: "italic" }}>No whitepapers yet.</p>
+        <p className={subStyles.rowDetail}>No whitepapers yet.</p>
       ) : (
         <div className={styles.plainList}>
           {papers.map((p) => (
@@ -31,28 +34,28 @@ export default function WhitepapersIndex() {
               <div className={styles.plainRowMain}>
                 <span className={styles.plainRowTitle}>
                   {p.title}
-                  <span className={styles.plainRowBadge}>{p.status.toLowerCase()}</span>
+                  <span className={styles.plainRowBadge}>{p.status}</span>
                 </span>
                 {p.subtitle && (
-                  <span className={styles.plainRowDesc} style={{ fontStyle: "italic" }}>{p.subtitle}</span>
+                  <span className={styles.plainRowDesc}>
+                    <em>{p.subtitle}</em>
+                  </span>
                 )}
                 {p.summary && <span className={styles.plainRowDesc}>{p.summary}</span>}
                 {p.tags.length > 0 && (
-                  <div style={{ display: "flex", gap: 6, marginTop: 4, flexWrap: "wrap" }}>
+                  <div className={styles.tags}>
                     {p.tags.map((tag) => (
-                      <span key={tag} className={styles.tag}>{tag}</span>
+                      <span key={tag} className={styles.tag}>
+                        {tag}
+                      </span>
                     ))}
                   </div>
                 )}
               </div>
               <span className={styles.plainRowDate}>
                 {p.date}
-                {p.readingTime && (
-                  <>
-                    <br />
-                    <span style={{ color: "var(--text-muted)", fontSize: 12 }}>{p.readingTime}</span>
-                  </>
-                )}
+                <br />
+                {p.readingTime}
               </span>
             </Link>
           ))}

@@ -8,6 +8,18 @@ export function generateStaticParams() {
   return getAllTagSlugs().map((slug) => ({ slug }));
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const { display, items } = getItemsForTag(slug);
+  return {
+    title: display,
+    description: `${items.length} whitepaper${items.length === 1 ? "" : "s"} and note${
+      items.length === 1 ? "" : "s"
+    } tagged ${display}.`,
+    alternates: { canonical: `/tag/${slug}` },
+  };
+}
+
 export default async function TagPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const { display, items } = getItemsForTag(slug);
@@ -16,43 +28,36 @@ export default async function TagPage({ params }: { params: Promise<{ slug: stri
   return (
     <main className={styles.main}>
       <header className={subStyles.header}>
-        <div className={subStyles.eyebrow}>Tag</div>
-        <h1 className={subStyles.title}>
-          # <span style={{ color: "var(--accent-warm)" }}>{display}</span>
-        </h1>
+        <p className={subStyles.eyebrow}>Tag</p>
+        <h1 className={subStyles.title}>{display}</h1>
         <p className={subStyles.subtitle}>
-          {items.length} item{items.length === 1 ? "" : "s"} tagged with{" "}
-          <code style={{ fontFamily: "var(--font-mono)" }}>{display}</code>
+          {items.length} item{items.length === 1 ? "" : "s"} tagged with this.
         </p>
       </header>
 
-      <section className={styles.section}>
-        <div className={subStyles.list}>
-          {items.map(({ kind, item }) => {
-            const href = kind === "whitepaper" ? `/whitepapers/${item.slug}` : `/blog/${item.slug}`;
-            const kindLabel = kind === "whitepaper" ? "whitepaper" : "post";
-            return (
-              <article key={`${kind}:${item.slug}`} className={subStyles.row}>
-                <span className={subStyles.rowDate}>{item.date}</span>
-                <div className={subStyles.rowBody}>
-                  <div className={subStyles.rowMeta}>
-                    <span style={{ color: "var(--text-muted)", fontFamily: "var(--font-mono)", fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em" }}>
-                      {kindLabel}
-                    </span>
-                  </div>
-                  <Link href={href} className={styles.entryTitle}>
-                    {item.title}
-                  </Link>
-                  <p className={subStyles.rowDetail}>{item.summary}</p>
-                </div>
-                <Link href={href} className={styles.entryAction}>
-                  read →
-                </Link>
-              </article>
-            );
-          })}
-        </div>
-      </section>
+      <div className={styles.plainList}>
+        {items.map(({ kind, item }) => {
+          const href = kind === "whitepaper" ? `/whitepapers/${item.slug}` : `/blog/${item.slug}`;
+          return (
+            <Link key={`${kind}:${item.slug}`} href={href} className={styles.plainRow}>
+              <div className={styles.plainRowMain}>
+                <span className={styles.plainRowTitle}>
+                  {item.title}
+                  <span className={styles.plainRowBadge}>
+                    {kind === "whitepaper" ? "paper" : "note"}
+                  </span>
+                </span>
+                <span className={styles.plainRowDesc}>{item.summary}</span>
+              </div>
+              <span className={styles.plainRowDate}>
+                {item.date}
+                <br />
+                {item.readingTime}
+              </span>
+            </Link>
+          );
+        })}
+      </div>
     </main>
   );
 }

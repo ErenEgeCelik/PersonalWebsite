@@ -1,110 +1,171 @@
 import Link from "next/link";
 import styles from "./page.module.css";
+import EmailLink from "./components/EmailLink";
 import { getAllPosts } from "@/lib/blog";
 import { getAllWhitepapers } from "@/lib/whitepapers";
-import { SITE_EMAIL, SITE_GITHUB } from "@/lib/site";
+import { getProjects } from "@/lib/projects";
+import { SITE_GITHUB } from "@/lib/site";
 
-const projects = [
-  {
-    title: "Crypto-bot",
-    badge: "live",
-    desc: "Shadow market-making on Polymarket. VPS-deployed, scheduled Claude-Code research loop.",
-    stat: "running on VPS-IE",
-  },
-  {
-    title: "GridNode",
-    badge: "active",
-    desc: "Distributed orchestrator splitting scientific workloads across heterogeneous nodes.",
-    stat: "v0.4 · 1.2k LOC",
-  },
-  {
-    title: "Reversible SAT",
-    badge: "draft",
-    desc: "Reversible-logic SAT solvers and cryptographic implications.",
-    stat: "draft · 18 pages",
-  },
-  {
-    title: "Micro Fundus Camera",
-    badge: "planned",
-    desc: "Miniaturized retinal imaging combining optics and AI.",
-    stat: "scoping",
-  },
-];
+type Entry = {
+  href: string;
+  title: string;
+  subtitle?: string;
+  summary: string;
+  date: string;
+  kind: string;
+  readingTime: string;
+};
 
-/** Newest writing across both collections — updates itself when content is added. */
-function recentWriting(limit = 5) {
-  const papers = getAllWhitepapers().map((p) => ({
-    date: p.date,
-    title: p.title,
-    desc: p.summary,
+/** Everything I've published, newest first — drives both the featured slot and the list. */
+function allWriting(): Entry[] {
+  const papers: Entry[] = getAllWhitepapers().map((p) => ({
     href: `/whitepapers/${p.slug}`,
-  }));
-  const posts = getAllPosts().map((p) => ({
-    date: p.date,
     title: p.title,
-    desc: p.summary,
-    href: `/blog/${p.slug}`,
+    subtitle: p.subtitle,
+    summary: p.summary,
+    date: p.date,
+    kind: p.status,
+    readingTime: p.readingTime,
   }));
-  return [...papers, ...posts]
-    .sort((a, b) => (a.date < b.date ? 1 : -1))
-    .slice(0, limit);
+  const posts: Entry[] = getAllPosts().map((p) => ({
+    href: `/blog/${p.slug}`,
+    title: p.title,
+    summary: p.summary,
+    date: p.date,
+    kind: "Note",
+    readingTime: p.readingTime,
+  }));
+  return [...papers, ...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
+const statusClass: Record<string, string> = {
+  live: styles.statusLive,
+  draft: styles.statusDraft,
+  idle: styles.statusIdle,
+};
+
 export default function Home() {
-  const recent = recentWriting();
+  const writing = allWriting();
+  // Lead with the substantial paper rather than whatever is merely newest.
+  const featured =
+    writing.find((w) => w.href === "/whitepapers/polymarket-5min-microstructure") ?? writing[0];
+  const rest = writing.filter((w) => w.href !== featured?.href);
+  const projects = getProjects();
 
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
-        <p className={styles.lede}>
-          Physics undergrad at METU (İzmir/Ankara). Independent quantitative researcher — I reverse-engineer market makers, derive fair-value models from first principles, and trade prediction markets live. Grew $30 → ~$1,200 on Polymarket over three months.
+        <h1 className={styles.heroStatement}>
+          I reverse-engineer market makers and publish what survives verification.
+        </h1>
+        <p className={styles.heroSupport}>
+          Physics undergrad at METU, İzmir and Ankara. I derive fair-value models from first
+          principles, test them against recorded order books, and write up the results — including
+          the ones that fail. Grew a single <strong>$30 deposit to roughly $1,200</strong> on
+          Polymarket over three months of live trading.
         </p>
-        <div className={styles.heroLinks}>
-          <a href={SITE_GITHUB} target="_blank" rel="noopener noreferrer" className={styles.heroLink}>
+        <div className={styles.heroContact}>
+          <EmailLink />
+          <span className={styles.contactSep}>·</span>
+          <a
+            href={SITE_GITHUB}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.heroLink}
+          >
             GitHub
           </a>
-          <a href={`mailto:${SITE_EMAIL}`} className={styles.heroLink}>
-            Email
-          </a>
+          <span className={styles.contactSep}>·</span>
           <Link href="/cv" className={styles.heroLink}>
             CV
           </Link>
         </div>
       </section>
 
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Writing</h2>
-        <div className={styles.plainList}>
-          {recent.map((r) => (
-            <Link key={r.href} href={r.href} className={styles.plainRow}>
-              <div className={styles.plainRowMain}>
-                <span className={styles.plainRowTitle}>{r.title}</span>
-                {r.desc && <span className={styles.plainRowDesc}>{r.desc}</span>}
-              </div>
-              <span className={styles.plainRowDate}>{r.date}</span>
+      <hr className={styles.rule} />
+
+      {featured && (
+        <Link href={featured.href} className={styles.featured}>
+          <div className={styles.featuredMeta}>
+            <span className={styles.featuredKind}>{featured.kind}</span>
+            <span className={styles.metaSep}>·</span>
+            <span>{featured.readingTime}</span>
+            <span className={styles.metaSep}>·</span>
+            <span>{featured.date}</span>
+          </div>
+          <h2 className={styles.featuredTitle}>{featured.title}</h2>
+          {featured.subtitle && <p className={styles.featuredSubtitle}>{featured.subtitle}</p>}
+          <p className={styles.featuredAbstract}>{featured.summary}</p>
+          <div className={styles.featuredCta}>
+            Read the paper <span>→</span>
+          </div>
+        </Link>
+      )}
+
+      {rest.length > 0 && (
+        <section className={styles.section}>
+          <p className={styles.sectionLabel}>More writing</p>
+          <div className={styles.plainList}>
+            {rest.map((w) => (
+              <Link key={w.href} href={w.href} className={styles.plainRow}>
+                <div className={styles.plainRowMain}>
+                  <span className={styles.plainRowTitle}>{w.title}</span>
+                  <span className={styles.plainRowDesc}>{w.summary}</span>
+                </div>
+                <span className={styles.plainRowDate}>
+                  {w.date}
+                  <br />
+                  {w.readingTime}
+                </span>
+              </Link>
+            ))}
+          </div>
+          <div className={styles.sectionMore}>
+            <Link href="/whitepapers" className={styles.moreLink}>
+              All whitepapers →
             </Link>
+          </div>
+        </section>
+      )}
+
+      <section className={styles.section}>
+        <p className={styles.sectionLabel}>Building</p>
+        <div className={styles.projectList}>
+          {projects.map((p) => (
+            <article key={p.title} className={styles.projectRow}>
+              <span className={styles.projectYear}>{p.period}</span>
+              <div className={styles.projectBody}>
+                <div className={styles.projectHead}>
+                  <h3 className={styles.projectTitle}>{p.title}</h3>
+                  <span className={`${styles.status} ${statusClass[p.status]}`}>
+                    {p.status === "live" && <span className={styles.statusDot} />}
+                    {p.statusLabel}
+                  </span>
+                </div>
+                <p className={styles.projectDesc}>{p.desc}</p>
+                <div className={styles.projectLinks}>
+                  {p.links?.map((l) => (
+                    <Link key={l.href} href={l.href} className={styles.projectLink}>
+                      {l.label} →
+                    </Link>
+                  ))}
+                  {p.note && <span className={styles.projectNote}>{p.note}</span>}
+                </div>
+              </div>
+            </article>
           ))}
-        </div>
-        <div className={styles.sectionMore}>
-          <Link href="/whitepapers" className={styles.moreLink}>All whitepapers →</Link>
         </div>
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Building</h2>
-        <div className={styles.plainList}>
-          {projects.map((p) => (
-            <div key={p.title} className={styles.plainRow}>
-              <div className={styles.plainRowMain}>
-                <span className={styles.plainRowTitle}>
-                  {p.title}
-                  <span className={styles.plainRowBadge}>{p.badge}</span>
-                </span>
-                <span className={styles.plainRowDesc}>{p.desc}</span>
-              </div>
-              <span className={styles.plainRowDate}>{p.stat}</span>
-            </div>
-          ))}
+        <p className={styles.sectionLabel}>Collaboration</p>
+        <div className={styles.collab}>
+          <p className={styles.collabText}>
+            I&apos;m open to collaboration on prediction-market research, market microstructure, and
+            anything where a model has to survive contact with real execution costs. If something
+            here overlaps with what you&apos;re working on, write to me.
+          </p>
+          <EmailLink />
         </div>
       </section>
     </main>
