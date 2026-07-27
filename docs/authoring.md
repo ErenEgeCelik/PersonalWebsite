@@ -18,6 +18,9 @@ npm run new:post "The verifier-first protocol"
 # New whitepaper
 npm run new:paper "BTC 5-min microstructure follow-up"
 
+# New case study
+npm run new:case "Weather prediction markets"
+
 # Preview locally
 npm run dev
 # → http://localhost:3000
@@ -33,9 +36,16 @@ npm run dev
 ```
 content/
   home.md        # the home page opening line + paragraph
-  blog/          # short notes, opinions, method fragments
+  equity.json    # data for the home page equity chart
+  case-studies/  # end-to-end project write-ups — the portfolio
   whitepapers/   # working papers, empirical studies
+  blog/          # short notes, opinions, method fragments
 ```
+
+**Which one?** A *case study* is a project: what you built, what it
+earned, how it failed, what you'd do differently. A *whitepaper* is
+research: a question, a method, a result. A *blog post* is a note —
+one idea, short.
 
 ### Editing the home page copy
 
@@ -88,6 +98,27 @@ summary: "Two-sentence abstract for the index card and RSS feed."
 draft: true
 ---
 ```
+
+### Case study
+
+```yaml
+---
+title: "Weather Prediction Markets: A Succession of Edges"
+subtitle: "Building, measuring and retiring a systematic edge"
+slug: "weather-prediction-markets"
+date: "2026-07-25"                    # sort order only
+period: "April – July 2026"           # shown instead of the date
+venue: "Polymarket — daily maximum temperature markets, 28 cities"
+status: "Case study"
+tags: [prediction-markets, polymarket, latency]
+summary: "What the edge was, what it was worth, how it ended."
+draft: true
+---
+```
+
+`period` and `venue` are case-study-only. `period` replaces the date
+everywhere the entry is listed, because a project spans months rather
+than happening on a day.
 
 Everything after the closing `---` is the body — plain markdown.
 

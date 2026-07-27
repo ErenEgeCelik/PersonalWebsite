@@ -403,7 +403,7 @@ a.plainRow:hover .plainRowTitle {
   border: 1px solid var(--accent-warm-dim);
 }
 
-.statusIdle {
+.statusIdle, .statusRetired {
   color: var(--text-muted);
   background: rgba(109, 118, 132, 0.1);
   border: 1px solid rgba(109, 118, 132, 0.3);

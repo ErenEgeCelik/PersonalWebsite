@@ -1,14 +1,17 @@
 import "server-only";
 import { getAllPosts, type PostMeta } from "./blog";
 import { getAllWhitepapers, type WhitepaperMeta } from "./whitepapers";
+import { getAllCaseStudies, type CaseStudyMeta } from "./case-studies";
 import { tagSlug } from "./content";
 
 export type TaggedItem =
+  | { kind: "case-study"; item: CaseStudyMeta }
   | { kind: "whitepaper"; item: WhitepaperMeta }
   | { kind: "post"; item: PostMeta };
 
 export function getAllTagSlugs(): string[] {
   const set = new Set<string>();
+  for (const c of getAllCaseStudies()) for (const t of c.tags) set.add(tagSlug(t));
   for (const p of getAllWhitepapers()) for (const t of p.tags) set.add(tagSlug(t));
   for (const p of getAllPosts()) for (const t of p.tags) set.add(tagSlug(t));
   return [...set];
@@ -21,6 +24,15 @@ export function getItemsForTag(slug: string): {
   let display = slug;
   const items: TaggedItem[] = [];
 
+  for (const item of getAllCaseStudies()) {
+    for (const t of item.tags) {
+      if (tagSlug(t) === slug) {
+        display = t;
+        items.push({ kind: "case-study", item });
+        break;
+      }
+    }
+  }
   for (const item of getAllWhitepapers()) {
     for (const t of item.tags) {
       if (tagSlug(t) === slug) {

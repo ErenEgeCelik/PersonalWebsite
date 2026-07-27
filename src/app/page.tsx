@@ -5,6 +5,7 @@ import EmailLink from "./components/EmailLink";
 import EquityChart from "./components/EquityChart";
 import { getAllPosts } from "@/lib/blog";
 import { getAllWhitepapers } from "@/lib/whitepapers";
+import { getAllCaseStudies } from "@/lib/case-studies";
 import { getProjects } from "@/lib/projects";
 import { getHomeCopy } from "@/lib/home";
 import { getEquitySeries } from "@/lib/equity";
@@ -16,12 +17,26 @@ type Entry = {
   subtitle?: string;
   summary: string;
   date: string;
+  /** Shown in place of the date when the work spans a period. */
+  period?: string;
   kind: string;
+  cta: string;
   readingTime: string;
 };
 
 /** Everything I've published, newest first — drives both the featured slot and the list. */
 function allWriting(): Entry[] {
+  const studies: Entry[] = getAllCaseStudies().map((c) => ({
+    href: `/case-studies/${c.slug}`,
+    title: c.title,
+    subtitle: c.subtitle,
+    summary: c.summary,
+    date: c.date,
+    period: c.period,
+    kind: "Case study",
+    cta: "Read the case study",
+    readingTime: c.readingTime,
+  }));
   const papers: Entry[] = getAllWhitepapers().map((p) => ({
     href: `/whitepapers/${p.slug}`,
     title: p.title,
@@ -29,6 +44,7 @@ function allWriting(): Entry[] {
     summary: p.summary,
     date: p.date,
     kind: p.status,
+    cta: "Read the paper",
     readingTime: p.readingTime,
   }));
   const posts: Entry[] = getAllPosts().map((p) => ({
@@ -37,25 +53,25 @@ function allWriting(): Entry[] {
     summary: p.summary,
     date: p.date,
     kind: "Note",
+    cta: "Read the note",
     readingTime: p.readingTime,
   }));
-  return [...papers, ...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
+  return [...studies, ...papers, ...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
 const statusClass: Record<string, string> = {
   live: styles.statusLive,
   draft: styles.statusDraft,
   idle: styles.statusIdle,
+  retired: styles.statusRetired,
 };
 
 export default function Home() {
   const copy = getHomeCopy();
   const equity = getEquitySeries();
   const writing = allWriting();
-  // Lead with the substantial paper rather than whatever is merely newest.
-  const featured =
-    writing.find((w) => w.href === "/whitepapers/polymarket-5min-microstructure") ?? writing[0];
-  const rest = writing.filter((w) => w.href !== featured?.href);
+  const featured = writing[0];
+  const rest = writing.slice(1);
   const projects = getProjects();
 
   return (
@@ -101,13 +117,13 @@ export default function Home() {
             <span className={styles.metaSep}>·</span>
             <span>{featured.readingTime}</span>
             <span className={styles.metaSep}>·</span>
-            <span>{featured.date}</span>
+            <span>{featured.period ?? featured.date}</span>
           </div>
           <h2 className={styles.featuredTitle}>{featured.title}</h2>
           {featured.subtitle && <p className={styles.featuredSubtitle}>{featured.subtitle}</p>}
           <p className={styles.featuredAbstract}>{featured.summary}</p>
           <div className={styles.featuredCta}>
-            Read the paper <span>→</span>
+            {featured.cta} <span>→</span>
           </div>
         </Link>
       )}
@@ -123,7 +139,7 @@ export default function Home() {
                   <span className={styles.plainRowDesc}>{w.summary}</span>
                 </div>
                 <span className={styles.plainRowDate}>
-                  {w.date}
+                  {w.period ?? w.date}
                   <br />
                   {w.readingTime}
                 </span>
@@ -131,8 +147,8 @@ export default function Home() {
             ))}
           </div>
           <div className={styles.sectionMore}>
-            <Link href="/whitepapers" className={styles.moreLink}>
-              All whitepapers →
+            <Link href="/case-studies" className={styles.moreLink}>
+              All case studies →
             </Link>
           </div>
         </section>

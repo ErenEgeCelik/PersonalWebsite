@@ -37,15 +37,17 @@ export default async function TagPage({ params }: { params: Promise<{ slug: stri
 
       <div className={styles.plainList}>
         {items.map(({ kind, item }) => {
-          const href = kind === "whitepaper" ? `/whitepapers/${item.slug}` : `/blog/${item.slug}`;
+          const base =
+            kind === "case-study" ? "case-studies" : kind === "whitepaper" ? "whitepapers" : "blog";
+          const label =
+            kind === "case-study" ? "case study" : kind === "whitepaper" ? "paper" : "note";
+          const href = `/${base}/${item.slug}`;
           return (
             <Link key={`${kind}:${item.slug}`} href={href} className={styles.plainRow}>
               <div className={styles.plainRowMain}>
                 <span className={styles.plainRowTitle}>
                   {item.title}
-                  <span className={styles.plainRowBadge}>
-                    {kind === "whitepaper" ? "paper" : "note"}
-                  </span>
+                  <span className={styles.plainRowBadge}>{label}</span>
                 </span>
                 <span className={styles.plainRowDesc}>{item.summary}</span>
               </div>

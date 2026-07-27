@@ -1,4 +1,4 @@
-export type ProjectStatus = "live" | "draft" | "idle";
+export type ProjectStatus = "live" | "draft" | "idle" | "retired";
 
 export type Project = {
   title: string;
@@ -23,12 +23,34 @@ const GH = "https://github.com/ErenEgeCelik";
  */
 export const projects: Project[] = [
   {
+    title: "Weather prediction markets",
+    period: "Apr – Jul 2026",
+    since: 2026.5,
+    status: "retired",
+    statusLabel: "measured, retired",
+    desc: "Polymarket's daily maximum-temperature markets across 28 cities. Three successive edges — observation latency from a state meteorological feed, the redistribution of a dying bucket as a Markov decision problem, and the forecast itself. A five-machine data infrastructure, a Kalman-filter probability engine, and an out-of-sample EV measurement on 3.3 GB of tick data that killed the strategy rather than confirming it.",
+    links: [
+      { label: "Read the case study", href: "/case-studies/weather-prediction-markets" },
+    ],
+  },
+  {
+    title: "World Cup group markets",
+    period: "Jun 2026",
+    since: 2026.4,
+    status: "retired",
+    statusLabel: "tournament over",
+    desc: "A match's moneyline market reprices in milliseconds; the dependent group markets take minutes. A Monte Carlo standings model translates one into the other, validated against live prices to ±0.02 before sizing. Roughly +$16 net over four matches with real money, and four failure modes diagnosed with money on the line.",
+    links: [
+      { label: "Read the case study", href: "/case-studies/world-cup-group-markets" },
+    ],
+  },
+  {
     title: "Crypto-bot",
     period: "2026 — present",
     since: 2026.2,
     status: "live",
     statusLabel: "live",
-    desc: "Shadow market-making on Polymarket's BTC/ETH 5-minute binary markets. Brownian-probit fair value, inventory-aware skew under CARA utility, and low-latency multi-venue feeds (Binance, Coinbase, Kraken, Bitstamp, Chainlink relay) deployed on AWS Ireland.",
+    desc: "Shadow market-making on Polymarket's BTC/ETH 5-minute binary markets. Brownian-probit fair value, inventory-aware skew under CARA utility, and low-latency multi-venue feeds deployed on AWS Ireland.",
     links: [
       { label: "Read the paper", href: "/whitepapers/polymarket-5min-microstructure" },
       { label: "GitHub", href: `${GH}/polymarket-microstructure`, external: true },

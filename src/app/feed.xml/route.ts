@@ -1,5 +1,6 @@
 import { getAllPosts } from "@/lib/blog";
 import { getAllWhitepapers } from "@/lib/whitepapers";
+import { getAllCaseStudies } from "@/lib/case-studies";
 
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 
@@ -28,6 +29,16 @@ function isoToRfc822(date: string): string {
 export async function GET() {
   const items: FeedItem[] = [];
 
+  for (const c of getAllCaseStudies()) {
+    items.push({
+      title: c.title,
+      link: `${SITE_URL}/case-studies/${c.slug}`,
+      guid: `${SITE_URL}/case-studies/${c.slug}`,
+      pubDate: isoToRfc822(c.date),
+      description: c.summary,
+      category: "Case study",
+    });
+  }
   for (const p of getAllWhitepapers()) {
     items.push({
       title: p.title,

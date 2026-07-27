@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import styles from "./Nav.module.css";
 
 const links = [
+  { href: "/case-studies", label: "Case studies" },
   { href: "/whitepapers", label: "Whitepapers" },
   { href: "/blog", label: "Blog" },
   { href: "/cv", label: "CV" },
