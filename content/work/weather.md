@@ -1,7 +1,7 @@
 ---
 title: "Weather derivatives, three edges deep"
 slug: "weather"
-order: 3
+order: 1
 kicker: "Live strategy · Polymarket"
 year: "2026"
 period: "April – July 2026"

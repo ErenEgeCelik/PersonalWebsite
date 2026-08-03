@@ -1,7 +1,7 @@
 ---
 title: "Reverse-engineering a prediction market maker"
 slug: "market-maker"
-order: 1
+order: 3
 kicker: "Research · Polymarket"
 year: "2026"
 period: "2026 — present"
@@ -12,7 +12,6 @@ short: "Working out which price feeds a dominant market maker quotes from, by te
 summary: "Identified the price-feed composition behind the dominant market maker on Polymarket's BTC 5-minute contracts by exclusive falsification testing, and replicated its quotes to roughly six ticks out of sample."
 tags: ["Microstructure", "Falsification testing", "Python"]
 paper: "/writing/polymarket-5min-microstructure"
-repo: "https://github.com/ErenEgeCelik/polymarket-microstructure"
 ---
 
 ## The question

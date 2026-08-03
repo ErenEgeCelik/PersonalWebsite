@@ -1,7 +1,7 @@
 ---
 title: "World Cup cross-market relative value"
 slug: "worldcup"
-order: 4
+order: 2
 kicker: "Live strategy · Polymarket"
 year: "2026"
 period: "June 2026"

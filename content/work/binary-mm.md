@@ -1,7 +1,7 @@
 ---
 title: "Binary market making under CARA utility"
 slug: "binary-mm"
-order: 2
+order: 4
 kicker: "Research · Derivation"
 year: "2026"
 period: "2026"
@@ -10,7 +10,6 @@ stack: "Python, first-principles derivation"
 short: "Fair value and inventory skew for binary contracts, derived from first principles rather than fitted."
 summary: "A Brownian-probit fair value and a binary inventory-skew rule derived from scratch, validated on logged market data at a within-slot R² of about 0.92 — then stress-tested as an MDP until it told me its own ceiling."
 tags: ["CARA utility", "Inventory skew", "MDP"]
-repo: "https://github.com/ErenEgeCelik/binary-market-making"
 ---
 
 ## Fair value

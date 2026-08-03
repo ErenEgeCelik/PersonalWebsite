@@ -1,5 +1,18 @@
 # Public GitHub repos to create
 
+> **Blocker — read first.** `D:\eren-os\personal-context\cv\cv-notes.md`
+> records that the working repos have security and hygiene problems:
+> secrets on disk *and in git history*, infra identifiers, no tests, no
+> license. Nothing may be published from them until that is cleaned up.
+> These three repos are therefore **new, written from scratch** — never
+> a filtered export of the private repos, because a `git filter-repo`
+> pass over a history containing keys is easy to get wrong.
+>
+> The website no longer renders GitHub buttons for these projects; the
+> links were removed so nothing 404s. **Last step, once a repo is live
+> and clean:** add `repo: "https://github.com/ErenEgeCelik/<name>"` to
+> the matching file in `content/work/` and push.
+
 Spec for three public repos that the portfolio on
 `erenegecelik`'s site links to. Hand this file to the agent that has
 the GitHub session.
