@@ -29,7 +29,7 @@ function sources(): Source[] {
       href: `/writing/${w.slug}`,
       title: w.title,
       summary: w.summary,
-      meta: w.date,
+      meta: w.displayDate,
     },
   }));
   return [...projects, ...writing];

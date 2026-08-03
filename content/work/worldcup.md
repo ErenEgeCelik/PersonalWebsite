@@ -8,7 +8,7 @@ period: "June 2026"
 role: "Independent trader"
 stack: "Python, Monte Carlo, Bayesian updating, conditional precompute"
 venue: "Polymarket — FIFA World Cup match and group-outcome markets"
-short: "Pricing group-advancement markets against the match markets they depend on."
+short: "A Monte Carlo standings model that reproduced live prices to ±0.02 before I sized it, then traded the lag when goals repriced the match market first. +67% on its best match."
 summary: "Match markets and group-advancement markets price the same underlying uncertainty. When they disagree, the mispricing is mechanical — a Bayesian link plus a Monte Carlo of the standings makes it explicit."
 tags: ["Relative value", "Monte Carlo", "Bayesian"]
 ---

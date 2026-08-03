@@ -6,21 +6,38 @@
   margin-bottom: 36px;
 }
 
-/* Photographs blend into the page — anything darker than the ground falls away. */
+/*
+ * The system's .lighten treatment assumes a photo shot on a dark ground;
+ * this one is on a light concrete wall, so blending would leave a bright
+ * rectangle. Rendered normally instead, slightly desaturated so it sits in
+ * a low-chroma palette, with a hairline edge and a soft bottom fade.
+ */
 .portraitWrap {
+  position: relative;
   width: 140px;
   height: 180px;
   border-radius: var(--radius-md);
   overflow: hidden;
-  mix-blend-mode: lighten;
   flex-shrink: 0;
+  box-shadow: 0 0 0 1px var(--color-divider);
+}
+
+.portraitWrap::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 45%;
+  background: linear-gradient(to top, color-mix(in srgb, var(--color-bg) 75%, transparent), transparent);
+  pointer-events: none;
 }
 
 .portrait {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 22%;
   display: block;
+  filter: saturate(0.8) contrast(1.03) brightness(0.94);
 }
 
 .body p {

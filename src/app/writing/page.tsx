@@ -28,7 +28,7 @@ export default function WritingIndex() {
             <Link key={w.slug} href={`/writing/${w.slug}`} className={styles.row}>
               <h2 className={`${styles.rowTitle} ${styles.rowTitlePost}`}>{w.title}</h2>
               <span className={styles.rowMeta}>
-                {w.date} · {w.readingTime}
+                {w.displayDate} · {w.readingTime}
               </span>
               <p className={`${styles.rowSummary} ${styles.rowSummarySm}`}>{w.summary}</p>
             </Link>

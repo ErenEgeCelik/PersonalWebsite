@@ -3,7 +3,7 @@
 # Shoot on a dark or black background — it's blended into the page with
 # mix-blend-mode: lighten, so dark backgrounds fall away entirely.
 # Leave empty to hide the portrait slot.
-portrait: ""
+portrait: "/eren.jpg"
 portraitAlt: "Eren Ege Çelik"
 ---
 

@@ -3,12 +3,12 @@ import styles from "./page.module.css";
 import { getHomeCopy } from "@/lib/home";
 import { getAllProjects } from "@/lib/work";
 import { getAllWriting } from "@/lib/writing";
-import { SITE_EMAIL, SITE_GITHUB } from "@/lib/site";
+import { SITE_EMAIL } from "@/lib/site";
 
 export default function Home() {
   const copy = getHomeCopy();
   const featured = getAllProjects().slice(0, 3);
-  const recent = getAllWriting().slice(0, 2);
+  const recent = getAllWriting().slice(0, 3);
 
   return (
     <main className={styles.column}>
@@ -22,14 +22,9 @@ export default function Home() {
           <Link href="/work" className={`${styles.btn} ${styles.btnPrimary}`}>
             See the work
           </Link>
-          <a
-            href={SITE_GITHUB}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${styles.btn} ${styles.btnSecondary}`}
-          >
-            GitHub
-          </a>
+          <Link href="/writing" className={`${styles.btn} ${styles.btnSecondary}`}>
+            Read the papers
+          </Link>
           <a href={`mailto:${SITE_EMAIL}`} className={`${styles.btn} ${styles.btnSecondary}`}>
             Email
           </a>
@@ -69,7 +64,9 @@ export default function Home() {
               className={`${styles.row} ${styles.rowTight}`}
             >
               <h2 className={`${styles.rowTitle} ${styles.rowTitleSm}`}>{w.title}</h2>
-              <span className={styles.rowMeta}>{w.date}</span>
+              <span className={styles.rowMeta}>
+                {w.displayDate} · {w.readingTime}
+              </span>
             </Link>
           ))}
         </div>

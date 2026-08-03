@@ -8,7 +8,7 @@ period: "June – July 2026"
 role: "Independent researcher"
 stack: "Python, numpy, asyncio, multi-venue WebSockets, AWS"
 venue: "Polymarket — BTC/ETH 5-minute binary contracts, resolved on the Chainlink oracle"
-short: "Asking whether there is retail-accessible edge in Polymarket's hardest market, and answering it with evidence rather than vibes."
+short: "Reverse-engineered the dominant market maker to R² 0.92, derived my own fair value, then killed every candidate edge with placebo and out-of-sample tests. The market is efficient at the level I can reach."
 summary: "A market-microstructure study of Polymarket's most competitive market. I reverse-engineered the incumbent market maker's pricing to R² 0.92, derived a fair value and an inventory-skew rule from first principles, then killed every candidate edge with out-of-sample, placebo and cost-inclusive tests. The market is efficient at the retail-accessible level, and the binding constraint is queue position rather than model quality."
 tags: ["Microstructure", "Falsification testing", "Market making", "MDP"]
 paper: "/writing/polymarket-5min-microstructure"

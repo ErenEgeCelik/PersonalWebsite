@@ -5,10 +5,10 @@ slug: "btc-5min-reference"
 date: "2026-06-20"
 status: "Reference note"
 tags: ["markets", "polymarket", "market-making"]
-summary: "A working reference for the Polymarket BTC 5-min binary market — the Brownian fair-value model, the market-making skew algorithm, what the tests said, and what tools/data we have. Plain-language companion to the [main microstructure whitepaper](/whitepapers/polymarket-5min-microstructure)."
+summary: "The Brownian fair-value model, the market-making skew algorithm and what every test returned, written in plain language. A companion to the full microstructure study rather than a replacement for it."
 ---
 
-Plain-language reference for the BTC 5-minute up/down market: the fair-value model, the market-making skew, what the tests said, and what data/tools we have. For the full empirical study, see the [microstructure whitepaper](/whitepapers/polymarket-5min-microstructure).
+Plain-language reference for the BTC 5-minute up/down market: the fair-value model, the market-making skew, what the tests said, and what data/tools we have. For the full empirical study, see the [microstructure whitepaper](/writing/polymarket-5min-microstructure).
 
 ## The market in one paragraph
 

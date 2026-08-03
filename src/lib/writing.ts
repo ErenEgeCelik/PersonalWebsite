@@ -8,7 +8,10 @@ export type WritingMeta = {
   slug: string;
   title: string;
   subtitle?: string;
+  /** ISO, for sorting and <time>. */
   date: string;
+  /** "June 2026" — ISO dates read like log entries in a reading list. */
+  displayDate: string;
   summary: string;
   tags: string[];
   readingTime: string;
@@ -16,6 +19,12 @@ export type WritingMeta = {
   /** Free-text status, papers only ("Working paper", "Reference note"). */
   status?: string;
 };
+
+function monthYear(iso: string): string {
+  const d = new Date(`${iso}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString("en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
+}
 
 export type Writing = WritingMeta & { content: string };
 
@@ -29,6 +38,7 @@ export function getAllWriting(): WritingMeta[] {
     title: p.title,
     subtitle: p.subtitle,
     date: p.date,
+    displayDate: monthYear(p.date),
     summary: p.summary,
     tags: p.tags,
     readingTime: p.readingTime,
@@ -39,12 +49,19 @@ export function getAllWriting(): WritingMeta[] {
     slug: p.slug,
     title: p.title,
     date: p.date,
+    displayDate: monthYear(p.date),
     summary: p.summary,
     tags: p.tags,
     readingTime: p.readingTime,
     kind: "note",
   }));
-  return [...papers, ...notes].sort((a, b) => (a.date < b.date ? 1 : -1));
+  // Papers before notes within the same month — a reading list should lead
+  // with the substantial thing, not with whatever happens to be newest.
+  const weight = (w: WritingMeta) => (w.kind === "paper" ? 1 : 0);
+  return [...papers, ...notes].sort((a, b) => {
+    if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+    return weight(b) - weight(a);
+  });
 }
 
 export function getWriting(slug: string): Writing | null {
@@ -55,6 +72,7 @@ export function getWriting(slug: string): Writing | null {
       title: paper.title,
       subtitle: paper.subtitle,
       date: paper.date,
+      displayDate: monthYear(paper.date),
       summary: paper.summary,
       tags: paper.tags,
       readingTime: paper.readingTime,
@@ -69,6 +87,7 @@ export function getWriting(slug: string): Writing | null {
       slug: post.slug,
       title: post.title,
       date: post.date,
+      displayDate: monthYear(post.date),
       summary: post.summary,
       tags: post.tags,
       readingTime: post.readingTime,

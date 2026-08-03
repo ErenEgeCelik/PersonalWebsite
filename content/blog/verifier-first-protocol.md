@@ -7,7 +7,7 @@ tags: ["methodology", "markets"]
 readingTime: "~5 min"
 ---
 
-I spent several weeks searching for a tradeable edge in Polymarket's 5-minute crypto binary markets. The [whitepaper](/whitepapers/polymarket-5min-microstructure) documents the full effort. The headline result is negative: no edge survives proper verification. The transferable lesson is the protocol that produced that negative result.
+I spent several weeks searching for a tradeable edge in Polymarket's 5-minute crypto binary markets. The [whitepaper](/writing/polymarket-5min-microstructure) documents the full effort. The headline result is negative: no edge survives proper verification. The transferable lesson is the protocol that produced that negative result.
 
 This is a short note on what "verifier-first" means in practice, and why I think it's the only sane way to do this kind of work.
 

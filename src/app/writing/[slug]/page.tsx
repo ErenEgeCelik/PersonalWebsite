@@ -60,7 +60,7 @@ export default async function WritingPage({ params }: { params: Promise<{ slug: 
         {item.subtitle && <p className={a.summary}>{item.subtitle}</p>}
 
         <div className={a.postMeta}>
-          <span>{item.date}</span>
+          <span>{item.displayDate}</span>
           <span className={a.metaSep}>·</span>
           <span>{item.readingTime}</span>
           <span className={a.metaSep}>·</span>

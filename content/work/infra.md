@@ -7,7 +7,7 @@ year: "2026"
 period: "2026 — present"
 role: "Builder and operator"
 stack: "Python, asyncio, WebSockets, EIP-712, AWS Ireland & Virginia, Hetzner, Tailscale"
-short: "The substrate under both trading systems: direct exchange feeds, a five-machine mesh, and a fire path measured down from ten seconds to 58 ms."
+short: "Five machines placed by measured latency, a fire path taken from 10,163 ms to 58 ms, and ~24 GB of tick data recorded so the negative results could be measured at all."
 summary: "Direct WebSocket feeds from four exchanges, a Chainlink oracle relay and the Polymarket CLOB, time-aligned and logged across five machines placed by measured latency. Roughly 24 GB of tick data recorded, and a fire path taken from ~10 s naive to ~58 ms."
 tags: ["WebSockets", "Latency", "Distributed systems", "AWS"]
 ---
