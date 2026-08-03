@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/nocturne-3312393a-9088-44d8-879a-950e3188dde5/styles.css">
+<script src="_ds/nocturne-3312393a-9088-44d8-879a-950e3188dde5/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; }
+  a { color: var(--color-accent); }
+  a:hover { color: var(--color-accent-300); }
+  @keyframes noct-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding-bottom:80px">
+
+  <div style="position:sticky;top:0;z-index:10;background:color-mix(in srgb, var(--color-bg) 88%, transparent);backdrop-filter:blur(10px)">
+    <div style="max-width:920px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap">
+      <a href="#" onClick="{{ go.home }}" style="font-family:var(--font-heading);font-weight:500;font-size:16px;letter-spacing:-0.01em;color:var(--color-text);text-decoration:none;margin-right:auto">Eren Ege Çelik</a>
+      <a href="#" onClick="{{ go.work }}" style="font-size:13px;color:{{ navWork }};text-decoration:none" style-hover="color:var(--color-accent)">Work</a>
+      <a href="#" onClick="{{ go.writing }}" style="font-size:13px;color:{{ navWriting }};text-decoration:none" style-hover="color:var(--color-accent)">Writing</a>
+      <a href="#" onClick="{{ go.about }}" style="font-size:13px;color:{{ navAbout }};text-decoration:none" style-hover="color:var(--color-accent)">About</a>
+      <a href="#" onClick="{{ go.now }}" style="font-size:13px;color:{{ navNow }};text-decoration:none" style-hover="color:var(--color-accent)">Now</a>
+      <a href="#" onClick="{{ go.contact }}" style="font-size:13px;color:{{ navContact }};text-decoration:none" style-hover="color:var(--color-accent)">Contact</a>
+    </div>
+    <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px,var(--color-divider) calc(100% - 48px),transparent)"></div>
+  </div>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div style="max-width:920px;margin:0 auto;padding:0 28px">
+      <section style="padding:88px 0 64px;max-width:660px;animation:noct-in .5s ease both">
+        <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-accent);margin-bottom:20px">İzmir &amp; Ankara, Turkey</div>
+        <h1 style="font-size:56px;line-height:1.05;letter-spacing:-0.03em;margin:0 0 20px">Eren Ege Çelik</h1>
+        <p style="font-size:19px;line-height:1.6;color:color-mix(in srgb, var(--color-text) 82%, transparent);margin:0 0 18px;text-wrap:pretty">Physics undergraduate at METU. I build quantitative trading systems for prediction markets, and write up what I find.</p>
+        <p style="font-size:15px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 58%, transparent);margin:0 0 28px;text-wrap:pretty">{{ availabilityLine }}</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn btn-primary" href="#" onClick="{{ go.work }}">See the work</a>
+          <a class="btn btn-secondary" href="https://github.com/ErenEgeCelik" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn btn-secondary" href="mailto:erenege3500@gmail.com">Email</a>
+        </div>
+      </section>
+
+      <section style="margin-bottom:72px">
+        <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:24px">
+          <h2 style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 60%, transparent);margin:0">Selected work</h2>
+          <a href="#" onClick="{{ go.work }}" style="font-size:13px;text-decoration:none;margin-left:auto">All work →</a>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ featured }}" as="p" hint-placeholder-count="3">
+            <a href="#" onClick="{{ p.open }}" style="display:grid;grid-template-columns:1fr auto;gap:8px 24px;align-items:baseline;padding:20px 12px;margin:0 -12px;border-radius:var(--radius-md);text-decoration:none;color:inherit;border-top:1px solid var(--color-divider)" style-hover="background:color-mix(in srgb, var(--color-text) 5%, transparent)">
+              <div>
+                <div style="font-family:var(--font-heading);font-weight:500;font-size:19px;letter-spacing:-0.01em;margin-bottom:6px">{{ p.title }}</div>
+                <div style="font-size:14px;line-height:1.6;color:color-mix(in srgb, var(--color-text) 62%, transparent);max-width:56ch;text-wrap:pretty">{{ p.short }}</div>
+              </div>
+              <div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 45%, transparent);white-space:nowrap">{{ p.year }}</div>
+            </a>
+          </sc-for>
+        </div>
+      </section>
+
+      <section>
+        <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:24px">
+          <h2 style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 60%, transparent);margin:0">Writing</h2>
+          <a href="#" onClick="{{ go.writing }}" style="font-size:13px;text-decoration:none;margin-left:auto">All posts →</a>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ recentPosts }}" as="post" hint-placeholder-count="2">
+            <a href="#" onClick="{{ post.open }}" style="display:grid;grid-template-columns:1fr auto;gap:8px 24px;align-items:baseline;padding:18px 12px;margin:0 -12px;border-radius:var(--radius-md);text-decoration:none;color:inherit;border-top:1px solid var(--color-divider)" style-hover="background:color-mix(in srgb, var(--color-text) 5%, transparent)">
+              <div style="font-size:16px;line-height:1.4;max-width:56ch;text-wrap:pretty">{{ post.title }}</div>
+              <div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 45%, transparent);white-space:nowrap">{{ post.date }}</div>
+            </a>
+          </sc-for>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isWork }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:920px;margin:0 auto;padding:0 28px">
+      <section style="padding:72px 0 40px;max-width:640px">
+        <h1 style="font-size:44px;letter-spacing:-0.03em;margin:0 0 16px">Work</h1>
+        <p style="font-size:17px;line-height:1.65;color:color-mix(in srgb, var(--color-text) 70%, transparent);margin:0;text-wrap:pretty">Live systems and research on prediction markets, plus laboratory and engineering work. Everything here is something I built, derived, or falsified myself.</p>
+      </section>
+      <section style="display:flex;flex-direction:column;margin-bottom:64px">
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="5">
+          <a href="#" onClick="{{ p.open }}" style="display:block;padding:24px 12px;margin:0 -12px;border-radius:var(--radius-md);text-decoration:none;color:inherit;border-top:1px solid var(--color-divider)" style-hover="background:color-mix(in srgb, var(--color-text) 5%, transparent)">
+            <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:8px">
+              <div style="font-family:var(--font-heading);font-weight:500;font-size:21px;letter-spacing:-0.015em">{{ p.title }}</div>
+              <div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 45%, transparent);margin-left:auto;white-space:nowrap">{{ p.year }}</div>
+            </div>
+            <div style="font-size:15px;line-height:1.65;color:color-mix(in srgb, var(--color-text) 65%, transparent);max-width:64ch;margin-bottom:14px;text-wrap:pretty">{{ p.summary }}</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="3">
+                <span class="tag tag-neutral">{{ t }}</span>
+              </sc-for>
+            </div>
+          </a>
+        </sc-for>
+      </section>
+      <section style="max-width:660px">
+        <h2 style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 60%, transparent);margin:0 0 18px">Elsewhere</h2>
+        <table class="table">
+          <tbody>
+            <tr><td style="width:38%">Volunteer research intern</td><td>Prof. Ali Bozbey's group, TOBB ETÜ — superconducting quantum hardware</td><td style="text-align:right;white-space:nowrap">2025</td></tr>
+            <tr><td>Engineering intern</td><td>Ingenieurbüro Bickele &amp; Bühler GmbH, Stuttgart — SMD, AOI, C# and Arduino</td><td style="text-align:right;white-space:nowrap">2023</td></tr>
+            <tr><td>Organizing staff</td><td>ICSM &amp; ICSQMT international conferences</td><td style="text-align:right;white-space:nowrap">2025–26</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isProject }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:920px;margin:0 auto;padding:0 28px">
+      <article style="max-width:680px;padding:56px 0 0">
+        <a href="#" onClick="{{ go.work }}" style="font-size:13px;text-decoration:none;display:inline-block;margin-bottom:32px">← Work</a>
+        <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-accent);margin-bottom:14px">{{ project.kicker }}</div>
+        <h1 style="font-size:40px;line-height:1.1;letter-spacing:-0.03em;margin:0 0 18px;text-wrap:pretty">{{ project.title }}</h1>
+        <p style="font-size:18px;line-height:1.65;color:color-mix(in srgb, var(--color-text) 78%, transparent);margin:0 0 32px;text-wrap:pretty">{{ project.summary }}</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:20px;padding:20px 0;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);margin-bottom:40px">
+          <div>
+            <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 45%, transparent);margin-bottom:6px">Role</div>
+            <div style="font-size:14px">{{ project.role }}</div>
+          </div>
+          <div>
+            <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 45%, transparent);margin-bottom:6px">Period</div>
+            <div style="font-size:14px">{{ project.year }}</div>
+          </div>
+          <div>
+            <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 45%, transparent);margin-bottom:6px">Stack</div>
+            <div style="font-size:14px">{{ project.stack }}</div>
+          </div>
+        </div>
+        <sc-for list="{{ project.sections }}" as="s" hint-placeholder-count="4">
+          <section style="margin-bottom:36px">
+            <h2 style="font-size:22px;letter-spacing:-0.02em;margin:0 0 12px">{{ s.h }}</h2>
+            <p style="font-size:16px;line-height:1.75;color:color-mix(in srgb, var(--color-text) 76%, transparent);margin:0;text-wrap:pretty">{{ s.p }}</p>
+          </section>
+        </sc-for>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:16px;border-top:1px solid var(--color-divider)">
+          <a class="btn btn-primary" href="https://github.com/ErenEgeCelik" target="_blank" rel="noopener">Repository &amp; paper</a>
+          <a class="btn btn-secondary" href="#" onClick="{{ go.contact }}">Ask me about it</a>
+        </div>
+      </article>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isWriting }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:920px;margin:0 auto;padding:0 28px">
+      <section style="padding:72px 0 40px;max-width:640px">
+        <h1 style="font-size:44px;letter-spacing:-0.03em;margin:0 0 16px">Writing</h1>
+        <p style="font-size:17px;line-height:1.65;color:color-mix(in srgb, var(--color-text) 70%, transparent);margin:0;text-wrap:pretty">Notes on microstructure, modelling, and the parts of research that don't make the highlight reel.</p>
+      </section>
+      <section style="display:flex;flex-direction:column">
+        <sc-for list="{{ posts }}" as="post" hint-placeholder-count="3">
+          <a href="#" onClick="{{ post.open }}" style="display:block;padding:24px 12px;margin:0 -12px;border-radius:var(--radius-md);text-decoration:none;color:inherit;border-top:1px solid var(--color-divider)" style-hover="background:color-mix(in srgb, var(--color-text) 5%, transparent)">
+            <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:8px">
+              <div style="font-family:var(--font-heading);font-weight:500;font-size:20px;letter-spacing:-0.015em;max-width:52ch;text-wrap:pretty">{{ post.title }}</div>
+              <div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 45%, transparent);margin-left:auto;white-space:nowrap">{{ post.date }}</div>
+            </div>
+            <div style="font-size:15px;line-height:1.65;color:color-mix(in srgb, var(--color-text) 62%, transparent);max-width:62ch;text-wrap:pretty">{{ post.excerpt }}</div>
+          </a>
+        </sc-for>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isPost }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:920px;margin:0 auto;padding:0 28px">
+      <article style="max-width:640px;padding:56px 0 0">
+        <a href="#" onClick="{{ go.writing }}" style="font-size:13px;text-decoration:none;display:inline-block;margin-bottom:32px">← Writing</a>
+        <h1 style="font-size:38px;line-height:1.12;letter-spacing:-0.03em;margin:0 0 14px;text-wrap:pretty">{{ post.title }}</h1>
+        <div style="font-size:13px;color:color-mix(in srgb, var(--color-text) 45%, transparent);margin-bottom:40px">{{ post.date }} · {{ post.read }}</div>
+        <sc-for list="{{ post.body }}" as="para" hint-placeholder-count="5">
+          <p style="font-size:17px;line-height:1.8;color:color-mix(in srgb, var(--color-text) 80%, transparent);margin:0 0 22px;text-wrap:pretty">{{ para }}</p>
+        </sc-for>
+        <div style="padding-top:24px;margin-top:20px;border-top:1px solid var(--color-divider)">
+          <a href="#" onClick="{{ go.writing }}" style="font-size:14px;text-decoration:none">← All posts</a>
+        </div>
+      </article>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:920px;margin:0 auto;padding:0 28px">
+      <section style="max-width:660px;padding:72px 0 48px">
+        <div style="display:flex;align-items:flex-end;gap:24px;margin-bottom:28px;flex-wrap:wrap">
+          <div class="lighten" style="width:140px;height:180px;flex:none;border-radius:var(--radius-md);overflow:hidden">
+            <image-slot id="portrait" shape="rounded" radius="8" placeholder="Drop a portrait — dark background works best"></image-slot>
+          </div>
+          <h1 style="font-size:44px;letter-spacing:-0.03em;margin:0">About</h1>
+        </div>
+        <p style="font-size:18px;line-height:1.75;color:color-mix(in srgb, var(--color-text) 80%, transparent);margin:0 0 20px;text-wrap:pretty">I'm a physics undergraduate at Middle East Technical University, expecting to graduate in 2028. I started at İzmir Institute of Technology with a 3.6 GPA and transferred to METU to be closer to the research I wanted to do.</p>
+        <p style="font-size:17px;line-height:1.75;color:color-mix(in srgb, var(--color-text) 72%, transparent);margin:0 0 20px;text-wrap:pretty">Physics is where I learned to take a system apart until the assumptions are visible. Prediction markets are where I test whether I actually did. Over the last months I've been trading Polymarket with my own money and reverse-engineering the market maker on the other side of my fills — deriving a Brownian-probit fair value, an inventory-skew rule under CARA utility, and a Markov decision layer that eventually told me the strategy's ceiling was queue priority, not my model. I wrote that up too.</p>
+        <p style="font-size:17px;line-height:1.75;color:color-mix(in srgb, var(--color-text) 72%, transparent);margin:0 0 36px;text-wrap:pretty">Before markets: a summer in Prof. Ali Bozbey's group at TOBB ETÜ, which built Turkey's first superconducting quantum computing hardware, and a stint in electronics manufacturing in Stuttgart doing SMD, AOI and instrument software. I like the whole stack — the physics, the electronics, and the code that logs it all at the millisecond.</p>
+
+        <h2 style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 60%, transparent);margin:0 0 16px">Education</h2>
+        <table class="table" style="margin-bottom:40px">
+          <tbody>
+            <tr><td style="width:52%">BSc Physics — Middle East Technical University (ODTÜ)</td><td>Ankara</td><td style="text-align:right;white-space:nowrap">2024–2028</td></tr>
+            <tr><td>Physics — İzmir Institute of Technology (İYTE), GPA 3.6/4.0</td><td>İzmir</td><td style="text-align:right;white-space:nowrap">transferred</td></tr>
+          </tbody>
+        </table>
+
+        <h2 style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 60%, transparent);margin:0 0 16px">Honors</h2>
+        <ul style="margin:0 0 40px;padding-left:20px;font-size:16px;line-height:1.8;color:color-mix(in srgb, var(--color-text) 76%, transparent)">
+          <li>İzmir Mathematics Olympiad team, grades 8–9.</li>
+          <li>Physics Olympiad team, İzmir Atatürk High School — among Turkey's top five high schools.</li>
+          <li>Admitted to İzmir Atatürk High School by national examination (top ~0.2%).</li>
+        </ul>
+
+        <h2 style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 60%, transparent);margin:0 0 16px">Skills</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
+          <div>
+            <div style="font-size:14px;margin-bottom:10px">Quantitative</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <span class="tag tag-neutral">Probability &amp; statistics</span>
+              <span class="tag tag-neutral">Bayesian inference</span>
+              <span class="tag tag-neutral">Stochastic modelling</span>
+              <span class="tag tag-neutral">Time series</span>
+              <span class="tag tag-neutral">Market microstructure</span>
+              <span class="tag tag-neutral">Derivatives pricing</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:14px;margin-bottom:10px">Technical</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <span class="tag tag-neutral">Python · pandas · NumPy</span>
+              <span class="tag tag-neutral">C#</span>
+              <span class="tag tag-neutral">Low-latency WebSocket systems</span>
+              <span class="tag tag-neutral">CLOB / REST APIs</span>
+              <span class="tag tag-neutral">Polygon · USDC · DeFi tooling</span>
+              <span class="tag tag-neutral">AWS</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isNow }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:920px;margin:0 auto;padding:0 28px">
+      <section style="max-width:620px;padding:72px 0 48px">
+        <h1 style="font-size:44px;letter-spacing:-0.03em;margin:0 0 10px">Now</h1>
+        <div style="font-size:13px;color:color-mix(in srgb, var(--color-text) 45%, transparent);margin-bottom:32px">Updated August 2026</div>
+        <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:26px">
+          <li style="padding-left:18px;border-left:2px solid var(--color-accent)">
+            <div style="font-family:var(--font-heading);font-size:18px;margin-bottom:6px">Trading and researching prediction markets</div>
+            <div style="font-size:15px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 68%, transparent);text-wrap:pretty">Live on Polymarket with my own capital. Currently rebuilding the weather-derivative forecast engine around a personal weather station, public forecasts and METAR, blended with Bayesian updating.</div>
+          </li>
+          <li style="padding-left:18px;border-left:2px solid var(--color-divider)">
+            <div style="font-family:var(--font-heading);font-size:18px;margin-bottom:6px">Third year at METU</div>
+            <div style="font-size:15px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 68%, transparent);text-wrap:pretty">Penultimate year 2026–27. Stochastic processes and computational methods are the courses I care most about right now.</div>
+          </li>
+          <li style="padding-left:18px;border-left:2px solid var(--color-divider)">
+            <div style="font-family:var(--font-heading);font-size:18px;margin-bottom:6px">Looking for a quant internship</div>
+            <div style="font-size:15px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 68%, transparent);text-wrap:pretty">Research or trading, summer 2027. I'd rather work somewhere that reads the negative results than somewhere that doesn't ask.</div>
+          </li>
+          <li style="padding-left:18px;border-left:2px solid var(--color-divider)">
+            <div style="font-family:var(--font-heading);font-size:18px;margin-bottom:6px">Writing up the backlog</div>
+            <div style="font-size:15px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 68%, transparent);text-wrap:pretty">Two papers are out; the World Cup cross-market study and the MDP stress-test are next.</div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:920px;margin:0 auto;padding:0 28px">
+      <section style="max-width:620px;padding:72px 0 48px">
+        <h1 style="font-size:44px;letter-spacing:-0.03em;margin:0 0 16px">Contact</h1>
+        <p style="font-size:18px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 76%, transparent);margin:0 0 36px;text-wrap:pretty">Email is best, and I answer it. If you're hiring for a quant research or trading internship, say what the desk actually works on and I'll tell you honestly whether I'd be useful.</p>
+        <div style="display:flex;flex-direction:column">
+          <a href="mailto:erenege3500@gmail.com" style="display:flex;align-items:baseline;gap:16px;padding:18px 12px;margin:0 -12px;border-top:1px solid var(--color-divider);border-radius:var(--radius-md);text-decoration:none;color:inherit" style-hover="background:color-mix(in srgb, var(--color-text) 5%, transparent)">
+            <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 45%, transparent);width:80px;flex:none">Email</span>
+            <span style="font-size:16px">erenege3500@gmail.com</span>
+          </a>
+          <a href="https://github.com/ErenEgeCelik" target="_blank" rel="noopener" style="display:flex;align-items:baseline;gap:16px;padding:18px 12px;margin:0 -12px;border-top:1px solid var(--color-divider);border-radius:var(--radius-md);text-decoration:none;color:inherit" style-hover="background:color-mix(in srgb, var(--color-text) 5%, transparent)">
+            <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 45%, transparent);width:80px;flex:none">GitHub</span>
+            <span style="font-size:16px">github.com/ErenEgeCelik</span>
+          </a>
+          <a href="https://erenege.com" target="_blank" rel="noopener" style="display:flex;align-items:baseline;gap:16px;padding:18px 12px;margin:0 -12px;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);border-radius:var(--radius-md);text-decoration:none;color:inherit" style-hover="background:color-mix(in srgb, var(--color-text) 5%, transparent)">
+            <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 45%, transparent);width:80px;flex:none">Site</span>
+            <span style="font-size:16px">erenege.com</span>
+          </a>
+        </div>
+        <div style="margin-top:36px;display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn btn-primary" href="mailto:erenege3500@gmail.com">Write to me</a>
+          <a class="btn btn-secondary" href="{{ resumeUrl }}" target="_blank" rel="noopener">Résumé (PDF)</a>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <footer style="max-width:920px;margin:64px auto 0;padding:24px 28px 0;display:flex;gap:18px;flex-wrap:wrap;align-items:baseline">
+    <div style="height:1px;width:100%;background:linear-gradient(to right,transparent,var(--color-divider) 48px,var(--color-divider) calc(100% - 48px),transparent);margin-bottom:20px"></div>
+    <div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 42%, transparent);margin-right:auto">© 2026 Eren Ege Çelik · İzmir &amp; Ankara</div>
+    <a href="mailto:erenege3500@gmail.com" style="font-size:12px;text-decoration:none">Email</a>
+    <a href="https://github.com/ErenEgeCelik" target="_blank" rel="noopener" style="font-size:12px;text-decoration:none">GitHub</a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;availability&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Looking for a quantitative research or trading internship for summer 2027.&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;resumeUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;uploads/Eren_Ege_Celik_Resume.docx&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#9184d9&quot;,&quot;options&quot;:[&quot;#9184d9&quot;,&quot;#7fb3c4&quot;,&quot;#c49a84&quot;,&quot;#8fbf9a&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+const PROJECTS = [
+  {
+    slug: 'market-maker',
+    kicker: 'Research · Polymarket',
+    title: 'Reverse-engineering a prediction market maker',
+    year: '2026',
+    role: 'Independent researcher',
+    stack: 'Python, WebSockets, AWS',
+    summary: "Identified the price-feed composition behind the dominant market maker on Polymarket's BTC 5-minute contracts by exclusive falsification testing, and replicated its quotes to roughly six ticks out of sample.",
+    tags: ['Microstructure', 'Falsification testing', 'Python'],
+    sections: [
+      { h: 'The question', p: "If one participant is quoting nearly every BTC 5-minute contract, its quotes are a function of something. Finding out exactly which price feeds, in which proportions, turns an opaque counterparty into a model you can trade against." },
+      { h: 'Method', p: "I logged the maker's quotes alongside candidate feeds — Binance, Coinbase, Kraken, Bitstamp and the Chainlink oracle relay — and ran exclusive falsification tests: propose a feed composition, and search for a window where it must produce a quote the maker did not post. Compositions that survive every attempt to kill them are the ones left standing." },
+      { h: 'Result', p: "The surviving composition replicates the maker's quotes to about six ticks on data it never saw, with volatility dynamics accounted for separately. That accuracy is enough to know when its quote is stale relative to the underlying, which is the whole game on a five-minute contract." },
+      { h: 'Written up', p: "The full method, the volatility treatment and the out-of-sample evidence are documented in a paper on my GitHub — including the tests that failed on the way to the composition that didn't." }
+    ]
+  },
+  {
+    slug: 'binary-mm',
+    kicker: 'Research · Derivation',
+    title: 'Binary market making under CARA utility',
+    year: '2026',
+    role: 'Independent researcher',
+    stack: 'Python, first-principles derivation',
+    summary: 'A Brownian-probit fair value and a binary inventory-skew rule derived from scratch, validated on logged market data at a within-slot R² of about 0.92 — then stress-tested as an MDP until it told me its own ceiling.',
+    tags: ['CARA utility', 'Inventory skew', 'MDP'],
+    sections: [
+      { h: 'Fair value', p: "For a binary contract on whether a Brownian price finishes above a strike, fair value is a probit in the scaled distance to the strike. Deriving it rather than fitting it means every input — spot, time remaining, volatility — enters where the model says it should. Against logged data the within-slot fit lands at R² ≈ 0.92." },
+      { h: 'Inventory skew', p: "Under CARA utility the optimal quote shift for a binary payoff has a closed form: risk aversion times current inventory times the payoff variance. It falls out cleanly, and it explains the asymmetric quoting you see in the book far better than an ad-hoc skew parameter does." },
+      { h: 'Adverse selection', p: "Fair value and skew set the quote; adverse selection decides whether you keep the edge. I measured post-fill drift to separate informed flow from noise and priced the difference into the spread." },
+      { h: 'The negative result', p: "Formalizing the strategy as a Markov Decision Process let me stress-test its structural limits. The binding constraint turned out to be queue-priority inaccessibility, not model quality: at the top of the book I cannot get, the edge is real; at the depth I can reach, it isn't. I published that verdict rather than the backtest that would have looked better." }
+    ]
+  },
+  {
+    slug: 'weather',
+    kicker: 'Live strategy',
+    title: 'Weather derivatives, three edges deep',
+    year: '2026',
+    role: 'Independent trader',
+    stack: 'Python, METAR, Bayesian updating',
+    summary: 'Each edge died as market makers adapted, so I built the next one: observation latency, then a Markov decision layer over dying contracts, then a probabilistic forecast engine blending my own weather station with public forecasts and live METAR.',
+    tags: ['Bayesian inference', 'Forecasting', 'Adaptation'],
+    sections: [
+      { h: 'Edge one — latency', p: "Temperature contracts settle on observations that arrive on a schedule. Seeing the observation before the market repriced was, briefly, the entire strategy. It stopped working, as these things do." },
+      { h: 'Edge two — dying contracts', p: "In the last minutes of a contract the state space collapses: few observations remain, and the decision of whether to hold or close is genuinely Markov. Solving that layer explicitly recovered edge the latency race had eliminated." },
+      { h: 'Edge three — a forecast of my own', p: "The durable version is a probabilistic forecast engine: a personal weather station for local ground truth, public model forecasts for the trend, and live METAR for the reconciliation, combined by Bayesian updating into a distribution rather than a point estimate. When you price a distribution and the market prices a headline, the difference is the trade." }
+    ]
+  },
+  {
+    slug: 'worldcup',
+    kicker: 'Live strategy',
+    title: 'World Cup cross-market relative value',
+    year: '2026',
+    role: 'Independent trader',
+    stack: 'Python, Monte Carlo',
+    summary: 'Match markets and group-advancement markets price the same underlying uncertainty. When they disagree, the mispricing is mechanical — a Bayesian link plus a Monte Carlo of the standings makes it explicit.',
+    tags: ['Relative value', 'Monte Carlo', 'Bayesian'],
+    sections: [
+      { h: 'The dependency', p: "A group-advancement market is a deterministic function of match results plus tiebreakers. Anyone pricing advancement independently of the match markets is pricing two views of one distribution — and the two rarely agree." },
+      { h: 'Implementation', p: "Match markets give implied per-match probabilities; Bayesian updating carries them into a Monte Carlo simulation of the final standings, tiebreakers included. The simulation's advancement distribution is the fair value the advancement market has to be compared against." },
+      { h: 'Trading it', p: "The trade is relative, not directional: long the underpriced leg, short the overpriced one, sized so the residual exposure to the actual football is small. What is left is the pricing inconsistency itself." }
+    ]
+  },
+  {
+    slug: 'infra',
+    kicker: 'Infrastructure',
+    title: 'Low-latency multi-venue data infrastructure',
+    year: '2026',
+    role: 'Builder',
+    stack: 'Python, WebSockets, AWS (Ireland)',
+    summary: 'Direct WebSocket feeds from Binance, Coinbase, Kraken and Bitstamp, a Chainlink oracle relay, and the Polymarket CLOB — logged, time-aligned, and deployed close to the venue.',
+    tags: ['WebSockets', 'AWS', 'CLOB / REST'],
+    sections: [
+      { h: 'Why build it', p: "Every model above needs the same thing: clean, timestamped, multi-venue data with known latency characteristics. Aggregator APIs hide exactly the microseconds the research is about, so the feeds are direct." },
+      { h: 'What it does', p: "Four exchange WebSocket feeds, a Chainlink oracle relay and the Polymarket CLOB, normalized to a common event schema and written to disk with local receive timestamps as well as venue timestamps — the pair is what makes latency analysis possible after the fact." },
+      { h: 'Where it runs', p: "Deployed on AWS in Ireland, chosen for round-trip time to the venues that matter. Trading from Turkey over consumer internet was itself a measurable cost; moving the process removed it." }
+    ]
+  }
+];
+
+const POSTS = [
+  {
+    slug: 'negative-result',
+    title: "The result I published because it made me look worse",
+    date: 'July 2026',
+    read: '6 min',
+    excerpt: "My market making model was fine. The strategy still could not work, and the reason had nothing to do with the model. Here is why I wrote that down instead of quietly moving on.",
+    body: [
+      "There is a version of this project where I stop at the backtest. The fair value fits, the skew rule is derived rather than tuned, the numbers look good, and I post a chart. Plenty of people stop there.",
+      "Instead I formalized the strategy as a Markov Decision Process — states for inventory and time remaining, actions for where to quote, transitions from the fill dynamics I had measured. The point of an MDP here is not to find the optimal policy. It is to find the ceiling: the best you could possibly do if every decision were made perfectly.",
+      "The ceiling was low, and it was low for a reason I could not fix. Fills at the top of the book carry the edge. Queue priority there is not accessible to me — not because my model is worse, but because of who is standing in front of me and how fast. At the depth I can actually reach, adverse selection eats the spread.",
+      "That is a structural constraint, not a modelling failure, and the distinction matters enormously. A modelling failure is an invitation to iterate. A structural constraint is an instruction to go do something else.",
+      "So I documented it. The paper says, in effect: here is a model that works, here is the market it cannot be traded in, and here is the evidence for both claims. If someone hires me on the strength of a backtest I do not believe in, we are both going to find out eventually. I would rather it be now."
+    ]
+  },
+  {
+    slug: 'thirty-dollars',
+    title: 'What thirty dollars teaches that a paper account cannot',
+    date: 'June 2026',
+    read: '4 min',
+    excerpt: 'I funded my account with $30 and refused to add more. The constraint turned out to be the most useful part of the setup.',
+    body: [
+      "A paper account will let you be wrong forever at no cost. That is precisely the problem: nothing about it forces you to distinguish between a strategy that works and a strategy you like.",
+      "Thirty real dollars fixes this cheaply. The number is small enough that losing it teaches rather than hurts, and real enough that every sizing decision has a consequence you feel. When your entire capital is thirty dollars, a position that can lose a third of it is not a theoretical drawdown — it is next week's research budget.",
+      "The rule I set was simple: no additional deposits, ever. Whatever the account becomes, it becomes from its own P&L. That turns compounding from an abstraction into the only mechanism available, and it makes the ruin constraint bite at every single decision.",
+      "Three months later the account was around $1,200 in net P&L, still with no top-ups. The number is not impressive in absolute terms and I am not going to pretend it is. What it is, is honest: every dollar came from a decision I can point at and explain."
+    ]
+  },
+  {
+    slug: 'physics-to-markets',
+    title: 'Physics gave me the priors; markets gave me the feedback loop',
+    date: 'May 2026',
+    read: '5 min',
+    excerpt: 'On why a physics undergraduate ended up deriving option-like pricing rules for five-minute crypto contracts, and what actually transferred.',
+    body: [
+      "The honest answer to 'why markets' is that physics trained me to ask what a system's assumptions are, and markets are the only place I have found where you learn within minutes whether you got them wrong.",
+      "What transferred was not any specific formula. It was the habit of deriving before fitting. When I needed a fair value for a binary contract on a Brownian price, the probit form was not something I looked up — it is what the assumption produces. When I needed an inventory skew, the CARA derivation gave a closed form with each term meaning something. Every parameter you fit instead of derive is a place where a bad assumption can hide.",
+      "The second transfer was falsification. In the laboratory you design the experiment that could kill your hypothesis. Reverse-engineering a market maker's price feed is exactly that: propose a composition, then hunt for the window where it must be wrong. What survives is not proven — it is merely not yet dead, which in both fields is all you ever get.",
+      "The difference is the clock. A physics result may wait years for the experiment that tests it. A market opinion is tested by the close."
+    ]
+  }
+];
+
+class Component extends DCLogic {
+  state = { page: 'home', slug: null };
+
+  componentDidMount() {
+    const c = this.props.accentColor;
+    if (c) document.documentElement.style.setProperty('--color-accent', c);
+    if (typeof window !== 'undefined') window.scrollTo(0, 0);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.page !== this.state.page || prevState.slug !== this.state.slug) window.scrollTo(0, 0);
+    if (prevProps.accentColor !== this.props.accentColor && this.props.accentColor) {
+      document.documentElement.style.setProperty('--color-accent', this.props.accentColor);
+    }
+  }
+
+  nav(page, slug) {
+    return (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ page, slug: slug || null }); };
+  }
+
+  renderVals() {
+    const { page, slug } = this.state;
+    const link = (p) => (page === p ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 68%, transparent)');
+    const SHORT = {
+      'market-maker': 'Working out which price feeds a dominant market maker quotes from, by testing compositions until only one survives.',
+      'binary-mm': 'Fair value and inventory skew for binary contracts, derived from first principles rather than fitted.',
+      'weather': 'Three generations of weather-derivative strategy, each rebuilt after the market adapted to the last one.',
+      'worldcup': 'Pricing group-advancement markets against the match markets they depend on.',
+      'infra': 'Direct exchange feeds, an oracle relay and the Polymarket CLOB, time-aligned and logged.'
+    };
+    const projects = PROJECTS.map(p => ({ ...p, short: SHORT[p.slug] || p.summary, open: this.nav('project', p.slug) }));
+    const posts = POSTS.map(p => ({ ...p, open: this.nav('post', p.slug) }));
+    return {
+      isHome: page === 'home', isWork: page === 'work', isProject: page === 'project',
+      isWriting: page === 'writing', isPost: page === 'post', isAbout: page === 'about',
+      isNow: page === 'now', isContact: page === 'contact',
+      navWork: link('work'), navWriting: link('writing'), navAbout: link('about'),
+      navNow: link('now'), navContact: link('contact'),
+      projects, posts,
+      featured: projects.slice(0, 3),
+      recentPosts: posts.slice(0, 2),
+      project: projects.find(p => p.slug === slug) || projects[0],
+      post: posts.find(p => p.slug === slug) || posts[0],
+      availabilityLine: this.props.availability ?? 'Looking for a quantitative research or trading internship for summer 2027.',
+      resumeUrl: this.props.resumeUrl ?? 'uploads/Eren_Ege_Celik_Resume.docx',
+      go: {
+        home: this.nav('home'), work: this.nav('work'), writing: this.nav('writing'),
+        about: this.nav('about'), now: this.nav('now'), contact: this.nav('contact')
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

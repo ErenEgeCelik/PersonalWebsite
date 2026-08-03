@@ -1,52 +1,36 @@
 import type { MetadataRoute } from "next";
-import { getAllPosts } from "@/lib/blog";
-import { getAllWhitepapers } from "@/lib/whitepapers";
-import { getAllCaseStudies } from "@/lib/case-studies";
+import { getAllProjects } from "@/lib/work";
+import { getAllWriting } from "@/lib/writing";
 import { getAllTagSlugs } from "@/lib/tags";
 import { SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const posts = getAllPosts();
-  const papers = getAllWhitepapers();
-  const studies = getAllCaseStudies();
+  const projects = getAllProjects();
+  const writing = getAllWriting();
+  const newest = writing.map((w) => w.date).sort().at(-1);
 
-  const newest = [...posts, ...papers, ...studies]
-    .map((p) => p.date)
-    .sort()
-    .at(-1);
-
-  const staticRoutes: MetadataRoute.Sitemap = [
+  return [
     { url: `${SITE_URL}/`, lastModified: newest, priority: 1 },
-    { url: `${SITE_URL}/case-studies`, lastModified: newest, priority: 0.9 },
-    { url: `${SITE_URL}/whitepapers`, lastModified: newest, priority: 0.9 },
-    { url: `${SITE_URL}/blog`, lastModified: newest, priority: 0.9 },
+    { url: `${SITE_URL}/work`, lastModified: newest, priority: 0.9 },
+    { url: `${SITE_URL}/writing`, lastModified: newest, priority: 0.9 },
+    { url: `${SITE_URL}/about`, priority: 0.8 },
+    { url: `${SITE_URL}/now`, priority: 0.6 },
+    { url: `${SITE_URL}/contact`, priority: 0.7 },
     { url: `${SITE_URL}/cv`, priority: 0.7 },
+    ...projects.map((p) => ({
+      url: `${SITE_URL}/work/${p.slug}`,
+      priority: 0.9,
+    })),
+    ...writing.map((w) => ({
+      url: `${SITE_URL}/writing/${w.slug}`,
+      lastModified: w.date,
+      priority: 0.8,
+    })),
+    ...getAllTagSlugs().map((slug) => ({
+      url: `${SITE_URL}/tag/${slug}`,
+      priority: 0.3,
+    })),
   ];
-
-  const studyRoutes: MetadataRoute.Sitemap = studies.map((c) => ({
-    url: `${SITE_URL}/case-studies/${c.slug}`,
-    lastModified: c.date,
-    priority: 0.9,
-  }));
-
-  const paperRoutes: MetadataRoute.Sitemap = papers.map((p) => ({
-    url: `${SITE_URL}/whitepapers/${p.slug}`,
-    lastModified: p.date,
-    priority: 0.8,
-  }));
-
-  const postRoutes: MetadataRoute.Sitemap = posts.map((p) => ({
-    url: `${SITE_URL}/blog/${p.slug}`,
-    lastModified: p.date,
-    priority: 0.6,
-  }));
-
-  const tagRoutes: MetadataRoute.Sitemap = getAllTagSlugs().map((slug) => ({
-    url: `${SITE_URL}/tag/${slug}`,
-    priority: 0.3,
-  }));
-
-  return [...staticRoutes, ...studyRoutes, ...paperRoutes, ...postRoutes, ...tagRoutes];
 }

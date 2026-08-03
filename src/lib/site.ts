@@ -9,7 +9,7 @@ export const SITE_URL =
 export const SITE_TITLE = "Eren Ege Çelik";
 
 export const SITE_DESCRIPTION =
-  "Physics undergrad at METU and independent quantitative researcher. Whitepapers, notes and negative results on prediction-market microstructure and market making.";
+  "Physics undergraduate at METU. I build quantitative trading systems for prediction markets, and write up what I find — including the results that make me look worse.";
 
 export const SITE_EMAIL = "erenege3500@gmail.com";
 

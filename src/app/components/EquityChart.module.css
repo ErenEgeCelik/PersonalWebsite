@@ -1,5 +1,15 @@
 .figure {
-  margin: 0;
+  margin: 0 0 40px;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--color-divider);
+}
+
+.label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-45);
+  margin: 0 0 20px;
 }
 
 .svg {
@@ -10,79 +20,48 @@
 }
 
 .baseline {
-  stroke: var(--border-subtle);
+  stroke: var(--color-divider);
   stroke-width: 1;
 }
 
-/* ─── CURVE ────────────────────────────────────────────── */
-
 .line {
   fill: none;
-  stroke: url(#equityStroke);
-  stroke-width: 2.4;
+  stroke: var(--color-accent);
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 10px rgba(223, 174, 110, 0.4));
   stroke-dasharray: 2400;
   stroke-dashoffset: 2400;
-  animation: draw 1.9s cubic-bezier(0.32, 0.9, 0.35, 1) forwards;
+  animation: draw 1.6s cubic-bezier(0.32, 0.9, 0.35, 1) forwards;
 }
 
 .area {
   opacity: 0;
-  animation: fade 1.4s ease-out .55s forwards;
+  animation: fade 1.2s ease-out .5s forwards;
 }
 
 .endDot {
-  fill: var(--accent-warm-bright);
+  fill: var(--color-accent-300);
   opacity: 0;
-  animation: fade .5s ease-out 1.75s forwards;
+  animation: fade .5s ease-out 1.5s forwards;
 }
 
-.endHalo {
-  fill: none;
-  stroke: var(--accent-warm-bright);
-  stroke-width: 1.5;
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: halo 2.8s ease-out 2s infinite;
-}
-
-@keyframes draw {
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes fade {
-  to { opacity: 1; }
-}
-
-@keyframes halo {
-  0%   { opacity: .7; transform: scale(1); }
-  70%  { opacity: 0;  transform: scale(3.2); }
-  100% { opacity: 0;  transform: scale(3.2); }
-}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes fade { to { opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
   .line { stroke-dashoffset: 0; animation: none; }
   .area, .endDot { opacity: 1; animation: none; }
-  .endHalo { display: none; }
 }
 
-/* ─── AXIS ─────────────────────────────────────────────── */
-
 .axis, .axisEnd {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  fill: var(--text-muted);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 11px;
+  fill: var(--text-45);
+  letter-spacing: 0.06em;
 }
 
 .axis { text-anchor: start; }
 .axisEnd { text-anchor: end; }
-
-/* ─── READOUT ──────────────────────────────────────────── */
 
 .readout {
   display: flex;
@@ -90,48 +69,44 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 12px 24px;
-  margin-top: 22px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border-subtle);
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--color-divider);
 }
 
 .jump {
   display: flex;
   align-items: baseline;
-  gap: 14px;
+  gap: 12px;
 }
 
 .from {
-  font: 400 22px/1 var(--font-serif);
-  color: var(--text-muted);
+  font-size: 18px;
+  color: var(--text-45);
 }
 
 .arrow {
-  font: 400 15px/1 var(--font-mono);
-  color: var(--border-strong);
+  font-size: 14px;
+  color: var(--color-divider);
 }
 
 .to {
-  font: 500 clamp(30px, 5vw, 40px)/1 var(--font-serif);
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 32px;
   letter-spacing: -0.02em;
-  color: var(--accent-warm-bright);
+  color: var(--color-accent-300);
 }
 
 .note {
-  font: 400 12px/1.6 var(--font-mono);
-  color: var(--text-muted);
-  letter-spacing: 0.04em;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-45);
   margin: 0;
   text-align: right;
 }
 
-@media (max-width: 720px) {
-  .readout {
-    margin-top: 18px;
-    padding-top: 16px;
-  }
-  .note {
-    text-align: left;
-  }
-  .from { font-size: 18px; }
+@media (max-width: 560px) {
+  .note { text-align: left; }
+  .to { font-size: 26px; }
 }

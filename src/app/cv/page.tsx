@@ -1,124 +1,61 @@
+import Link from "next/link";
 import styles from "../page.module.css";
-import subStyles from "./cv.module.css";
+import cv from "./cv.module.css";
 import { SITE_EMAIL, SITE_GITHUB } from "@/lib/site";
+import {
+  education,
+  honors,
+  experience,
+  research,
+  activities,
+  skillsProse,
+  RESUME_PDF,
+} from "@/lib/resume";
 
 export const metadata = {
   title: "CV",
   description:
-    "Education, honors, experience and research of Eren Ege Çelik — physics undergrad at METU and independent quantitative researcher.",
+    "Education, honors, experience and research of Eren Ege Çelik — physics undergraduate at METU and independent quantitative researcher.",
   alternates: { canonical: "/cv" },
-};
-
-const education = [
-  {
-    institution: "Middle East Technical University (ODTÜ)",
-    location: "Ankara, Turkey",
-    period: "2024 — 2028 (expected)",
-    detail: "BSc Physics · Penultimate year 2026–27, on track to graduate June 2028",
-  },
-  {
-    institution: "İzmir Institute of Technology (İYTE)",
-    location: "İzmir, Turkey",
-    period: "transferred",
-    detail: "Physics (transferred to ODTÜ) · GPA 3.6 / 4.0",
-  },
-];
-
-const honors = [
-  "İzmir Mathematics Olympiad Team — regional team, grades 8–9",
-  "Physics Olympiad Team, İzmir Atatürk High School (among Turkey's top 5)",
-  "Admitted to İzmir Atatürk High School via nationally competitive exam (top ~0.2%)",
-];
-
-const experience = [
-  {
-    role: "Independent Quantitative Researcher & Trader",
-    context: "Prediction Markets · Self-directed, live trading on Polymarket",
-    location: "Remote",
-    period: "2026 — present",
-    bullets: [
-      "Grew a single $30 deposit to ~$1,200 in net P&L over three months of live trading, no additional capital.",
-      "Reverse-engineered the dominant market maker on Polymarket's BTC 5-minute contracts — identified its price-feed composition via exclusive falsification testing, achieved ~6-tick out-of-sample replication of its quotes. Documented in a working paper.",
-      "Derived a Brownian-probit fair-value model and a binary-CARA inventory-skew rule from first principles; validated against logged data (within-slot R² ≈ 0.92).",
-      "Formalized the strategy as a Markov Decision Process to stress-test its structural limits, isolating queue-priority inaccessibility (not model quality) as the binding constraint on profitability — an honest negative result documented for rigor.",
-      "Built and iterated weather-derivative strategies as MMs adapted — static bucket → reactive trigger → probabilistic forecast engine blending a personal weather station, public forecasts, and live METAR data via Bayesian updating.",
-      "Designed a World Cup cross-market latency-arbitrage strategy linking match markets to dependent group-advancement markets through Bayesian updating and Poisson goal modeling.",
-      "Built low-latency multi-venue data infrastructure: direct WebSocket feeds (Binance, Coinbase, Kraken, Bitstamp), Chainlink oracle relay, Polymarket CLOB, deployed on AWS Ireland.",
-    ],
-  },
-  {
-    role: "Volunteer Research Intern",
-    context: "Prof. Ali Bozbey's Group, TOBB ETÜ · Superconducting / quantum-computing hardware",
-    location: "Ankara, Turkey",
-    period: "Summer 2025",
-    bullets: [
-      "Joined the group (which built Turkey's first superconducting quantum-computing hardware) on a volunteer basis after connecting with the team at ICSM; contributed to lab work over two weeks.",
-    ],
-  },
-  {
-    role: "Engineering Intern",
-    context: "Ingenieurbüro Bickele & Bühler GmbH · Electronics manufacturing & software",
-    location: "Stuttgart, Germany",
-    period: "Nov 2023",
-    bullets: [
-      "Worked across SMD pick-and-place, AOI, laser and soldering operations, incoming-goods QC, and device assembly; wrote software in C# and Arduino.",
-    ],
-  },
-];
-
-const research = [
-  {
-    title: "Reverse-Engineering a Prediction Market Maker",
-    detail: "Feed identification, volatility dynamics, and out-of-sample replication evidence from Polymarket BTC contracts.",
-    href: "/whitepapers/polymarket-5min-microstructure",
-  },
-  {
-    title: "Binary Market Making",
-    detail: "Inventory-skew derivation under CARA utility, adverse-selection analysis, and empirical verdicts under realistic execution.",
-    href: null,
-  },
-];
-
-const activities = [
-  "Organizing Staff — International Conference on Superconductivity and Magnetism (ICSM) & ICSQMT, 2025 & 2026",
-];
-
-const skills = {
-  Quantitative: "probability & statistics, Bayesian inference, stochastic modeling, time-series analysis, market microstructure, derivatives pricing",
-  Technical: "Python (pandas, NumPy), C#, low-latency WebSocket data systems, CLOB / REST APIs, Polygon / USDC / DeFi tooling, multi-agent coding workflows",
 };
 
 export default function CVPage() {
   return (
-    <main className={styles.main}>
-      <header className={subStyles.header}>
-        <p className={subStyles.eyebrow}>Curriculum vitae</p>
-        <h1 className={subStyles.title}>Eren Ege Çelik</h1>
-        <p className={subStyles.subtitle}>
+    <main className={`${styles.column} ${styles.page}`}>
+      <header className={cv.head}>
+        <h1 className={styles.h1Page} style={{ marginBottom: 14 }}>
+          Eren Ege Çelik
+        </h1>
+        <p className={cv.contact}>
           İzmir, Turkey ·{" "}
-          <a href={`mailto:${SITE_EMAIL}`} className={subStyles.link}>{SITE_EMAIL}</a> ·{" "}
-          <a href={SITE_GITHUB} target="_blank" rel="noopener noreferrer" className={subStyles.link}>
+          <a href={`mailto:${SITE_EMAIL}`}>{SITE_EMAIL}</a> ·{" "}
+          <a href={SITE_GITHUB} target="_blank" rel="noopener noreferrer">
             github.com/ErenEgeCelik
           </a>
         </p>
-        <div className={subStyles.downloadRow}>
-          <a href="/Eren_Ege_Celik_Resume.pdf" target="_blank" rel="noopener noreferrer" className={subStyles.downloadLink}>
-            Download PDF →
+        <div className={styles.btnRow}>
+          <a
+            href={RESUME_PDF}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.btn} ${styles.btnPrimary}`}
+          >
+            Download PDF
           </a>
         </div>
       </header>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Education</h2>
-        <div className={subStyles.list}>
+        <p className={styles.sectionLabel}>Education</p>
+        <div className={cv.list}>
           {education.map((e) => (
-            <article key={e.institution} className={subStyles.row}>
-              <span className={subStyles.rowDate}>{e.period}</span>
-              <div className={subStyles.rowBody}>
-                <div className={subStyles.rowTitle}>
-                  {e.institution} <span className={subStyles.rowCo}>· {e.location}</span>
-                </div>
-                <div className={subStyles.rowDetail}>{e.detail}</div>
+            <article key={e.institution} className={cv.row}>
+              <span className={cv.when}>{e.period}</span>
+              <div>
+                <h2 className={cv.what}>
+                  {e.institution} <span className={cv.where}>· {e.location}</span>
+                </h2>
+                <p className={cv.detail}>{e.detail}</p>
               </div>
             </article>
           ))}
@@ -126,8 +63,8 @@ export default function CVPage() {
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Honors &amp; Selection</h2>
-        <ul className={subStyles.bullets}>
+        <p className={styles.sectionLabel}>Honors &amp; selection</p>
+        <ul className={cv.bullets}>
           {honors.map((h) => (
             <li key={h}>{h}</li>
           ))}
@@ -135,17 +72,17 @@ export default function CVPage() {
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Experience</h2>
-        <div className={subStyles.list}>
+        <p className={styles.sectionLabel}>Experience</p>
+        <div className={cv.list}>
           {experience.map((e) => (
-            <article key={e.role} className={subStyles.row}>
-              <span className={subStyles.rowDate}>{e.period}</span>
-              <div className={subStyles.rowBody}>
-                <div className={subStyles.rowTitle}>
-                  {e.role} <span className={subStyles.rowCo}>· {e.location}</span>
-                </div>
-                <div className={subStyles.rowMeta}>{e.context}</div>
-                <ul className={subStyles.bullets}>
+            <article key={e.role} className={cv.row}>
+              <span className={cv.when}>{e.period}</span>
+              <div>
+                <h2 className={cv.what}>
+                  {e.role} <span className={cv.where}>· {e.location}</span>
+                </h2>
+                <p className={cv.context}>{e.context}</p>
+                <ul className={cv.bullets}>
                   {e.bullets.map((b) => (
                     <li key={b}>{b}</li>
                   ))}
@@ -157,20 +94,22 @@ export default function CVPage() {
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Research &amp; Writing</h2>
-        <div className={subStyles.list}>
+        <p className={styles.sectionLabel}>Research &amp; writing</p>
+        <div className={cv.list}>
           {research.map((r) => (
-            <article key={r.title} className={subStyles.row}>
-              <span className={subStyles.rowDate}>paper</span>
-              <div className={subStyles.rowBody}>
-                <div className={subStyles.rowTitle}>
+            <article key={r.title} className={cv.row}>
+              <span className={cv.when}>paper</span>
+              <div>
+                <h2 className={cv.what}>
                   {r.href ? (
-                    <a href={r.href} className={subStyles.link}>{r.title}</a>
+                    <Link href={r.href}>{r.title}</Link>
                   ) : (
-                    <>{r.title} <span className={subStyles.rowCo}>· in preparation</span></>
+                    <>
+                      {r.title} <span className={cv.where}>· in preparation</span>
+                    </>
                   )}
-                </div>
-                <div className={subStyles.rowDetail}>{r.detail}</div>
+                </h2>
+                <p className={cv.detail}>{r.detail}</p>
               </div>
             </article>
           ))}
@@ -178,20 +117,20 @@ export default function CVPage() {
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Skills</h2>
-        <dl className={subStyles.skillsDl}>
-          {Object.entries(skills).map(([group, items]) => (
-            <div key={group} className={subStyles.skillsRow}>
-              <dt className={subStyles.skillsDt}>{group}</dt>
-              <dd className={subStyles.skillsDd}>{items}</dd>
+        <p className={styles.sectionLabel}>Skills</p>
+        <dl className={cv.skills}>
+          {Object.entries(skillsProse).map(([group, items]) => (
+            <div key={group} className={cv.skillRow}>
+              <dt className={cv.skillKey}>{group}</dt>
+              <dd className={cv.skillVal}>{items}</dd>
             </div>
           ))}
         </dl>
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Activities</h2>
-        <ul className={subStyles.bullets}>
+        <p className={styles.sectionLabel}>Activities</p>
+        <ul className={cv.bullets}>
           {activities.map((a) => (
             <li key={a}>{a}</li>
           ))}

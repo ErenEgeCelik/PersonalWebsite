@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "../../page.module.css";
-import subStyles from "../../cv/cv.module.css";
 import { getAllTagSlugs, getItemsForTag } from "@/lib/tags";
 
 export function generateStaticParams() {
@@ -13,9 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { display, items } = getItemsForTag(slug);
   return {
     title: display,
-    description: `${items.length} whitepaper${items.length === 1 ? "" : "s"} and note${
-      items.length === 1 ? "" : "s"
-    } tagged ${display}.`,
+    description: `${items.length} item${items.length === 1 ? "" : "s"} tagged ${display}.`,
     alternates: { canonical: `/tag/${slug}` },
   };
 }
@@ -26,39 +23,21 @@ export default async function TagPage({ params }: { params: Promise<{ slug: stri
   if (items.length === 0) notFound();
 
   return (
-    <main className={styles.main}>
-      <header className={subStyles.header}>
-        <p className={subStyles.eyebrow}>Tag</p>
-        <h1 className={subStyles.title}>{display}</h1>
-        <p className={subStyles.subtitle}>
-          {items.length} item{items.length === 1 ? "" : "s"} tagged with this.
-        </p>
-      </header>
+    <main className={`${styles.column} ${styles.page}`}>
+      <p className={styles.kicker}>Tag</p>
+      <h1 className={styles.h1Page}>{display}</h1>
+      <p className={styles.intro}>
+        {items.length} item{items.length === 1 ? "" : "s"} tagged with this.
+      </p>
 
-      <div className={styles.plainList}>
-        {items.map(({ kind, item }) => {
-          const base =
-            kind === "case-study" ? "case-studies" : kind === "whitepaper" ? "whitepapers" : "blog";
-          const label =
-            kind === "case-study" ? "case study" : kind === "whitepaper" ? "paper" : "note";
-          const href = `/${base}/${item.slug}`;
-          return (
-            <Link key={`${kind}:${item.slug}`} href={href} className={styles.plainRow}>
-              <div className={styles.plainRowMain}>
-                <span className={styles.plainRowTitle}>
-                  {item.title}
-                  <span className={styles.plainRowBadge}>{label}</span>
-                </span>
-                <span className={styles.plainRowDesc}>{item.summary}</span>
-              </div>
-              <span className={styles.plainRowDate}>
-                {item.date}
-                <br />
-                {item.readingTime}
-              </span>
-            </Link>
-          );
-        })}
+      <div className={`${styles.list} ${styles.section}`}>
+        {items.map((it) => (
+          <Link key={it.href} href={it.href} className={styles.row}>
+            <h2 className={`${styles.rowTitle} ${styles.rowTitleSm}`}>{it.title}</h2>
+            <span className={styles.rowMeta}>{it.meta}</span>
+            <p className={`${styles.rowSummary} ${styles.rowSummarySm}`}>{it.summary}</p>
+          </Link>
+        ))}
       </div>
     </main>
   );

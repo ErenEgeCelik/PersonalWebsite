@@ -9,7 +9,7 @@
     "lint": "next lint",
     "new:post": "node scripts/new-post.mjs blog",
     "new:paper": "node scripts/new-post.mjs whitepaper",
-    "new:case": "node scripts/new-post.mjs case-study"
+    "new:project": "node scripts/new-post.mjs work"
   },
   "dependencies": {
     "github-slugger": "^2.0.0",

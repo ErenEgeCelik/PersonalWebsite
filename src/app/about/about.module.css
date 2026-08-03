@@ -1,0 +1,98 @@
+.head {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+/* Photographs blend into the page — anything darker than the ground falls away. */
+.portraitWrap {
+  width: 140px;
+  height: 180px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  mix-blend-mode: lighten;
+  flex-shrink: 0;
+}
+
+.portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.body p {
+  margin: 0 0 22px;
+  text-wrap: pretty;
+}
+
+.body p:first-child {
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--text-80);
+}
+
+.body p {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--text-72);
+}
+
+.body p:first-child {
+  color: var(--text-80);
+}
+
+.eduKey {
+  width: 52%;
+  color: var(--color-text);
+  padding-right: 20px;
+}
+
+.eduLoc {
+  color: var(--text-45);
+}
+
+.honors {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.honors li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-76);
+}
+
+.honors li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 13px;
+  width: 6px;
+  height: 1px;
+  background: var(--color-accent);
+}
+
+.skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.skillLabel {
+  font-size: 14px;
+  margin: 0;
+  color: var(--color-text);
+}
+
+@media (max-width: 560px) {
+  .eduKey { width: auto; }
+}

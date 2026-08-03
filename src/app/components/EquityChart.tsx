@@ -43,6 +43,7 @@ function smoothPath(pts: { x: number; y: number }[]): string {
 export default function EquityChart({ series }: { series: EquitySeries }) {
   const { points, currency, note, label } = series;
 
+
   const values = points.map((p) => p.value);
   const min = Math.min(...values);
   const max = Math.max(...values);
@@ -71,6 +72,7 @@ export default function EquityChart({ series }: { series: EquitySeries }) {
 
   return (
     <figure className={styles.figure}>
+      <p className={styles.label}>{label}</p>
       <svg
         className={styles.svg}
         viewBox={`0 0 ${W} ${H}`}
@@ -104,7 +106,6 @@ export default function EquityChart({ series }: { series: EquitySeries }) {
         <path d={line} className={styles.line} />
 
         <circle cx={end.x} cy={end.y} r="4" className={styles.endDot} />
-        <circle cx={end.x} cy={end.y} r="4" className={styles.endHalo} />
 
         <text x={PAD.l} y={PAD.t + PLOT_H + 22} className={styles.axis}>
           {monthLabel(first.date)}

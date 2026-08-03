@@ -1,0 +1,38 @@
+.updated {
+  font-size: 13px;
+  color: var(--text-45);
+  margin: 0;
+}
+
+.list {
+  list-style: none;
+  margin: 44px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+/* One accent mark, on the first item only — the system's rule. */
+.item {
+  padding-left: 18px;
+  border-left: 2px solid var(--color-divider);
+}
+
+.itemFirst {
+  border-left-color: var(--color-accent);
+}
+
+.itemTitle {
+  font-size: 18px;
+  margin: 0 0 8px;
+  color: var(--color-text);
+}
+
+.itemBody {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-68);
+  margin: 0;
+  text-wrap: pretty;
+}

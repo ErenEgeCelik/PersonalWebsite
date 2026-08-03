@@ -1,7 +1,4 @@
-import { getAllPosts } from "@/lib/blog";
-import { getAllWhitepapers } from "@/lib/whitepapers";
-import { getAllCaseStudies } from "@/lib/case-studies";
-
+import { getAllWriting } from "@/lib/writing";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 
 function escapeXml(s: string): string {
@@ -13,54 +10,18 @@ function escapeXml(s: string): string {
     .replace(/'/g, "&apos;");
 }
 
-type FeedItem = {
-  title: string;
-  link: string;
-  guid: string;
-  pubDate: string;
-  description: string;
-  category: string;
-};
-
 function isoToRfc822(date: string): string {
   return new Date(`${date}T00:00:00Z`).toUTCString();
 }
 
 export async function GET() {
-  const items: FeedItem[] = [];
-
-  for (const c of getAllCaseStudies()) {
-    items.push({
-      title: c.title,
-      link: `${SITE_URL}/case-studies/${c.slug}`,
-      guid: `${SITE_URL}/case-studies/${c.slug}`,
-      pubDate: isoToRfc822(c.date),
-      description: c.summary,
-      category: "Case study",
-    });
-  }
-  for (const p of getAllWhitepapers()) {
-    items.push({
-      title: p.title,
-      link: `${SITE_URL}/whitepapers/${p.slug}`,
-      guid: `${SITE_URL}/whitepapers/${p.slug}`,
-      pubDate: isoToRfc822(p.date),
-      description: p.summary,
-      category: "Whitepaper",
-    });
-  }
-  for (const p of getAllPosts()) {
-    items.push({
-      title: p.title,
-      link: `${SITE_URL}/blog/${p.slug}`,
-      guid: `${SITE_URL}/blog/${p.slug}`,
-      pubDate: isoToRfc822(p.date),
-      description: p.summary,
-      category: "Blog",
-    });
-  }
-
-  items.sort((a, b) => (new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()));
+  const items = getAllWriting().map((w) => ({
+    title: w.title,
+    link: `${SITE_URL}/writing/${w.slug}`,
+    pubDate: isoToRfc822(w.date),
+    description: w.summary,
+    category: w.kind === "paper" ? "Paper" : "Note",
+  }));
 
   const lastBuildDate = items[0]?.pubDate ?? new Date().toUTCString();
 
@@ -69,7 +30,7 @@ export async function GET() {
       (it) => `    <item>
       <title>${escapeXml(it.title)}</title>
       <link>${it.link}</link>
-      <guid isPermaLink="true">${it.guid}</guid>
+      <guid isPermaLink="true">${it.link}</guid>
       <pubDate>${it.pubDate}</pubDate>
       <category>${it.category}</category>
       <description>${escapeXml(it.description)}</description>

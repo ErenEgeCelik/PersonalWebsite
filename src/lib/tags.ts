@@ -1,57 +1,59 @@
 import "server-only";
-import { getAllPosts, type PostMeta } from "./blog";
-import { getAllWhitepapers, type WhitepaperMeta } from "./whitepapers";
-import { getAllCaseStudies, type CaseStudyMeta } from "./case-studies";
+import { getAllWriting } from "./writing";
+import { getAllProjects } from "./work";
 import { tagSlug } from "./content";
 
-export type TaggedItem =
-  | { kind: "case-study"; item: CaseStudyMeta }
-  | { kind: "whitepaper"; item: WhitepaperMeta }
-  | { kind: "post"; item: PostMeta };
+export type TaggedItem = {
+  href: string;
+  title: string;
+  summary: string;
+  /** Right-hand column: a year for projects, a date for writing. */
+  meta: string;
+};
+
+type Source = { tags: string[]; item: TaggedItem };
+
+function sources(): Source[] {
+  const projects: Source[] = getAllProjects().map((p) => ({
+    tags: p.tags,
+    item: {
+      href: `/work/${p.slug}`,
+      title: p.title,
+      summary: p.summary,
+      meta: p.year,
+    },
+  }));
+  const writing: Source[] = getAllWriting().map((w) => ({
+    tags: w.tags,
+    item: {
+      href: `/writing/${w.slug}`,
+      title: w.title,
+      summary: w.summary,
+      meta: w.date,
+    },
+  }));
+  return [...projects, ...writing];
+}
 
 export function getAllTagSlugs(): string[] {
   const set = new Set<string>();
-  for (const c of getAllCaseStudies()) for (const t of c.tags) set.add(tagSlug(t));
-  for (const p of getAllWhitepapers()) for (const t of p.tags) set.add(tagSlug(t));
-  for (const p of getAllPosts()) for (const t of p.tags) set.add(tagSlug(t));
+  for (const s of sources()) for (const t of s.tags) set.add(tagSlug(t));
   return [...set];
 }
 
-export function getItemsForTag(slug: string): {
-  display: string;
-  items: TaggedItem[];
-} {
+export function getItemsForTag(slug: string): { display: string; items: TaggedItem[] } {
   let display = slug;
   const items: TaggedItem[] = [];
 
-  for (const item of getAllCaseStudies()) {
-    for (const t of item.tags) {
+  for (const s of sources()) {
+    for (const t of s.tags) {
       if (tagSlug(t) === slug) {
         display = t;
-        items.push({ kind: "case-study", item });
-        break;
-      }
-    }
-  }
-  for (const item of getAllWhitepapers()) {
-    for (const t of item.tags) {
-      if (tagSlug(t) === slug) {
-        display = t;
-        items.push({ kind: "whitepaper", item });
-        break;
-      }
-    }
-  }
-  for (const item of getAllPosts()) {
-    for (const t of item.tags) {
-      if (tagSlug(t) === slug) {
-        display = t;
-        items.push({ kind: "post", item });
+        items.push(s.item);
         break;
       }
     }
   }
 
-  items.sort((a, b) => (a.item.date < b.item.date ? 1 : -1));
   return { display, items };
 }

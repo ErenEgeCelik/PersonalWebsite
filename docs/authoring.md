@@ -1,132 +1,109 @@
 # Writing on this site
 
-> **Site URL / domain.** Everything that needs an absolute URL — page
-> metadata, `sitemap.xml`, `robots.txt`, the RSS feed — reads from
-> `SITE_URL` in `src/lib/site.ts`. When a custom domain is attached in
-> Vercel, change that one constant (or set `NEXT_PUBLIC_SITE_URL` in the
-> project's environment variables) and everything follows.
+How to add and edit content.
 
-
-How to add and edit content — blog posts and whitepapers.
+> **Site URL / domain.** Everything needing an absolute URL — page
+> metadata, `sitemap.xml`, `robots.txt`, the RSS feed — reads `SITE_URL`
+> from `src/lib/site.ts`. When a domain is attached in Vercel, change that
+> one constant (or set `NEXT_PUBLIC_SITE_URL` in the project's environment
+> variables) and everything follows.
 
 ## TL;DR
 
 ```bash
-# New blog post
-npm run new:post "The verifier-first protocol"
+npm run new:project "Weather derivatives"     # content/work
+npm run new:paper   "Binary market making"    # content/whitepapers
+npm run new:post    "A short note"            # content/blog
 
-# New whitepaper
-npm run new:paper "BTC 5-min microstructure follow-up"
+npm run dev            # preview at localhost:3000
 
-# New case study
-npm run new:case "Weather prediction markets"
-
-# Preview locally
-npm run dev
-# → http://localhost:3000
-
-# Publish
-# 1. Edit the file, flip draft: true → false in the frontmatter
-# 2. git add . && git commit -m "post: <title>" && git push
-# Vercel auto-deploys.
+# publish: flip draft: true -> false, then
+git add . && git commit -m "project: ..." && git push
 ```
 
 ## Directory layout
 
 ```
 content/
-  home.md        # the home page opening line + paragraph
-  equity.json    # data for the home page equity chart
-  case-studies/  # end-to-end project write-ups — the portfolio
-  whitepapers/   # working papers, empirical studies
-  blog/          # short notes, opinions, method fragments
+  home.md        # kicker, name, lead paragraph, availability line
+  about.md       # About page prose + portrait path
+  now.md         # the Now page items
+  equity.json    # account-value points for the chart on /work/weather
+  work/          # projects — the portfolio
+  whitepapers/   # papers, full derivations
+  blog/          # notes, shorter and more opinionated
 ```
 
-**Which one?** A *case study* is a project: what you built, what it
-earned, how it failed, what you'd do differently. A *whitepaper* is
-research: a question, a method, a result. A *blog post* is a note —
-one idea, short.
+**Which one?** A **project** (`work/`) is something you built and ran:
+what it was, what it earned, how it failed. A **paper** is research: a
+question, a method, a result. A **note** (`blog/`) is one idea, short.
 
-### Editing the home page copy
-
-`content/home.md` holds the two pieces of text at the top of the site:
-
-```yaml
----
-statement: "Quantitative research on prediction markets."  # big serif line
-chartLabel: "The model this site is mostly about"          # "" hides it
----
-
-The supporting paragraph, in markdown. **Bold** and [links](/cv) work.
-```
-
-Nothing else on the home page is hand-written — the writing list, the
-featured paper and the Building section all come from `content/` and
-`src/lib/projects.ts`.
-
-Each entry is a single `.md` file. Filename doubles as the URL slug
-(so `verifier-first-protocol.md` → `/blog/verifier-first-protocol`).
+Papers and notes both appear on `/writing` in one chronological list and
+both live at `/writing/<slug>` — the two directories only differ in
+frontmatter and in the label shown on the page.
 
 ## Frontmatter
 
-Every file starts with YAML frontmatter between `---` lines.
-
-### Blog post
+### Project — `content/work/`
 
 ```yaml
 ---
-title: "The verifier-first protocol"
-slug: "verifier-first-protocol"       # url (matches filename)
-date: "2026-06-20"                    # yyyy-mm-dd; used for sort + display
-summary: "One sentence used on the index page and RSS feed."
-tags: [methodology, markets]          # clickable → /tag/<slug>
-draft: true                           # true = hidden from lists + detail
+title: "Weather derivatives, three edges deep"
+slug: "weather"
+order: 3                       # explicit index order, not by date
+kicker: "Live strategy · Polymarket"
+year: "2026"                   # right-hand column on the index
+period: "April – July 2026"    # Period field in the metadata strip
+role: "Independent trader"
+stack: "Python, METAR, Bayesian updating"
+venue: "Polymarket — daily temperature markets"   # optional
+short: "One compressed line — this is what the home page shows."
+summary: "The longer line for the Work index and the detail header."
+tags: [Bayesian inference, Forecasting]
+paper: "/writing/some-paper"   # optional, adds a "Read the paper" button
+repo: "https://github.com/..." # optional, adds a "Repository" button
+equityChart: true              # optional, renders content/equity.json here
+draft: true
 ---
 ```
 
-### Whitepaper
+The detail page shows Role / Period / Stack / Venue as a metadata strip,
+then the body. Projects with more than five h2/h3 headings get a sticky
+contents rail on the right; shorter ones don't.
+
+### Paper — `content/whitepapers/`
 
 ```yaml
 ---
-title: "Microstructure and Efficiency of Polymarket's..."
-subtitle: "An empirical reverse-engineering study"
-slug: "polymarket-5min-microstructure"
+title: "..."
+subtitle: ""
+slug: "..."
 date: "2026-06-17"
-status: "Working paper"               # free text: Draft / Working paper / Published
-tags: [markets, polymarket, microstructure]
-summary: "Two-sentence abstract for the index card and RSS feed."
+status: "Working paper"        # shown in the meta line
+tags: []
+summary: "Two sentences for the index and the feed."
 draft: true
 ---
 ```
 
-### Case study
+### Note — `content/blog/`
 
 ```yaml
 ---
-title: "Weather Prediction Markets: A Succession of Edges"
-subtitle: "Building, measuring and retiring a systematic edge"
-slug: "weather-prediction-markets"
-date: "2026-07-25"                    # sort order only
-period: "April – July 2026"           # shown instead of the date
-venue: "Polymarket — daily maximum temperature markets, 28 cities"
-status: "Case study"
-tags: [prediction-markets, polymarket, latency]
-summary: "What the edge was, what it was worth, how it ended."
+title: "..."
+slug: "..."
+date: "2026-07-01"
+summary: "One sentence for the index and the feed."
+tags: []
 draft: true
 ---
 ```
-
-`period` and `venue` are case-study-only. `period` replaces the date
-everywhere the entry is listed, because a project spans months rather
-than happening on a day.
-
-Everything after the closing `---` is the body — plain markdown.
 
 ## Body syntax
 
-Standard markdown + GitHub-flavoured extras (tables, task lists).
+Standard markdown plus GitHub tables and task lists.
 
-**Math** — whitepapers only, KaTeX renders `$$...$$` display blocks:
+**Math** — KaTeX renders `$$ ... $$` display blocks:
 
 ```markdown
 $$
@@ -134,52 +111,50 @@ $$
 $$
 ```
 
-Inline single-dollar math is **disabled** so currency values like
-`$54`, `$1,200`, `−$1.64` render as prose, not as broken formulas.
+Inline single-dollar math is **disabled** so `$54`, `$1,200` and `−$1.64`
+render as prose rather than as broken formulas.
 
-**Code** — backtick and fenced code both work; syntax highlighting
-uses the default theme:
+**Cross-links** use real paths: `/work/weather`, `/writing/<slug>`.
 
-    ```python
-    fair = norm.cdf((F - F0) / (sigma * math.sqrt(tau)))
-    ```
+## Auto-generated
 
-**Cross-links** — link between papers and posts with normal markdown
-links using the site's paths:
+You never set these:
 
-```markdown
-See the [main whitepaper](/whitepapers/polymarket-5min-microstructure)
-for the full study.
+- **Reading time** — from word count.
+- **Contents rail** — h2/h3 headings, on documents with more than five.
+- **Tag pages** — every tag gets `/tag/<slug>`, listing projects and writing.
+- **RSS** — `/feed.xml` picks up papers and notes on the next build.
+- **Sitemap** — every route, rebuilt each deploy.
+
+## Editing the front page
+
+`content/home.md`:
+
+```yaml
+---
+kicker: "İzmir & Ankara, Turkey"
+name: "Eren Ege Çelik"
+availability: "Looking for a ... internship for summer 2027."
+---
+
+The lead paragraph, plain text.
 ```
 
-## Auto-generated bits
-
-You do NOT need to set:
-- **Reading time** — computed from word count if omitted.
-- **Table of contents** — extracted from h2/h3 headings, shown as a
-  sticky sidebar on whitepaper pages.
-- **Tag pages** — every tag automatically gets `/tag/<slug>`.
-- **RSS entry** — appears on `/feed.xml` on next build.
+Selected work and Writing below it come from `content/`; nothing on the
+home page is hand-maintained.
 
 ## Publishing checklist
 
 1. `draft: false`
-2. Sanity-check locally at `npm run dev`
-3. Commit + push
-4. Wait ~1 min for Vercel to rebuild
-5. Verify at `https://erenege.com/blog/<slug>` (or `/whitepapers/<slug>`)
+2. `npm run dev` and read it once
+3. Commit and push
+4. Vercel rebuilds in ~1 minute
 
-## Editing existing posts
+To **unpublish**, set `draft: true` — the page 404s and leaves every index.
 
-Just edit the `.md` file. All content lives in `content/` — no
-database. Any change becomes a new commit. Same publish flow.
+## Renaming
 
-To **unpublish**, set `draft: true` and push — the page 404s and
-disappears from all indexes.
-
-## Renaming / moving
-
-Change the filename **and** the `slug:` in frontmatter to match, so
-the URL stays predictable. If you rename a published post, its old
-URL will 404 — set up a redirect in `next.config.ts` if that's a
-problem.
+Change the filename **and** the `slug:` together. If the old URL was
+public, add a redirect in `next.config.ts` — that's where the
+`/whitepapers/*` → `/writing/*` and `/case-studies/*` → `/work/*`
+redirects from the last restructure live.

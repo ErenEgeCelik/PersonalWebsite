@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 /**
- * Create a stub markdown file in content/blog, content/whitepapers or
- * content/case-studies with filled-in frontmatter and draft: true.
+ * Create a stub markdown file with filled-in frontmatter and draft: true.
  *
  * Usage:
- *   npm run new:post  "The verifier-first protocol"
- *   npm run new:paper "BTC 5-min microstructure follow-up"
- *   npm run new:case  "Weather prediction markets"
+ *   npm run new:post    "The verifier-first protocol"   -> content/blog
+ *   npm run new:paper   "Binary market making"          -> content/whitepapers
+ *   npm run new:project "Weather derivatives"           -> content/work
  */
 
 import fs from "node:fs";
@@ -19,7 +18,7 @@ const repoRoot = path.resolve(__dirname, "..");
 const KINDS = {
   blog: { dir: "blog", script: "new:post", commit: "post" },
   whitepaper: { dir: "whitepapers", script: "new:paper", commit: "paper" },
-  "case-study": { dir: "case-studies", script: "new:case", commit: "case" },
+  work: { dir: "work", script: "new:project", commit: "project" },
 };
 
 const [, , kindArg, ...titleParts] = process.argv;
@@ -32,15 +31,12 @@ if (!title) {
   process.exit(1);
 }
 
-function slugify(s) {
-  return s
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
-}
+const slug = title
+  .toLowerCase()
+  .replace(/[^\w\s-]/g, "")
+  .trim()
+  .replace(/\s+/g, "-");
 
-const slug = slugify(title);
 const dir = path.join(repoRoot, "content", cfg.dir);
 const file = path.join(dir, `${slug}.md`);
 
@@ -52,18 +48,19 @@ if (fs.existsSync(file)) {
 fs.mkdirSync(dir, { recursive: true });
 
 const today = new Date().toISOString().slice(0, 10);
+const year = today.slice(0, 4);
 
 const templates = {
   blog: `---
 title: "${title}"
 slug: "${slug}"
 date: "${today}"
-summary: ""
+summary: "One sentence for the Writing index and the RSS feed."
 tags: []
 draft: true
 ---
 
-Write the post here. Delete this line and start with a lede paragraph.
+Open with the point, not a preamble.
 
 ## Section
 
@@ -77,7 +74,7 @@ slug: "${slug}"
 date: "${today}"
 status: "Draft"
 tags: []
-summary: "One or two sentences that appear on the whitepapers index and in the featured card."
+summary: "Two sentences: the question and the result."
 draft: true
 ---
 
@@ -90,54 +87,42 @@ Draft the abstract here.
 Body.
 `,
 
-  "case-study": `---
+  work: `---
 title: "${title}"
-subtitle: "One line on what the project actually did"
 slug: "${slug}"
-date: "${today}"
-period: "Month – Month 2026"
-venue: "Where the work happened, e.g. Polymarket — daily temperature markets"
-status: "Case study"
+order: 9
+kicker: "Research · Venue"
+year: "${year}"
+period: "Month – Month ${year}"
+role: "Independent researcher"
+stack: "Python, ..."
+short: "One compressed line — this is what shows on the home page."
+summary: "The longer line for the Work index and the top of the detail page."
 tags: []
-summary: "Two or three sentences: what the edge was, what it was worth, and how it ended. This is what a reader sees on the index and in the featured card."
 draft: true
 ---
 
-## Summary
+## The question
 
-What this was, in a paragraph.
+What you were trying to find out.
 
-## 1. The instrument
+## Method
 
-What the market is and why it's tradeable.
+How you went about it.
 
-## 2. The edge
+## Result
 
-What you found and how it worked.
-
-## 3. Results
-
-Numbers. Be specific and include the losses.
-
-## 4. What went wrong
-
-The failure modes and what each one taught.
-
-## 5. Honest assessment
-
-What this demonstrates, and what it doesn't.
+What happened. Include the numbers and the failures.
 `,
 };
 
 fs.writeFileSync(file, templates[kind]);
 
-const rel = path.relative(repoRoot, file);
-
 console.log(`
-Created ${rel}
+Created ${path.relative(repoRoot, file)}
 
-  Edit it, write your content, then:
-    1. flip 'draft: true' → 'draft: false' in the frontmatter
+  Edit it, then:
+    1. flip 'draft: true' -> 'draft: false'
     2. git add . && git commit -m "${cfg.commit}: ${title}" && git push
   Vercel auto-deploys on push. Local preview: npm run dev
 `);
