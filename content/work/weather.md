@@ -6,10 +6,10 @@ kicker: "Live strategy · Polymarket"
 year: "2026"
 period: "April – July 2026"
 role: "Independent trader"
-stack: "Python, METAR, Bayesian updating, AWS"
+stack: "Python, numpy, hand-rolled Kalman filter, Monte Carlo, METAR, 5-machine deployment"
 venue: "Polymarket — daily maximum temperature markets, 28 cities"
 short: "Three generations of weather-derivative strategy, each rebuilt after the market adapted to the last one."
-summary: "Each edge died as market makers adapted, so I built the next one: observation latency, then a Markov decision layer over dying contracts, then a probabilistic forecast engine blending my own weather station with public forecasts and live METAR."
+summary: "One system in two halves — a Bayesian inference engine maintaining a posterior over the true airport temperature, and a low-latency execution layer firing against it. Each edge died as market makers adapted, so I built the next one: observation latency, then a Markov decision layer over dying contracts, then the forecast itself. Retired on an out-of-sample measurement that said the window had closed."
 tags: ["Bayesian inference", "Forecasting", "Adaptation"]
 # Renders content/equity.json here once it has real points. See docs/equity-chart.md.
 equityChart: true

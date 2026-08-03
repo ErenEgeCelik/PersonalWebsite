@@ -22,9 +22,9 @@ export default function ContactPage() {
       <div className={styles.prose620}>
         <h1 className={styles.h1Page}>Contact</h1>
         <p className={c.lead}>
-          I&apos;m open to conversations about prediction-market research, market microstructure,
-          and internships for summer 2027. If something here overlaps with what you&apos;re working
-          on, write to me — I answer everything.
+          I&apos;m looking for a quantitative research or trading role — internship or full-time,
+          location flexible. I&apos;m equally glad to hear from anyone who wants to argue about
+          market microstructure, a derivation, or one of the results here. I answer everything.
         </p>
 
         <div className={c.rows}>
