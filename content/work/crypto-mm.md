@@ -16,17 +16,21 @@ paper: "/writing/polymarket-5min-microstructure"
 
 ## The question
 
-Polymarket lists a binary contract every five minutes on whether BTC finishes above where it started, resolved mechanically against the Chainlink oracle. One participant quotes nearly all of them. The question I set out to answer was narrow and falsifiable: **is there edge here that a retail participant can actually reach?**
+Polymarket lists a binary contract every five minutes on whether BTC finishes above where it started. It resolves against the Chainlink oracle, so there is no judgment anywhere in the process. One participant quotes nearly all of these contracts.
 
-Most projects in this space answer that question with a backtest. A backtest is an upper bound, not a result — so the design principle throughout was the opposite of the usual one. *Tape only kills.* A positive simulation was never allowed to be a green light; it could only fail to rule something out.
+I wanted to answer one question: is there edge here that a retail participant can actually reach?
+
+The design rule I set at the start was that a positive backtest proves nothing. It can only fail to rule something out. Everything downstream follows from taking that seriously.
 
 ## Reverse-engineering the incumbent
 
-If one maker prices every contract, its quotes are a function of something. Finding out what turns an opaque counterparty into a model you can reason against.
+If one maker prices every contract, its quotes are a function of something.
 
-I logged its quotes alongside every candidate input — Binance, Coinbase, Kraken, Bitstamp and the Chainlink oracle relay — and ran exclusive falsification tests: propose a feed composition, then search the tape for a window where that composition *must* produce a quote the maker did not post. Compositions that survive every attempt to kill them are the ones left standing.
+I logged its quotes alongside every candidate input: Binance, Coinbase, Kraken, Bitstamp, and the Chainlink oracle relay. Then I ran exclusive falsification tests. Propose a feed composition, then search the tape for a window where that composition has to produce a quote the maker did not post. Compositions that survive every attempt to kill them are what is left.
 
-The surviving composition replicates its quotes at **R² 0.92 over 380 slots**, roughly six ticks out of sample. It is also better calibrated than my own first attempt: measured against realised outcomes over 404 slots, the incumbent scored a Brier of 0.2089 against my 0.2011 — close enough that "the incumbent is good at fair value" became an explicit axiom of everything built afterwards, rather than an assumption left implicit.
+The surviving composition replicates its quotes at R² 0.92 over 380 slots, about six ticks out of sample.
+
+It is also better calibrated than my first attempt was. Over 404 slots, measured against realised outcomes, the incumbent scored a Brier of 0.2089 and I scored 0.2011. Close enough that I made "the incumbent is good at fair value" an explicit axiom of everything I built afterwards, rather than leaving it as an assumption I had not noticed making.
 
 ## Deriving the quote
 
@@ -36,48 +40,50 @@ $$
 \text{fair} = \Phi\!\left(\frac{F + \text{offset} - \text{anchor}}{\sigma\sqrt{\tau}}\right)
 $$
 
-with Chainlink-lag compensation in the offset and volatility from trailing 15-minute realised vol. Deriving it rather than fitting it means every input enters where the model says it should, and every parameter you fit instead of derive is a place a bad assumption can hide.
+The offset carries Chainlink lag compensation, and volatility comes from trailing 15-minute realised vol.
 
-The inventory skew follows the same discipline: Avellaneda–Stoikov adapted to binary payoffs in logit space, where the optimal quote shift has a closed form in risk aversion, inventory and payoff variance. It explains the asymmetric quoting visible in the book far better than an ad-hoc skew parameter does.
+The inventory skew is Avellaneda–Stoikov adapted to binary payoffs in logit space, where the optimal quote shift has a closed form in risk aversion, inventory and payoff variance. That form explains the asymmetric quoting visible in the book. An ad-hoc skew parameter does not.
 
 ## Where the edge actually lives
 
-The result that reframed the project came from the fill model. I fitted a hazard/survival form,
+The result that reframed the project came from the fill model.
+
+I fitted a hazard form,
 
 $$
 A = 1 - \exp\!\left(-\,k\,\lambda\,T / r_0\right)
 $$
 
-and the pure-flow version — fills as a function of trailing order flow alone — was **killed by a matched placebo**. What survived puts the information in $r_0$: **queue depth ahead of you**, not flow past you.
+and a matched placebo killed the pure-flow version, where fills depend on trailing order flow alone. What survived puts the information in $r_0$: the queue depth ahead of you.
 
-That is not a modelling result, it is a structural one. The incumbent supplies enough liquidity for the flow that arrives, so my orders were never far enough forward in the queue to collect the spread. Widening to the 15-minute and 1-hour markets does not help; it trades a queue problem for a flow problem. The binding constraint is queue priority, and no amount of model quality moves it.
+So the constraint is structural. The incumbent supplies enough liquidity for the flow that arrives, and my orders were never far enough forward in the queue to collect the spread. Moving to the 15-minute and 1-hour markets trades a queue problem for a flow problem. Better models do not move any of this.
 
 ## Verification
 
-The methodology is the part I would defend hardest, and it is deliberately hostile to its own conclusions:
+The methodology is hostile to its own conclusions by construction:
 
-- **Slot-cluster bootstrap** — clustering at the slot level rather than at the fill level, because fills within a slot are anything but independent.
-- **Matched-frequency placebos** — a fake signal firing at the same rate as the real one. If the placebo earns too, the signal earned nothing.
-- **Chronological 70/30 out-of-sample splits** — never random splits, which leak across a time series.
-- **Pre-declared definitions** — the methods document was written before the results existed.
-- **An explicitly unmeasurable parameter, swept honestly.** Adverse selection α cannot be measured from my own data. Rather than pick a flattering value, it is carried as a free parameter with a breakeven α\* and confidence intervals, so a reader can see exactly how much of the conclusion rests on it.
+- **Slot-cluster bootstrap.** Clustering at the slot level, not the fill level. Fills inside one slot are heavily dependent.
+- **Matched-frequency placebos.** A fake signal firing at the same rate as the real one. If the placebo earns too, the signal earned nothing.
+- **Chronological 70/30 splits.** Random splits leak across a time series.
+- **Pre-declared definitions.** The methods document was written before any results existed.
+- **Adverse selection α swept, not chosen.** I cannot measure α from my own data. Rather than pick a flattering value, it is carried as a free parameter with a breakeven α\* and confidence intervals, so a reader can see how much of the conclusion depends on it.
 
-The strategy itself is a regime-conditional MDP over (regime, queue, inventory, time), quoting a side only when its conditional expected value is positive. The MDP is there to find the ceiling, not the policy: the best achievable if every decision were perfect.
+The strategy is a regime-conditional MDP over (regime, queue, inventory, time), quoting a side only when its conditional expected value is positive. I used the MDP to find the ceiling: the best available if every decision were made perfectly.
 
-## The blind-spot test
+## The test that broke the rest
 
-The single most useful thing I ran was designed to embarrass the rest.
+Tape simulation credited +123.5 c/slot on the weekend the live arm lost $31.
 
-Tape simulation credited **+123.5 c/slot** on exactly the weekend the live arm lost **$31**. Quantifying that gap put the sim-to-live overstatement at roughly 60–130 c/slot in normal conditions and up to ~850 c/slot in violent regimes. The conclusion I wrote down was that positive backtests carry *zero* go-live weight in violent regimes.
+I ran the comparison expecting the backtest to survive it. It did not. The overstatement runs 60–130 c/slot in normal conditions and reaches roughly 850 c/slot in violent regimes, which is where I stopped treating positive backtests as evidence of anything.
 
-The surviving design earned **+$1.07 per slot over a 555-slot paper campaign** with a 90% confidence interval excluding zero, and cut the adverse-fill rate from 65% to 34%. That figure is paper-traded, and after the blind-spot test I do not treat it as a live expectation. The live A/B that would have settled it — 157 matched slots on a VPS, base engine against the EV model — came back **inconclusive** (Δ +22.7 c/slot, ci90 [−16.7, +61.4]) and I stopped it there rather than running until it said something flattering.
+The surviving design earned +$1.07 per slot over a 555-slot paper campaign, 90% confidence interval excluding zero, with the adverse-fill rate down from 65% to 34%. That number is paper-traded and I do not read it as a live expectation. The live A/B that would have settled it, 157 matched slots on a VPS running base engine against EV model, came back inconclusive: Δ +22.7 c/slot, ci90 [−16.7, +61.4]. I stopped it there instead of running until it said something I liked.
 
-Real-money exposure never went past a five-trade, $2-per-trade taker test that finished around breakeven. This project never traded at scale, and its result is not a P&L.
+Real money never went past a five-trade taker test at $2 a trade, which finished around breakeven. This project never traded at scale and its result is not a P&L.
 
-## What it is and isn't
+## What I take from it
 
-It is a market-efficiency study with a defensible negative answer: at the retail-accessible level, this market is efficient, and I can name the mechanism — queue priority against a liquidity-rich incumbent.
+The answer is negative and I can name the mechanism: queue priority against a liquidity-rich incumbent. That is worth more to me than a backtest I would have had to defend later.
 
-It is not a profitable trading system, and framing it as a bot that "didn't work" would misdescribe it in the other direction. Knowing *why* a market cannot be traded from where you stand is a result. Working through it end to end — the resolution mechanics, the feeds and their relative latencies, how quotes behave around a forced repricing, where informed flow shows up — left me able to think about these instruments from the maker's side rather than only the taker's.
+Working through the whole thing left me able to think about these contracts from the maker's side. The resolution mechanics, the relative latency of each feed, how quotes behave around a forced repricing, where informed flow shows up.
 
-Where I am incomplete is optimisation. Knowing a book should move after flow arrives is not the same as knowing how far to move it, how to skew toward the side more likely to be right, or how to separate informed takers from uninformed ones in real time. Those are the questions I would most want to work on, and they are not ones I can answer alone from a residential connection with a four-figure account.
+The gap is optimisation. Knowing a book should move after flow arrives is different from knowing how far to move it, how to skew toward the side more likely to be right, or how to tell informed takers from uninformed ones while it is happening. Those are the problems I want to work on, and I cannot get at them alone from a residential connection with a four-figure account.
