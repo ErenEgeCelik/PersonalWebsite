@@ -3,12 +3,14 @@ import styles from "../page.module.css";
 import cv from "./cv.module.css";
 import { SITE_EMAIL, SITE_GITHUB } from "@/lib/site";
 import {
+  summary,
   education,
   honors,
   experience,
   research,
   activities,
   skillsProse,
+  interests,
   RESUME_PDF,
 } from "@/lib/resume";
 
@@ -33,6 +35,7 @@ export default function CVPage() {
             github.com/ErenEgeCelik
           </a>
         </p>
+        <p className={cv.summary}>{summary}</p>
         <div className={styles.btnRow}>
           <a
             href={RESUME_PDF}
@@ -87,6 +90,18 @@ export default function CVPage() {
                     <li key={b}>{b}</li>
                   ))}
                 </ul>
+                {e.groups?.map((g) => (
+                  <div key={g.label} className={cv.group}>
+                    <h3 className={cv.groupLabel}>
+                      {g.label} <span className={cv.where}>· {g.context}</span>
+                    </h3>
+                    <ul className={cv.bullets}>
+                      {g.bullets.map((b) => (
+                        <li key={b}>{b}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </article>
           ))}
@@ -135,6 +150,11 @@ export default function CVPage() {
             <li key={a}>{a}</li>
           ))}
         </ul>
+      </section>
+
+      <section className={styles.section}>
+        <p className={styles.sectionLabel}>Interests</p>
+        <p className={cv.detail}>{interests}</p>
       </section>
     </main>
   );

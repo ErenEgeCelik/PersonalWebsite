@@ -25,6 +25,16 @@ There is no machine learning in any of this. The statistics are hand-rolled
 on numpy. A Kalman filter I can debug is worth more to me than a library I
 cannot.
 
+I build with Claude Code, usually several agents at once: one writing an
+estimator, one trying to break it, one keeping the research log honest. It
+is how one person runs a five-machine stack and still has time to think
+about the market. The split is fixed. The market philosophy, the hypotheses,
+the axioms I am willing to assume, and every call about what to trade or
+retire are mine. What I hand off is implementation, cross-checking and
+documentation. It also makes falsification cheaper, and asking for the test
+that would kill your own result is easier when you are not the one who has
+to write it.
+
 The results that made me look worse are on this site too. I retired a
 weather strategy after a scan of 32 elimination events put every entry band
 at negative expected value. A market-making study I spent two months on

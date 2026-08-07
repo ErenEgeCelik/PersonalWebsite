@@ -9,6 +9,31 @@
   margin: 0;
 }
 
+/* The CV's header summary. Sits a step above body prose so it reads as the
+ * claim the rest of the page supports. */
+.summary {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text-78);
+  margin: 20px 0 0;
+  text-wrap: pretty;
+}
+
+/* A named block of bullets inside one role — the four project areas under
+ * Prediction Markets. Indented so the role stays the outer unit. */
+.group {
+  margin-top: 22px;
+  padding-left: 16px;
+  border-left: 1px solid var(--color-divider);
+}
+
+.groupLabel {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0;
+  color: var(--text-88);
+}
+
 .list {
   display: flex;
   flex-direction: column;

@@ -9,7 +9,8 @@
     "lint": "next lint",
     "new:post": "node scripts/new-post.mjs blog",
     "new:paper": "node scripts/new-post.mjs whitepaper",
-    "new:project": "node scripts/new-post.mjs work"
+    "new:project": "node scripts/new-post.mjs work",
+    "cv:pdf": "powershell -ExecutionPolicy Bypass -File scripts/cv-pdf.ps1"
   },
   "dependencies": {
     "github-slugger": "^2.0.0",

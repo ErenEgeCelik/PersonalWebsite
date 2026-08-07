@@ -1,8 +1,17 @@
 /**
- * Résumé content, from Eren_Ege_Celik_Resume.docx.
+ * CV content, from Eren_Ege_Celik_CV_PredictionMarkets_v2.docx (2026-08-07).
  * Shared by /cv (everything) and /about (education, honors, skills).
- * Keep in step with public/Eren_Ege_Celik_Resume.pdf.
+ * Keep in step with public/Eren_Ege_Celik_CV.pdf, which is generated from
+ * that same .docx — if you edit one, regenerate the other.
+ *
+ * Claim wording here is governed by the evidence ledger. Before changing a
+ * number, read docs/content-audit-2026-08-07.md; several figures on this
+ * page were previously wrong in ways that were not obvious.
  */
+
+/** The CV's header summary. */
+export const summary =
+  "Independent quantitative researcher and prediction-markets trader. I formalize market mechanics as finite-state decision problems, derive expected value from observable transitions, and test policies with placebos, chronological out-of-sample evaluation and clustered uncertainty. Built Bayesian fair-value, latency-aware CLOB execution and microstructure research systems; traded small self-funded capital on Polymarket since 2026.";
 
 export const education = [
   {
@@ -38,17 +47,47 @@ export const experience = [
     location: "Remote",
     period: "2026 — present",
     bullets: [
+      "Built and operated a 24/7 research and execution stack on small self-funded capital, spanning probabilistic fair value, event-driven triggers, CLOB execution, replay, and live and paper verification.",
       "Grew a self-funded Polymarket account from roughly $30 to roughly $1,200 over three months of live trading, with no further deposits.",
-      "Reverse-engineered the dominant market maker on Polymarket's BTC 5-minute contracts — identified its price-feed composition via exclusive falsification testing, achieved ~6-tick out-of-sample replication of its quotes. Documented in a working paper.",
-      "Derived a Brownian-probit fair-value model and a binary-CARA inventory-skew rule from first principles; validated against logged data (within-slot R² ≈ 0.92).",
-      "Formalized the strategy as a Markov Decision Process to stress-test its structural limits, isolating queue-priority inaccessibility (not model quality) as the binding constraint on profitability — an honest negative result documented for rigor.",
-      "Built and iterated weather-derivative strategies as MMs adapted — static bucket → reactive trigger → probabilistic forecast engine blending a personal weather station, public forecasts, and live METAR data via Bayesian updating.",
-      "Designed a World Cup cross-market latency-arbitrage strategy linking match markets to dependent group-advancement markets through Bayesian updating and Poisson goal modeling.",
-      "Built low-latency multi-venue data infrastructure: direct WebSocket feeds (Binance, Coinbase, Kraken, Bitstamp), Chainlink oracle relay, Polymarket CLOB, deployed on AWS Ireland.",
+    ],
+    groups: [
+      {
+        label: "Weather fair value",
+        context: "Bayesian state space, Monte Carlo, calibration",
+        bullets: [
+          "Built a fair-value engine for daily-temperature markets across ~28 cities: a scalar Kalman posterior over the true airport temperature, a Monte Carlo daily-maximum distribution, and a production-checked consistency identity linking the current, next-observation and conditional outcome distributions.",
+          "Rebuilt the leakage-aware calibration pipeline; in offline replay it reduced mean Brier score by 24.2% against the prior model configuration across 28 market fits, with no fit regressing. The final calibration was never deployed.",
+        ],
+      },
+      {
+        label: "Latency-aware execution and model retirement",
+        context: "Pre-signing, caching, replay",
+        bullets: [
+          "Built a pre-signed EIP-712 order path with warm CLOB sessions, cached market state, keep-alive and multi-VPS routing; cut measured trigger-to-order latency from 10.2 s to ~58 ms, and measured one national feed running 4 min 44 s ahead of the reference source.",
+          "Defined state, actions, transitions and reward explicitly; compared hold-to-resolution against exit-at-next-event policies under mean-variance utility and liquidity-aware exit assumptions.",
+          "Retired the weather strategy after an out-of-sample replay over 3.3 GB, 50 city-days and 32 settlement events found −$0.58 expected value per $1 across every entry band. The median repricing window had compressed from 23 s to 0.15 s.",
+        ],
+      },
+      {
+        label: "BTC 5-minute market microstructure",
+        context: "Brownian-probit, verifier-first research",
+        bullets: [
+          "Reverse-engineered the dominant maker's Brownian-probit quote schedule to a ~0.92 median within-slot R² and ~6-tick chronological out-of-sample quote RMSE. The market's own prices calibrated outcomes better, so the model is structural replication rather than alpha.",
+          "Defined an MDP-style state/action/transition tree and tested policies with placebo controls, chronological out-of-sample splits, slot-cluster bootstrap and feed-dropout cleaning. Fresh out-of-sample data rejected the static maker front at −0.98 cents per eligible quote moment, 90% CI [−1.63, −0.36].",
+          "Measured simulator coverage directly: the same six crash slots replayed at +$21 while the contemporaneous paper arm lost $31. Positive tape results were treated as upper bounds and live-probe targets, never as deployment evidence.",
+        ],
+      },
+      {
+        label: "World Cup cross-market relative value",
+        context: "Conditional goal model",
+        bullets: [
+          "Built a conditional goal-arrival model and a precomputed trigger table; verified it against full simulation to a maximum divergence of 0.0028 and against live prices to within 0.02 before sizing small real-money positions.",
+        ],
+      },
     ],
   },
   {
-    role: "Volunteer Research Intern",
+    role: "Undergraduate Research Assistant (volunteer)",
     context: "Prof. Ali Bozbey's Group, TOBB ETÜ · Superconducting / quantum-computing hardware",
     location: "Ankara, Turkey",
     period: "Summer 2025",
@@ -88,35 +127,50 @@ export const activities = [
 
 export const skillGroups = [
   {
-    label: "Quantitative",
+    label: "Programming",
+    items: ["Python", "NumPy / pandas", "asyncio", "matplotlib", "Linux", "Git", "Playwright", "C#"],
+  },
+  {
+    label: "Methods",
     items: [
-      "Probability & statistics",
-      "Bayesian inference",
-      "Stochastic modelling",
-      "Time-series analysis",
-      "Market microstructure",
-      "Derivatives pricing",
+      "Bayesian state-space models",
+      "Markov decision processes",
+      "Monte Carlo",
+      "Ordered probit",
+      "Brier calibration",
+      "Chronological OOS",
+      "Placebo tests",
+      "Clustered bootstrap",
     ],
   },
   {
-    label: "Technical",
+    label: "Markets",
     items: [
-      "Python (pandas, NumPy)",
-      "C#",
-      "Low-latency WebSocket systems",
-      "CLOB / REST APIs",
-      "Polygon / USDC / DeFi tooling",
-      "Multi-agent coding workflows",
+      "CLOB mechanics",
+      "Order-book microstructure",
+      "Polymarket",
+      "Polygon / USDC execution",
+      "EIP-712 order signing",
+      "WebSocket & REST feeds",
     ],
+  },
+  {
+    label: "Infrastructure",
+    items: ["AWS", "Multi-region deployment", "VPS operations", "Tailscale mesh"],
   },
 ];
 
 /** Prose form, for the CV page's skills block. */
 export const skillsProse = {
-  Quantitative:
-    "probability & statistics, Bayesian inference, stochastic modeling, time-series analysis, market microstructure, derivatives pricing",
-  Technical:
-    "Python (pandas, NumPy), C#, low-latency WebSocket data systems, CLOB / REST APIs, Polygon / USDC / DeFi tooling, multi-agent coding workflows",
+  Programming: "Python (NumPy, pandas, asyncio, matplotlib), Linux, Git, Playwright, C# (2023)",
+  Methods:
+    "Bayesian state-space models, MDPs, Monte Carlo, ordered probit, Brier calibration, chronological out-of-sample evaluation, placebo tests, clustered bootstrap",
+  Markets:
+    "CLOB mechanics, order-book microstructure, Polymarket, Polygon and USDC execution, EIP-712 order signing, WebSocket and REST feeds",
+  Infrastructure: "AWS, multi-region deployment, VPS operations, Tailscale mesh",
 };
 
-export const RESUME_PDF = "/Eren_Ege_Celik_Resume.pdf";
+export const interests =
+  "Football — Göztepe academy U14–U15, school team captain in middle and high school. Competitive Valorant (Immortal, team tournaments). Chess.";
+
+export const RESUME_PDF = "/Eren_Ege_Celik_CV.pdf";
