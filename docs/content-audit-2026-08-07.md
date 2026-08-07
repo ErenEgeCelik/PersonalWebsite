@@ -150,7 +150,7 @@ until this lands, adding content makes the site *more* wrong, not less.
 9. `/now`: replace the "in progress" repo item with the live link.
 
 **Stage 2 — sync `/cv` to the v2 prediction-markets CV**, regenerate the PDF, and repoint
-`RESUME_PDF`. Blocked on Q3 below.
+`RESUME_PDF`. ~~Blocked on Q3 below.~~
 
 **Stage 3 — the `/method` page**, the evidence blocks, and the three system diagrams.
 
@@ -158,6 +158,18 @@ until this lands, adding content makes the site *more* wrong, not less.
 repos.
 
 Build and visual check after each stage. No deploy until reviewed.
+
+### Progress
+
+- **Stage 1 — done**, commit `39d50d5`. All of §2.1 and §2.2 applied except B5 (the 24 GB figure,
+  left as written pending confirmation — see Q10).
+- **Stage 2 — done**, commit `6cd6676`. `/cv` mirrors the v2 CV, `public/Eren_Ege_Celik_CV.pdf` is
+  generated from the same `.docx` by `npm run cv:pdf`, and the agentic-workflow paragraph is back on
+  `/about` per the owner's standing correction. Older PDFs in `public/` untouched.
+- The stop-slop pass is commit `1a66d99`.
+- **Nothing is pushed.** `main` auto-deploys to Vercel on push, so the three commits are local until
+  the owner is ready.
+- Stages 3 and 4 not started.
 
 ---
 
@@ -270,9 +282,9 @@ simulator blind spot rather than "reverse-engineered to R² 0.92".
 
 1. ~~National exam percentile~~ — resolved above.
 2. ~~"Among Turkey's top 5"~~ — resolved above.
-3. **Should `/cv` mirror `Eren_Ege_Celik_CV_PredictionMarkets_v2.docx`?** The site currently mirrors
-   the older general-purpose résumé. If yes, the PDF needs regenerating and `RESUME_PDF` repointing —
-   the buttons currently serve a Jul 26 file.
+3. ~~Should `/cv` mirror the v2 prediction-markets CV?~~ — done in Stage 2. Answered by proceeding:
+   the v2 document is dated today and targets exactly the roles this site targets, so mirroring the
+   older general-purpose résumé had nothing to recommend it. Flag if that call was wrong.
 4. ~~Is the $30 → $1,200 growth attributable to the weather system?~~ — resolved above; the weather
    page now says "across everything I was running".
 5. **Does the whitepaper get a revision, or a dated-snapshot banner?** It is honest for June and
