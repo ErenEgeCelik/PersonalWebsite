@@ -2,71 +2,61 @@
 title: "The verifier-first protocol"
 slug: "verifier-first-protocol"
 date: "2026-06-20"
-summary: "A short note on the discipline that turned five different 'edges' into negative results — and why that's the actually useful output of a market study."
+summary: "Five different 'edges' in Polymarket's 5-minute crypto markets, and the three tests that killed all of them."
 tags: ["methodology", "markets"]
 readingTime: "~5 min"
 ---
 
-I spent several weeks searching for a tradeable edge in Polymarket's 5-minute crypto binary markets. The [whitepaper](/writing/polymarket-5min-microstructure) documents the full effort. The headline result is negative: no edge survives proper verification. The transferable lesson is the protocol that produced that negative result.
-
-This is a short note on what "verifier-first" means in practice, and why I think it's the only sane way to do this kind of work.
+I spent several weeks looking for a tradeable edge in Polymarket's 5-minute crypto binary markets. The [whitepaper](/writing/polymarket-5min-microstructure) has the full effort. No edge survived verification. What I want to write down here is the order of work that produced that answer.
 
 ## The trap
 
-When you sit down with a few weeks of tick data and ask "is there a pattern I can trade?", you will find one. You will find five.
+Sit down with a few weeks of tick data, ask whether there is a pattern you can trade, and you will find one. You will find five.
 
-The first edge I found was a +6.4c "anomaly" near slot boundaries. The second was a +9c "trend continuation" signal. The third was a passive market-making strategy that backtested to +1.5c per round-trip. None of them were real.
+The first was a +6.4c anomaly near slot boundaries. The second, a +9c trend-continuation signal. The third, a passive market-making strategy that backtested to +1.5c per round trip. None of them were real, and each fell apart differently:
 
-Each one fell apart in a different way:
-- Look-ahead from a 1Hz panel that quietly used the close of bar `t` to label decisions made at the start of bar `t`.
-- Spread illusion — the "fill price" used in PnL was the mid, not the actual quote a taker would have hit.
-- A trend-skewed sample where the test set covered only an UP regime.
-- A single overnight session that happened to have one big winning slot and not enough trades to be anything more than noise.
+- Look-ahead from a 1 Hz panel that quietly used the close of bar `t` to label decisions made at the start of bar `t`.
+- A fill price taken from the mid rather than the quote a taker would actually have hit.
+- A test set that covered only an UP regime.
+- One overnight session with a single large winning slot and too few trades to be anything but noise.
 
 After three or four of these I changed my work order.
 
 ## The rule
 
-> **A finding is not a finding until an independent verifier — built before the search began — confirms it.**
+> A finding is not a finding until an independent verifier, built before the search began, confirms it.
 
-The verifier is a separate piece of code from the search. It loads a slot's data, applies the candidate strategy, computes PnL with realistic costs, and returns a number. It knows nothing about *why* you think this strategy should work.
+The verifier is separate code from the search. It loads a slot, applies the candidate strategy, computes P&L with realistic costs, and returns a number. It knows nothing about why you think the strategy should work.
 
 The search produces candidates. The verifier kills them.
 
-You write the verifier first. You write it on a small, deliberately chosen sample with a known answer (e.g. "passive maker on a flat day should lose roughly the spread per trade — confirm"). You only let yourself search for edges *after* the verifier reproduces the boring baseline.
+You write the verifier first, on a small sample with a known answer. Passive maker on a flat day should lose roughly the spread per trade — confirm that it does. Only after the verifier reproduces the boring baseline do you let yourself go looking.
 
 ## What the verifier must do
 
-Three properties, in order of how often I screwed them up:
+Three properties, in order of how often I got them wrong:
 
-1. **Out-of-sample by default.** The search-set and the verify-set come from disjoint time ranges. The verify-set is held out before the search starts. You can't peek.
-2. **Cost-inclusive.** Bid-ask spread *as paid*, not as observed. Taker fees, slippage on the fill, the execution delay (in Polymarket's case, ~250 ms server-side). A PnL number without these is fiction.
-3. **Placebo-comparable.** Run the same strategy on a label-shuffled version of the data. If the placebo "edge" is the same size as the real edge, the edge is noise.
+1. **Out-of-sample by default.** Search set and verify set come from disjoint time ranges, and the verify set is held out before the search starts. No peeking.
+2. **Cost-inclusive.** Spread as paid, not as observed. Taker fees, slippage on the fill, the execution delay — about 250 ms server-side on Polymarket. A P&L number without these is fiction.
+3. **Placebo-comparable.** Run the same strategy on label-shuffled data. If the placebo earns what the real signal earns, the signal is noise.
 
-Skip any one of these and you get a +5c edge. Apply all three and you get the negative result.
+Skip one and you get a +5c edge. Apply all three and you get the negative result.
 
-## Why negative results matter
+## Why the negative result was worth having
 
-Negative results are the actually useful output of this kind of work — both for you and for anyone else thinking of trying it.
+If I had published the +6.4c boundary anomaly from week one, I would have spent two months chasing it and probably cost a reader money. Catching it took a one-week detour to build the verifier.
 
-If I had published the +6.4c "boundary anomaly" I'd found in week one, I'd have wasted two months of my own time and probably some readers' money. Catching it cost a one-week detour to build a proper verifier. That's a great trade.
+The other thing it bought me is a map of where not to look. After the study I know that the dominant market maker is calibrated, that the retail-accessible book is efficient at the level of ordinary spread-and-fee economics, and that the inefficiencies that do exist — the feed-to-book lag above 400 ms — need infrastructure I do not have.
 
-The other thing negative results do: they tell you what the market *isn't*. After the Polymarket study, I know with high confidence that:
-- The dominant MM is calibrated.
-- The retail-accessible book is efficient at the level of standard spread-and-fee economics.
-- The microstructure inefficiencies that *do* exist (the >400ms feed-to-book lag) require infrastructure I don't have.
+## Reading someone else's study
 
-That's a complete map of where I shouldn't spend the next month. The map is worth more than the failed search.
-
-## Smell test
-
-If I'm reading someone else's market study and I want to know in 30 seconds whether to trust it, I look for:
+Four questions, thirty seconds:
 
 - Is there an explicit train/test split?
-- Are costs included with specific numbers?
-- Is there a placebo? (Any kind. Shuffle the labels, reverse the time, pick a different asset.)
+- Are costs included, with numbers?
+- Is there a placebo of any kind? Shuffle the labels, reverse time, swap the asset.
 - Is the conclusion smaller than the title?
 
-If three of these are missing the paper is a search artifact regardless of how elegant the math looks.
+Three missing and it is a search artifact, however elegant the maths.
 
-I think this generalises beyond market microstructure. Most "I found a pattern in X" claims I've seen — in physics, in computing, in trading — fall apart on a verifier with these three properties. The discipline transfers; the verifier is task-specific.
+This is not specific to microstructure. Most "I found a pattern in X" claims I have run into, in physics as much as in trading, come apart under those three tests.

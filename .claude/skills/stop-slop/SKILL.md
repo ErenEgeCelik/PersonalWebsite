@@ -148,6 +148,11 @@ intensifiers under 3, LLM vocabulary 0, meta-commentary 0.
 The counts are a smoke alarm, not a grade. A piece can pass every count and
 still read as generated if every paragraph is the same shape.
 
+**Expect false positives on technical writing.** `robust` is slop in "a
+robust solution" and a term of art in "jump-robust bipower variation".
+`harness`, `leverage` and `landscape` have the same problem in the right
+domain. Read every hit before cutting it; a real term stays.
+
 ## Before and after
 
 **Before** (73 words, four tells):
