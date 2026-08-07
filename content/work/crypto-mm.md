@@ -8,8 +8,8 @@ period: "June – July 2026"
 role: "Independent researcher"
 stack: "Python, numpy, asyncio, multi-venue WebSockets, AWS"
 venue: "Polymarket — BTC/ETH 5-minute binary contracts, resolved on the Chainlink oracle"
-short: "Reverse-engineered the dominant market maker to R² 0.92, derived my own fair value, then killed every candidate edge with placebo and out-of-sample tests. The market is efficient at the level I can reach."
-summary: "A market-microstructure study of Polymarket's most competitive market. I reverse-engineered the incumbent market maker's pricing to R² 0.92, derived a fair value and an inventory-skew rule from first principles, then killed every candidate edge with out-of-sample, placebo and cost-inclusive tests. The market is efficient at the retail-accessible level, and the binding constraint is queue position rather than model quality."
+short: "Rejected my own maker strategy on fresh out-of-sample data at −0.98c per quote moment, then measured why the backtest had disagreed: it credited +$21 in the exact six slots where the live arm lost $31."
+summary: "A market-microstructure study of Polymarket's most competitive market. I replicated the incumbent maker's quote schedule to a median within-slot R² of 0.92, derived a fair value and an inventory-skew rule from first principles, then rejected every candidate edge under placebo, chronological out-of-sample and cost-inclusive tests. The market is efficient at the retail-accessible level and the binding constraint is queue position rather than model quality. The most useful output was a per-slot measurement of how far the replay diverges from live."
 tags: ["Microstructure", "Falsification testing", "Market making", "MDP"]
 paper: "/writing/polymarket-5min-microstructure"
 ---
@@ -28,9 +28,9 @@ If one maker prices every contract, its quotes are a function of something.
 
 I logged its quotes alongside every candidate input: Binance, Coinbase, Kraken, Bitstamp, and the Chainlink oracle relay. Then I ran exclusive falsification tests. Propose a feed composition, then search the tape for a window where that composition has to produce a quote the maker did not post. Compositions that survive every attempt to kill them are what is left.
 
-The surviving composition replicates its quotes at R² 0.92 over 380 slots, about six ticks out of sample.
+The surviving composition replicates its quotes at a median within-slot R² of 0.92, about six ticks of RMSE out of sample.
 
-It is also better calibrated than my first attempt was. Over 404 slots, measured against realised outcomes, the incumbent scored a Brier of 0.2089 and I scored 0.2011. Close enough that I made "the incumbent is good at fair value" an explicit axiom of everything I built afterwards, rather than leaving it as an assumption I had not noticed making.
+It is also better calibrated than anything I built. Over 404 slots, scored against realised outcomes, the incumbent's mid returned a Brier of 0.2011 against my best fair value's 0.2089. The gap is stable rather than noise, and it repeats on ETH. Replicating a quote schedule is structural understanding, not alpha. I made "the incumbent is good at fair value" an explicit axiom of everything I built afterwards, rather than leaving it as an assumption I had not noticed making.
 
 ## Deriving the quote
 
@@ -70,15 +70,27 @@ The methodology is hostile to its own conclusions by construction:
 
 The strategy is a regime-conditional MDP over (regime, queue, inventory, time), quoting a side only when its conditional expected value is positive. I used the MDP to find the ceiling: the best available if every decision were made perfectly.
 
+## The verdict
+
+Fresh out-of-sample data rejected the static maker front: **−0.9845 cents per eligible quote moment**, 90% slot-clustered confidence interval **[−1.626, −0.364]**, over 312 eligible moments across 193 slots. The interval excludes zero.
+
+An earlier run of that same measurement came out positive, and the difference was my own modelling error. Virtual fills were counted from the decision instant, but an order does not activate until about 50 ms later, so the first 50 ms of prints are uncatchable by construction. Correcting the activation lag removed roughly two thirds of the apparent edge and dropped the breakeven adverse-selection cost to 0.34 c, below the lower bound of every proxy I had for it.
+
+Why the fresh block is worse than the older one is structural rather than statistical. The improve seat closes about 35% faster than it did a month earlier, and post-fill drift against the position runs 2.7× higher. Competition got quicker and the informed flow got harder to see — on a feed that had, by every measure I applied to it, gone quieter.
+
 ## The test that broke the rest
 
-Tape simulation credited +123.5 c/slot on the weekend the live arm lost $31.
+Over one weekend the tape replay credited **+123.5 c/slot** [103, 144] across 368 slots, positive on all eight tapes. In the exact six slots where the live paper arm lost **$31**, the replay credited **+$21**.
 
-I ran the comparison expecting the backtest to survive it. It did not. The overstatement runs 60–130 c/slot in normal conditions and reaches roughly 850 c/slot in violent regimes, which is where I stopped treating positive backtests as evidence of anything.
+I ran that comparison expecting the backtest to survive it. The simulator's best windows turned out to be the live arm's worst. The overstatement runs 60–130 c/slot in ordinary conditions and reaches roughly 850 c/slot in violent ones, which is where I stopped treating positive backtests as evidence of anything.
 
-The surviving design earned +$1.07 per slot over a 555-slot paper campaign, 90% confidence interval excluding zero, with the adverse-fill rate down from 65% to 34%. That number is paper-traded and I do not read it as a live expectation. The live A/B that would have settled it, 157 matched slots on a VPS running base engine against EV model, came back inconclusive: Δ +22.7 c/slot, ci90 [−16.7, +61.4]. I stopped it there instead of running until it said something I liked.
+The live A/B that would have settled the engine question came back inconclusive: 157 matched slots on a VPS running the base engine against the EV model, Δ +22.7 c/slot, ci90 [−16.7, +61.4]. I stopped it there instead of running until it said something I liked.
 
 Real money never went past a five-trade taker test at $2 a trade, which finished around breakeven. This project never traded at scale and its result is not a P&L.
+
+## Superseded results
+
+An earlier paper campaign reported +$1.07 per slot over 555 slots, and a shadow implementation cut measured adverse fills from 65% to 34%. Neither is evidence for the current system. The campaign priced decisions off the taker-path latency ledger, roughly 330 ms, for a decision a maker makes in 24–50 ms; the adverse-fill figure came from 3,661 simulated fills that assumed instant execution. Both were the headline result for a while, so removing them without saying what replaced them seemed worse than leaving them here.
 
 ## What I take from it
 

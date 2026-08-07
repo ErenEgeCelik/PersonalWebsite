@@ -8,21 +8,27 @@ export const education = [
   {
     institution: "Middle East Technical University (ODTÜ)",
     location: "Ankara, Turkey",
-    period: "2024 — 2028 (expected)",
+    period: "2025 — Jun 2028",
     detail: "BSc Physics · Penultimate year 2026–27, on track to graduate June 2028",
   },
   {
     institution: "İzmir Institute of Technology (İYTE)",
     location: "İzmir, Turkey",
-    period: "transferred",
-    detail: "Physics (transferred to ODTÜ) · GPA 3.6 / 4.0",
+    period: "2024 — 2025",
+    detail: "Physics · GPA 3.6 / 4.0 · transferred to ODTÜ",
+  },
+  {
+    institution: "İzmir Atatürk High School",
+    location: "İzmir, Turkey",
+    period: "2020 — 2024",
+    detail: "Entered by national examination, top 0.7% nationally",
   },
 ];
 
 export const honors = [
-  "İzmir Mathematics Olympiad Team — regional team, grades 8–9",
-  "Physics Olympiad Team, İzmir Atatürk High School (among Turkey's top 5)",
-  "Admitted to İzmir Atatürk High School via nationally competitive exam (top ~0.2%)",
+  "Physics Olympiad Team, İzmir Atatürk High School — final year",
+  "İzmir Mathematics Olympiad Team — selected in grade 8, the candidate pool for the national team",
+  "İzmir Atatürk High School is among Turkey's five highest-scoring high schools by entrance rank",
 ];
 
 export const experience = [
@@ -32,7 +38,7 @@ export const experience = [
     location: "Remote",
     period: "2026 — present",
     bullets: [
-      "Grew a single $30 deposit to ~$1,200 in net P&L over three months of live trading, no additional capital.",
+      "Grew a self-funded Polymarket account from roughly $30 to roughly $1,200 over three months of live trading, with no further deposits.",
       "Reverse-engineered the dominant market maker on Polymarket's BTC 5-minute contracts — identified its price-feed composition via exclusive falsification testing, achieved ~6-tick out-of-sample replication of its quotes. Documented in a working paper.",
       "Derived a Brownian-probit fair-value model and a binary-CARA inventory-skew rule from first principles; validated against logged data (within-slot R² ≈ 0.92).",
       "Formalized the strategy as a Markov Decision Process to stress-test its structural limits, isolating queue-priority inaccessibility (not model quality) as the binding constraint on profitability — an honest negative result documented for rigor.",

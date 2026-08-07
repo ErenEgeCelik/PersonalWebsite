@@ -1,3 +1,4 @@
+import ReactMarkdown from "react-markdown";
 import styles from "../page.module.css";
 import n from "./now.module.css";
 import { getNow } from "@/lib/pages";
@@ -21,7 +22,9 @@ export default function NowPage() {
           {now.items.map((item, i) => (
             <li key={item.title} className={`${n.item} ${i === 0 ? n.itemFirst : ""}`}>
               <h2 className={n.itemTitle}>{item.title}</h2>
-              <p className={n.itemBody}>{item.body}</p>
+              <div className={n.itemBody}>
+                <ReactMarkdown>{item.body}</ReactMarkdown>
+              </div>
             </li>
           ))}
         </ul>

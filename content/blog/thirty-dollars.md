@@ -16,4 +16,4 @@ Thirty real dollars fixes this cheaply. The number is small enough that losing i
 
 The rule I set was simple: no additional deposits, ever. Whatever the account becomes, it becomes from its own P&L. That turns compounding from an abstraction into the only mechanism available, and it makes the ruin constraint bite at every single decision.
 
-Three months later the account was around $1,200 in net P&L, still with no top-ups. The number is not impressive in absolute terms and I am not going to pretend it is. What it is, is honest: every dollar came from a decision I can point at and explain.
+Three months later the account was worth around $1,200, still with no top-ups. The number is not impressive in absolute terms and I am not going to pretend it is. What it is, is honest: every dollar came from a decision I can point at and explain.

@@ -36,3 +36,9 @@
   margin: 0;
   text-wrap: pretty;
 }
+
+/* ReactMarkdown wraps each item in its own <p>; the list spacing is the
+ * <li>'s job, so the paragraph must not add to it. */
+.itemBody p {
+  margin: 0;
+}
